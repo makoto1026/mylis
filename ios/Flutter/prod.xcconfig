@@ -1,0 +1,4 @@
+ENV=prod
+PRODUCT_BUNDLE_IDENTIFIER=com.mylis
+APP_DISPLAY_NAME=mylis
+DYNAMIC_LINK_DOMAIN=mylis.page.link
