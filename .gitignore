@@ -56,4 +56,6 @@ app.*.map.json
 /ios/prod
 
 .vscode
+
+/env
 .env
