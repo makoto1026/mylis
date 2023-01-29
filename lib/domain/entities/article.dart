@@ -1,12 +1,14 @@
 class Article {
   Article({
-    required this.siteName,
+    required this.title,
     required this.url,
     required this.memo,
     required this.createdAt,
+    // required this.updatedAt,
   });
-  final String siteName;
+  final String title;
   final String url;
   final String memo;
   final DateTime createdAt;
+  // final DateTime updatedAt;
 }

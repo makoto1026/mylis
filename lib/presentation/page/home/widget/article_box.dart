@@ -48,7 +48,7 @@ class ArticleBox extends HookConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                item.siteName,
+                                item.title,
                                 style: const TextStyle(
                                   fontSize: 14,
                                 ),
