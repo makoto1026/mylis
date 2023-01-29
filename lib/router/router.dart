@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/my_page/my_page.dart';
 import 'package:mylis/presentation/page/memo/memo.dart';
-import 'package:mylis/presentation/page/register_article/register_article.dart';
+import 'package:mylis/presentation/page/article/register/register_article.dart';
 import 'package:mylis/presentation/page/home/home_page.dart';
 import 'package:mylis/presentation/page/main_page.dart';
-import 'package:mylis/presentation/page/my_page/my_page.dart';
 
 final routerProvider = Provider((ref) => <String, WidgetBuilder>{
       // RouteNames.splash.path: (BuildContext context) => const SplashPage(),

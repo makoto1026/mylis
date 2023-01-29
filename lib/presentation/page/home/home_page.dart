@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/domain/entities/article.dart';
+import 'package:mylis/presentation/page/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/home/widget/article_list_view.dart';
+import 'package:mylis/provider/tag/tag_controller.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/mixin.dart';
@@ -14,133 +15,13 @@ class HomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final articlesController = useScrollController();
 
-    var aItems = [
-      Article(
-        siteName: "アイメイクはこれで決まり",
-        url: "https://google.co.jp",
-        memo: "",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイシャドーの心得",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイロンはこう巻け",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイメイクはこれで決まり",
-        url: "https://google.co.jp",
-        memo: "",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイシャドーの心得",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイロンはこう巻け",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイメイクはこれで決まり",
-        url: "https://google.co.jp",
-        memo: "",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイシャドーの心得",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイロンはこう巻け",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイメイクはこれで決まり",
-        url: "https://google.co.jp",
-        memo: "",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイシャドーの心得",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイロンはこう巻け",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-    ];
-
-    var bItems = [
-      Article(
-        siteName: "アイメイクはこれできまり",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "アイシャドーの心得",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "グロスってどうなの？",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-    ];
-
-    var cItems = [
-      Article(
-        siteName: "アイロンはこう巻け",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "ブリーチに怯えるな",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-      Article(
-        siteName: "そのカラー、自分に合ってる？",
-        url: "https://google.co.jp",
-        memo: "memomemomemo",
-        createdAt: DateTime.now(),
-      ),
-    ];
-
     void _articleScrollListener() async {
       if (articlesController.offset >=
               articlesController.position.maxScrollExtent &&
           !articlesController.position.outOfRange) {
-        try {
-          // await ref.read(accountController.notifier).setFavoriteNewsAndTips();
-        } catch (e) {
+        try {} catch (e) {
           articlesController.removeListener(_articleScrollListener);
         }
-        ;
       }
     }
 
@@ -166,6 +47,8 @@ class HomePage extends HookConsumerWidget {
       return () {};
     }, []);
 
+    final tags = ref.watch(tagController).tagList;
+
     return DefaultTabController(
       initialIndex: 0, // 最初に表示するタブ
       length: 3, // タブの数
@@ -176,22 +59,22 @@ class HomePage extends HookConsumerWidget {
             style: pageHeaderTextStyle,
           ),
           backgroundColor: ThemeColor.white,
-          bottom: const TabBar(
+          bottom: TabBar(
             isScrollable: true,
             indicatorColor: ThemeColor.orange,
             indicatorSize: TabBarIndicatorSize.label,
             labelColor: ThemeColor.orange,
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
-            unselectedLabelStyle: TextStyle(
+            unselectedLabelStyle: const TextStyle(
               fontWeight: FontWeight.normal,
             ),
             unselectedLabelColor: ThemeColor.gray,
             tabs: <Widget>[
-              Tab(text: 'お気に入り'),
-              Tab(text: 'メイク'),
-              Tab(text: '髪型'),
+              const Tab(text: 'お気に入り'),
+              Tab(text: tags[0].name),
+              Tab(text: tags[1].name),
             ],
           ),
         ),
@@ -216,15 +99,15 @@ class HomePage extends HookConsumerWidget {
         body: TabBarView(
           children: <Widget>[
             ArticleListView(
-              items: aItems,
+              items: ref.read(articleController).articleList,
               controller: articlesController,
             ),
             ArticleListView(
-              items: bItems,
+              items: ref.read(articleController).articleList,
               controller: articlesController,
             ),
             ArticleListView(
-              items: cItems,
+              items: ref.read(articleController).articleList,
               controller: articlesController,
             ),
           ],

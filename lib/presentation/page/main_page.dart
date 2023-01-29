@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/my_page/my_page.dart';
 import 'package:mylis/presentation/page/memo/memo.dart';
 import 'package:mylis/presentation/page/home/home_page.dart';
-import 'package:mylis/presentation/page/my_page/my_page.dart';
-import 'package:mylis/provider/current_tab_provider.dart';
-import 'package:mylis/provider/tab_nav_key_provider.dart';
+import 'package:mylis/provider/tab/current_tab_provider.dart';
+import 'package:mylis/provider/tab/tab_nav_key_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
 

@@ -1,10 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/config.dart';
+import 'package:mylis/presentation/page/my_page/controller/my_page_controller.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
+import 'package:mylis/provider/tag/tag_controller.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/default.dart';
+
+import 'firebase_options.dart';
 
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +18,10 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   await Config.initialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await Future.delayed(const Duration(seconds: 3));
 
@@ -27,6 +37,13 @@ class MyApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    useEffect(() {
+      () async {
+        await ref.watch(userController.notifier).initialized();
+        await ref.watch(tagController.notifier).initialized();
+      }();
+      return () {};
+    }, []);
     return MaterialApp(
       routes: ref.read(routerProvider),
       initialRoute: RouteNames.main.path,
