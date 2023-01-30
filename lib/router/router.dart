@@ -7,7 +7,6 @@ import 'package:mylis/presentation/page/home/home_page.dart';
 import 'package:mylis/presentation/page/main_page.dart';
 
 final routerProvider = Provider((ref) => <String, WidgetBuilder>{
-      // RouteNames.splash.path: (BuildContext context) => const SplashPage(),
       RouteNames.main.path: (BuildContext context) => const MainPage(),
       RouteNames.home.path: (BuildContext context) => const HomePage(),
       RouteNames.memo.path: (BuildContext context) => const MemoPage(),
@@ -17,7 +16,6 @@ final routerProvider = Provider((ref) => <String, WidgetBuilder>{
     });
 
 enum RouteNames {
-  // splash,
   main,
   home,
   memo,

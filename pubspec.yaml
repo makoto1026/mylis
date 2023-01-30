@@ -40,9 +40,9 @@ flutter:
     - assets/icons/
     - env/
 
-# flutter_native_splash:
-#   background_image: "assets/images/bg1.png"
-#   image: "assets/images/splash.png"
+flutter_native_splash:
+  background_image: "assets/images/splash.png"
+  fullscreen: true
 
 flutter_icons:
   android: true 
