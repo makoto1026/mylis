@@ -44,23 +44,18 @@ class ArticleBox extends HookConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item.title,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                item.memo,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            item.title,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            item.memo,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
                           ),
                         ],
                       ),

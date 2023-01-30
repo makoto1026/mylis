@@ -47,6 +47,23 @@ class IArticleRepository extends ArticleRepository {
     );
     return articleList;
   }
+
+  @override
+  Future<void> create(Article article) async {
+    const userId = "94Jrw17JegeWKqDkW2S5";
+    const tagId = "PNdPodf7XX6lsrHfyNHB";
+    final postData = {
+      "title": article.title,
+      "url": article.url,
+      "memo": article.memo,
+      "created_at": article.createdAt,
+    };
+
+    await Firestore.users
+        .doc("$userId/tags/$tagId")
+        .collection("articles")
+        .add(postData);
+  }
 }
 
 final articleRepositoryProvider =

@@ -7,7 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/config.dart';
 import 'package:mylis/presentation/page/my_page/controller/my_page_controller.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
-import 'package:mylis/provider/tag/tag_controller.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/default.dart';
 
