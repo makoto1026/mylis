@@ -32,7 +32,6 @@ class IArticleRepository extends ArticleRepository {
   Future<List<Article>> getList(String userUuid, String tagUuid) async {
     const userId = "94Jrw17JegeWKqDkW2S5";
     const tagId = "PNdPodf7XX6lsrHfyNHB";
-
     final List<Article> articleList = [];
     await Firestore.users
         .doc("$userId/tags/$tagId/")
