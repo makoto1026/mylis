@@ -17,7 +17,7 @@ class ArticleListView extends HookConsumerWidget {
               articlesController.position.maxScrollExtent &&
           !articlesController.position.outOfRange) {
         try {
-          await ref.read(articleController.notifier).getList();
+          // await ref.read(articleController.notifier).getList();
         } catch (e) {
           articlesController.removeListener(_articleScrollListener);
         }
