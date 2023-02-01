@@ -43,10 +43,10 @@ class ArticleListView extends HookConsumerWidget {
           ? GridView.count(
               controller: articlesController,
               crossAxisCount: 1,
-              mainAxisSpacing: 3,
+              mainAxisSpacing: 0,
               crossAxisSpacing: 3,
               physics: const ClampingScrollPhysics(),
-              childAspectRatio: 3.95,
+              childAspectRatio: 3.75,
               children: List.generate(
                 state.articleList.length,
                 (index) => GestureDetector(

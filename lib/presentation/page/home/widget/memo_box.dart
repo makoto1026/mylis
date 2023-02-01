@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/domain/entities/article.dart';
+import 'package:mylis/domain/entities/memo.dart';
 
-class ArticleBox extends HookConsumerWidget {
-  const ArticleBox({
+class MemoBox extends HookConsumerWidget {
+  const MemoBox({
     required this.item,
     Key? key,
   }) : super(key: key);
-  final Article item;
+  final Memo item;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,7 +49,7 @@ class ArticleBox extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        item.memo,
+                        item.body,
                         style: const TextStyle(
                           fontSize: 14,
                         ),
