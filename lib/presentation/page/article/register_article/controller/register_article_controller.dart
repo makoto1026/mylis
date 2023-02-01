@@ -2,13 +2,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/article.dart';
 import 'package:mylis/domain/repository/article.dart';
 import 'package:mylis/infrastructure/article.dart';
-import 'package:mylis/presentation/page/article/register/controller/create_article_state.dart';
+import 'package:mylis/presentation/page/article/register_article/controller/register_article_state.dart';
 
-class CreateArticleController extends StateNotifier<CreateArticleState> {
-  CreateArticleController({
+class RegisterArticleController extends StateNotifier<RegisterArticleState> {
+  RegisterArticleController({
     required this.articleRepository,
   }) : super(
-          const CreateArticleState(
+          const RegisterArticleState(
             title: '',
             url: '',
             memo: '',
@@ -40,9 +40,9 @@ class CreateArticleController extends StateNotifier<CreateArticleState> {
   }
 }
 
-final createArticleController =
-    StateNotifierProvider<CreateArticleController, CreateArticleState>(
-  (ref) => CreateArticleController(
+final registerArticleController =
+    StateNotifierProvider<RegisterArticleController, RegisterArticleState>(
+  (ref) => RegisterArticleController(
     articleRepository: ref.watch(articleRepositoryProvider),
   ),
 );

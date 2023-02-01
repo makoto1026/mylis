@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/presentation/page/article/controller/article_controller.dart';
-import 'package:mylis/presentation/page/article/register/controller/create_article_controller.dart';
+import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
+import 'package:mylis/presentation/page/memo/register_memo/controller/register_memo_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/theme/mixin.dart';
 
-class RegisterArticlePage extends HookConsumerWidget {
-  const RegisterArticlePage({Key? key}) : super(key: key);
+class RegisterMemoPage extends HookConsumerWidget {
+  const RegisterMemoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
-      ref.refresh(createArticleController);
+      ref.refresh(registerMemoController);
       return () {};
     }, []);
-
-    final state = ref.watch(createArticleController);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '記事登録',
+          'メモ登録',
           style: pageHeaderTextStyle,
         ),
       ),
@@ -37,27 +35,20 @@ class RegisterArticlePage extends HookConsumerWidget {
             children: [
               const SizedBox(height: 50),
               MylisTextField(
-                title: "記事タイトル",
+                title: "タイトル",
                 onChanged: (value) => ref
-                    .read(createArticleController.notifier)
-                    .setNewArticle(title: value),
+                    .read(registerMemoController.notifier)
+                    .setNewMemo(title: value),
               ),
               const SizedBox(height: 30),
               MylisTextField(
-                title: "記事URL",
-                onChanged: (value) => ref
-                    .read(createArticleController.notifier)
-                    .setNewArticle(url: value),
-              ),
-              const SizedBox(height: 30),
-              MylisTextField(
-                title: "メモ",
+                title: "内容",
                 maxLines: 5,
                 minLines: 5,
                 isAFewLine: true,
                 onChanged: (value) => ref
-                    .read(createArticleController.notifier)
-                    .setNewArticle(memo: value),
+                    .read(registerMemoController.notifier)
+                    .setNewMemo(body: value),
               ),
               const SizedBox(height: 50),
               Row(
@@ -70,7 +61,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                       child: OutlinedRoundRectButton(
                         onPressed: () => {
                           Navigator.pop(context),
-                          ref.read(articleController.notifier).initialized(),
+                          ref.read(memoController.notifier).initialized(),
                         },
                         text: "戻る",
                       ),
@@ -82,10 +73,9 @@ class RegisterArticlePage extends HookConsumerWidget {
                       height: 52,
                       width: 160,
                       child: RoundRectButton(
-                        disable: state.title == "" || state.url == "",
                         onPressed: () => {
-                          ref.read(createArticleController.notifier).create(),
-                          ref.refresh(articleController),
+                          ref.read(registerMemoController.notifier).create(),
+                          ref.refresh(memoController),
                         },
                         text: "登録",
                       ),

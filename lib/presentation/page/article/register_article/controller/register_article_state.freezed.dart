@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'create_article_state.dart';
+part of 'register_article_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,29 +15,30 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$CreateArticleState {
+mixin _$RegisterArticleState {
   String get title => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
   String? get memo => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $CreateArticleStateCopyWith<CreateArticleState> get copyWith =>
+  $RegisterArticleStateCopyWith<RegisterArticleState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CreateArticleStateCopyWith<$Res> {
-  factory $CreateArticleStateCopyWith(
-          CreateArticleState value, $Res Function(CreateArticleState) then) =
-      _$CreateArticleStateCopyWithImpl<$Res, CreateArticleState>;
+abstract class $RegisterArticleStateCopyWith<$Res> {
+  factory $RegisterArticleStateCopyWith(RegisterArticleState value,
+          $Res Function(RegisterArticleState) then) =
+      _$RegisterArticleStateCopyWithImpl<$Res, RegisterArticleState>;
   @useResult
   $Res call({String title, String url, String? memo});
 }
 
 /// @nodoc
-class _$CreateArticleStateCopyWithImpl<$Res, $Val extends CreateArticleState>
-    implements $CreateArticleStateCopyWith<$Res> {
-  _$CreateArticleStateCopyWithImpl(this._value, this._then);
+class _$RegisterArticleStateCopyWithImpl<$Res,
+        $Val extends RegisterArticleState>
+    implements $RegisterArticleStateCopyWith<$Res> {
+  _$RegisterArticleStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -69,22 +70,22 @@ class _$CreateArticleStateCopyWithImpl<$Res, $Val extends CreateArticleState>
 }
 
 /// @nodoc
-abstract class _$$_CreateArticleStateCopyWith<$Res>
-    implements $CreateArticleStateCopyWith<$Res> {
-  factory _$$_CreateArticleStateCopyWith(_$_CreateArticleState value,
-          $Res Function(_$_CreateArticleState) then) =
-      __$$_CreateArticleStateCopyWithImpl<$Res>;
+abstract class _$$_RegisterArticleStateCopyWith<$Res>
+    implements $RegisterArticleStateCopyWith<$Res> {
+  factory _$$_RegisterArticleStateCopyWith(_$_RegisterArticleState value,
+          $Res Function(_$_RegisterArticleState) then) =
+      __$$_RegisterArticleStateCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String title, String url, String? memo});
 }
 
 /// @nodoc
-class __$$_CreateArticleStateCopyWithImpl<$Res>
-    extends _$CreateArticleStateCopyWithImpl<$Res, _$_CreateArticleState>
-    implements _$$_CreateArticleStateCopyWith<$Res> {
-  __$$_CreateArticleStateCopyWithImpl(
-      _$_CreateArticleState _value, $Res Function(_$_CreateArticleState) _then)
+class __$$_RegisterArticleStateCopyWithImpl<$Res>
+    extends _$RegisterArticleStateCopyWithImpl<$Res, _$_RegisterArticleState>
+    implements _$$_RegisterArticleStateCopyWith<$Res> {
+  __$$_RegisterArticleStateCopyWithImpl(_$_RegisterArticleState _value,
+      $Res Function(_$_RegisterArticleState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +95,7 @@ class __$$_CreateArticleStateCopyWithImpl<$Res>
     Object? url = null,
     Object? memo = freezed,
   }) {
-    return _then(_$_CreateArticleState(
+    return _then(_$_RegisterArticleState(
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -113,8 +114,8 @@ class __$$_CreateArticleStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CreateArticleState extends _CreateArticleState {
-  const _$_CreateArticleState(
+class _$_RegisterArticleState extends _RegisterArticleState {
+  const _$_RegisterArticleState(
       {required this.title, required this.url, this.memo})
       : super._();
 
@@ -127,14 +128,14 @@ class _$_CreateArticleState extends _CreateArticleState {
 
   @override
   String toString() {
-    return 'CreateArticleState(title: $title, url: $url, memo: $memo)';
+    return 'RegisterArticleState(title: $title, url: $url, memo: $memo)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CreateArticleState &&
+            other is _$_RegisterArticleState &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.memo, memo) || other.memo == memo));
@@ -146,17 +147,17 @@ class _$_CreateArticleState extends _CreateArticleState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CreateArticleStateCopyWith<_$_CreateArticleState> get copyWith =>
-      __$$_CreateArticleStateCopyWithImpl<_$_CreateArticleState>(
+  _$$_RegisterArticleStateCopyWith<_$_RegisterArticleState> get copyWith =>
+      __$$_RegisterArticleStateCopyWithImpl<_$_RegisterArticleState>(
           this, _$identity);
 }
 
-abstract class _CreateArticleState extends CreateArticleState {
-  const factory _CreateArticleState(
+abstract class _RegisterArticleState extends RegisterArticleState {
+  const factory _RegisterArticleState(
       {required final String title,
       required final String url,
-      final String? memo}) = _$_CreateArticleState;
-  const _CreateArticleState._() : super._();
+      final String? memo}) = _$_RegisterArticleState;
+  const _RegisterArticleState._() : super._();
 
   @override
   String get title;
@@ -166,6 +167,6 @@ abstract class _CreateArticleState extends CreateArticleState {
   String? get memo;
   @override
   @JsonKey(ignore: true)
-  _$$_CreateArticleStateCopyWith<_$_CreateArticleState> get copyWith =>
+  _$$_RegisterArticleStateCopyWith<_$_RegisterArticleState> get copyWith =>
       throw _privateConstructorUsedError;
 }
