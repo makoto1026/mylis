@@ -20,6 +20,28 @@ class IUserRepository extends UserRepository {
       },
     );
   }
+
+  @override
+  Future<String> create(String email, String password) async {
+    final postData = {
+      "email": email,
+      "password": password,
+    };
+    var id = "";
+    await Firestore.users
+        .add(postData)
+        .then(
+          (value) => {
+            id = value.id,
+          },
+        )
+        .catchError(
+      (e) {
+        print(e);
+      },
+    );
+    return id;
+  }
 }
 
 final userRepositoryProvider =

@@ -19,7 +19,7 @@ class MainPage extends HookConsumerWidget {
     final router = ref.watch(routerProvider);
     final currentTab = ref.watch(currentTabProvider);
     final tabController = useMemoized(() => CupertinoTabController(), []);
-    // final isLoggedIn = ref.watch(isLoggedInProvider);
+    // final isSignedIn = ref.watch(isSignedInProvider);
 
     useEffect(() {
       tabController.addListener(() {
@@ -35,7 +35,7 @@ class MainPage extends HookConsumerWidget {
     // useEffect(() {
     //   SchedulerBinding.instance?.addPostFrameCallback(
     //     (_) async {
-    //       if (isLoggedIn) {
+    //       if (isSignedIn) {
     //         // メンバー情報のtokenが空の場合、再取得して保存する
     //         final token =
     //             await ref.watch(currentUserProvider.notifier).getFcmToken();

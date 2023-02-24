@@ -6,7 +6,9 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/config.dart';
 import 'package:mylis/presentation/page/my_page/controller/my_page_controller.dart';
+import 'package:mylis/provider/current_user_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
+import 'package:mylis/provider/session_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/default.dart';
 
@@ -40,7 +42,8 @@ class MyApp extends HookConsumerWidget {
     useEffect(() {
       () async {
         await Future.wait({
-          ref.read(userController.notifier).initialized(),
+          ref.read(sessionProvider.notifier).checkSignInState(),
+          // ref.read(userController.notifier).initialized(),
         });
         await Future.delayed(const Duration(seconds: 3));
         FlutterNativeSplash.remove();
@@ -49,7 +52,9 @@ class MyApp extends HookConsumerWidget {
     }, []);
     return MaterialApp(
       routes: ref.read(routerProvider),
-      initialRoute: RouteNames.main.path,
+      initialRoute: ref.watch(currentUserProvider) == null
+          ? RouteNames.auth.path
+          : RouteNames.main.path,
       title: 'mylis',
       theme: ref.read(
         themeProvider(context),
