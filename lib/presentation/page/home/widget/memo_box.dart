@@ -45,6 +45,7 @@ class MemoBox extends HookConsumerWidget {
                         item.title,
                         style: const TextStyle(
                           fontSize: 14,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 5),

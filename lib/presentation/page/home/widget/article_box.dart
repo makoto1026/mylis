@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/article.dart';
+import 'package:mylis/presentation/util/set_article_icon.dart';
+import 'package:mylis/theme/color.dart';
 
 class ArticleBox extends HookConsumerWidget {
   const ArticleBox({
@@ -38,21 +41,33 @@ class ArticleBox extends HookConsumerWidget {
               Flexible(
                 child: SizedBox(
                   width: screenSize.width * 0.62,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
                     children: [
-                      Text(
-                        item.title,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        item.memo,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
+                      SetArticleIcon.set(item.url),
+                      const SizedBox(width: 10),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            item.title,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          if (item.memo != "")
+                            Column(
+                              children: [
+                                const SizedBox(height: 5),
+                                Text(
+                                  item.memo,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            )
+                        ],
                       ),
                     ],
                   ),

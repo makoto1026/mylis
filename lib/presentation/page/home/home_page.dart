@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/home/widget/article_list_view.dart';
 import 'package:mylis/provider/tag/tag_controller.dart';
 import 'package:mylis/router/router.dart';
@@ -20,11 +22,27 @@ class HomePage extends HookConsumerWidget {
       return () {};
     }, []);
 
-    final state = ref.watch(tagController);
+    final tabState = ref.watch(tagController);
+
+    final receiveSharingState = ref.watch(receiveSharingIntentProvider);
+
+    useValueChanged(
+      receiveSharingState,
+      (a, b) async {
+        if (receiveSharingState.url == "") {
+          return;
+        }
+        WidgetsBinding.instance.addPostFrameCallback(
+          (_) async {
+            await Navigator.pushNamed(context, RouteNames.registerArticle.path);
+          },
+        );
+      },
+    );
 
     return DefaultTabController(
       initialIndex: 0,
-      length: state.tagList.length,
+      length: tabState.tagList.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -44,7 +62,7 @@ class HomePage extends HookConsumerWidget {
               fontWeight: FontWeight.normal,
             ),
             unselectedLabelColor: ThemeColor.gray,
-            tabs: state.tagList
+            tabs: tabState.tagList
                 .map(
                   (e) => Tab(
                     text: e.name,
@@ -72,7 +90,7 @@ class HomePage extends HookConsumerWidget {
           ),
         ),
         body: TabBarView(
-          children: state.tagList
+          children: tabState.tagList
               .map(
                 (e) => const ArticleListView(),
               )

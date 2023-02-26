@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/my_page/my_page.dart';
 import 'package:mylis/presentation/page/memo/memo.dart';
@@ -132,13 +133,15 @@ class MainPage extends HookConsumerWidget {
                               : ThemeColor.gray,
                         );
                       case Tab.memo:
-                        return Icon(
-                          Icons.create,
-                          size: 24,
+                        return SvgPicture.asset(
+                          "assets/icons/memo.svg",
+                          width: 26,
+                          height: 26,
                           color: e == currentTab.tab
                               ? ThemeColor.orange
                               : ThemeColor.gray,
                         );
+
                       case Tab.myPage:
                         return Icon(
                           Icons.manage_accounts_rounded,
