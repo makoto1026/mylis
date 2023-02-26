@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/article/register_article/controller/register_article_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
@@ -18,7 +19,19 @@ class RegisterArticlePage extends HookConsumerWidget {
       return () {};
     }, []);
 
-    final state = ref.watch(registerArticleController);
+    final registerArticleState = ref.watch(registerArticleController);
+
+    final receiveSharingState = ref.watch(receiveSharingIntentProvider);
+
+    if (receiveSharingState.url != "") {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) async {
+          ref
+              .read(registerArticleController.notifier)
+              .setNewArticle(url: receiveSharingState.url);
+        },
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -27,32 +40,36 @@ class RegisterArticlePage extends HookConsumerWidget {
           style: pageHeaderTextStyle,
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
-          vertical: 0,
+          vertical: 50,
           horizontal: 30,
         ),
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 50),
               MylisTextField(
-                title: "記事タイトル",
+                title: "タイトル",
                 onChanged: (value) => ref
                     .read(registerArticleController.notifier)
                     .setNewArticle(title: value),
               ),
               const SizedBox(height: 30),
               MylisTextField(
-                title: "記事URL",
+                title: "URL",
+                maxLines: 20,
+                isAFewLine: true,
+                initialValue: receiveSharingState.url == ""
+                    ? ""
+                    : receiveSharingState.url,
                 onChanged: (value) => ref
                     .read(registerArticleController.notifier)
                     .setNewArticle(url: value),
               ),
               const SizedBox(height: 30),
               MylisTextField(
-                title: "メモ",
-                maxLines: 5,
+                title: "メモ（任意）",
+                maxLines: 20,
                 minLines: 5,
                 isAFewLine: true,
                 onChanged: (value) => ref
@@ -71,6 +88,9 @@ class RegisterArticlePage extends HookConsumerWidget {
                         onPressed: () => {
                           Navigator.pop(context),
                           ref.read(articleController.notifier).initialized(),
+                          ref
+                              .read(receiveSharingIntentProvider.notifier)
+                              .initialized(),
                         },
                         text: "戻る",
                       ),
@@ -82,10 +102,15 @@ class RegisterArticlePage extends HookConsumerWidget {
                       height: 52,
                       width: 160,
                       child: RoundRectButton(
-                        disable: state.title == "" || state.url == "",
+                        disable: registerArticleState.title == "" ||
+                            registerArticleState.url == "",
                         onPressed: () => {
                           ref.read(registerArticleController.notifier).create(),
-                          ref.refresh(articleController),
+                          ref.read(articleController.notifier).initialized(),
+                          ref
+                              .read(receiveSharingIntentProvider.notifier)
+                              .initialized(),
+                          Navigator.pop(context),
                         },
                         text: "登録",
                       ),

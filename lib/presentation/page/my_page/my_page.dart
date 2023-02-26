@@ -28,11 +28,21 @@ class MyPage extends HookConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("サブスクリプション"),
+              Text(
+                "サブスクリプション",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               SizedBox(height: 10),
               Divider(),
               SizedBox(height: 30),
-              Text("カスタマイズ"),
+              Text(
+                "カスタマイズ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               SizedBox(height: 10),
               Divider(),
               SizedBox(height: 30),
@@ -51,24 +61,49 @@ class MyPage extends HookConsumerWidget {
                         },
                       );
                 },
-                child: Text("ログアウト"),
+                child: Text(
+                  "ログアウト",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               SizedBox(height: 10),
               Divider(),
               SizedBox(height: 30),
-              Text("使い方"),
+              Text(
+                "使い方",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               SizedBox(height: 10),
               Divider(),
               SizedBox(height: 30),
-              Text("お問い合わせ"),
+              Text(
+                "お問い合わせ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               SizedBox(height: 10),
               Divider(),
               SizedBox(height: 30),
-              Text("利用規約"),
+              Text(
+                "利用規約",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               SizedBox(height: 10),
               Divider(),
               SizedBox(height: 30),
-              Text("プライバシーポリシー"),
+              Text(
+                "プライバシーポリシー",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               SizedBox(height: 10),
               Divider(),
             ],

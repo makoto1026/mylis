@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/config.dart';
+import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/my_page/controller/my_page_controller.dart';
 import 'package:mylis/provider/current_user_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
@@ -43,6 +44,7 @@ class MyApp extends HookConsumerWidget {
       () async {
         await Future.wait({
           ref.read(sessionProvider.notifier).checkSignInState(),
+          ref.read(receiveSharingIntentProvider.notifier).initialized(),
           // ref.read(userController.notifier).initialized(),
         });
         await Future.delayed(const Duration(seconds: 3));

@@ -41,7 +41,7 @@ class MemoPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'ホーム',
+          'メモ',
           style: pageHeaderTextStyle,
         ),
         backgroundColor: ThemeColor.white,
