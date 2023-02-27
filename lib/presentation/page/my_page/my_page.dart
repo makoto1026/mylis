@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/presentation/page/auth/controller/auth_controller.dart';
 import 'package:mylis/provider/session_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';

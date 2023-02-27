@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/presentation/page/article/register_article/register_article.dart';
+import 'package:mylis/presentation/page/article/register_article.dart';
 import 'package:mylis/presentation/page/auth/auth_page.dart';
 import 'package:mylis/presentation/page/auth/email_sign_in/email_sign_in.dart';
 import 'package:mylis/presentation/page/auth/email_sign_up/email_sign_up.dart';

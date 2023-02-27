@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
+import 'package:mylis/presentation/page/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/home/widget/article_list_view.dart';
-import 'package:mylis/provider/tag/tag_controller.dart';
+import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/mixin.dart';
@@ -40,9 +40,31 @@ class HomePage extends HookConsumerWidget {
       },
     );
 
+    final tabList = tabState.tagList
+        .map(
+          (e) => Tab(
+            text: e.name,
+          ),
+        )
+        .toList();
+
+    tabList.add(
+      const Tab(text: "＋"),
+    );
+
+    final pages = tabState.tagList
+        .map(
+          (e) => const ArticleListView(isArticles: true),
+        )
+        .toList();
+
+    pages.add(
+      const ArticleListView(isArticles: false),
+    );
+
     return DefaultTabController(
       initialIndex: 0,
-      length: tabState.tagList.length,
+      length: tabList.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -62,20 +84,15 @@ class HomePage extends HookConsumerWidget {
               fontWeight: FontWeight.normal,
             ),
             unselectedLabelColor: ThemeColor.gray,
-            tabs: tabState.tagList
-                .map(
-                  (e) => Tab(
-                    text: e.name,
-                  ),
-                )
-                .toList(),
+            tabs: tabList,
           ),
         ),
         floatingActionButton: SizedBox(
           width: 70,
           height: 70,
           child: FloatingActionButton(
-            onPressed: () => {
+            onPressed: () async => {
+              await ref.watch(articleController.notifier).refresh(),
               Navigator.pushNamed(
                 context,
                 RouteNames.registerArticle.path,
@@ -90,11 +107,7 @@ class HomePage extends HookConsumerWidget {
           ),
         ),
         body: TabBarView(
-          children: tabState.tagList
-              .map(
-                (e) => const ArticleListView(),
-              )
-              .toList(),
+          children: pages,
         ),
       ),
     );

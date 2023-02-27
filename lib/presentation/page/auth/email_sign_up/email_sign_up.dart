@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/auth/controller/auth_controller.dart';
-import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
@@ -76,9 +75,7 @@ class EmailSignUpPage extends HookConsumerWidget {
                                 },
                               )
                               .catchError(
-                                (e) => {
-                                  print(e),
-                                },
+                                (e) => print(e),
                               )
                         },
                         text: "登録",

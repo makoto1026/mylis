@@ -36,6 +36,19 @@ class ITagRepository extends TagRepository {
     );
     return tagsUuidList;
   }
+
+  @override
+  Future<void> create(Tag tag) async {
+    const userId = "94Jrw17JegeWKqDkW2S5";
+    final postData = {
+      "name": tag.name,
+      "position": tag.position,
+      "created_at": tag.createdAt,
+      "updated_at": tag.updatedAt,
+    };
+
+    await Firestore.users.doc(userId).collection("tags").add(postData);
+  }
 }
 
 final tagRepositoryProvider =

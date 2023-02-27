@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/domain/service/navigation_service.dart';
 import 'package:mylis/domain/service/state/receive_sharing_intent_state.dart';
-import 'package:mylis/router/router.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
 class ReceiveSharingIntentProvider
