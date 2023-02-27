@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/article/controller/article_controller.dart';
-import 'package:mylis/presentation/page/article/register_article/controller/register_article_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
@@ -14,12 +13,12 @@ class RegisterArticlePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    useEffect(() {
-      ref.refresh(registerArticleController);
-      return () {};
-    }, []);
+    // useEffect(() {
+    //   ref.watch(articleController.notifier).refresh();
+    //   return () {};
+    // }, []);
 
-    final registerArticleState = ref.watch(registerArticleController);
+    final registerArticleState = ref.watch(articleController);
 
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
 
@@ -27,7 +26,7 @@ class RegisterArticlePage extends HookConsumerWidget {
       WidgetsBinding.instance.addPostFrameCallback(
         (_) async {
           ref
-              .read(registerArticleController.notifier)
+              .read(articleController.notifier)
               .setNewArticle(url: receiveSharingState.url);
         },
       );
@@ -51,7 +50,7 @@ class RegisterArticlePage extends HookConsumerWidget {
               MylisTextField(
                 title: "タイトル",
                 onChanged: (value) => ref
-                    .read(registerArticleController.notifier)
+                    .read(articleController.notifier)
                     .setNewArticle(title: value),
               ),
               const SizedBox(height: 30),
@@ -63,7 +62,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                     ? ""
                     : receiveSharingState.url,
                 onChanged: (value) => ref
-                    .read(registerArticleController.notifier)
+                    .read(articleController.notifier)
                     .setNewArticle(url: value),
               ),
               const SizedBox(height: 30),
@@ -73,7 +72,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                 minLines: 5,
                 isAFewLine: true,
                 onChanged: (value) => ref
-                    .read(registerArticleController.notifier)
+                    .read(articleController.notifier)
                     .setNewArticle(memo: value),
               ),
               const SizedBox(height: 50),
@@ -105,7 +104,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                         disable: registerArticleState.title == "" ||
                             registerArticleState.url == "",
                         onPressed: () => {
-                          ref.read(registerArticleController.notifier).create(),
+                          ref.read(articleController.notifier).create(),
                           ref.read(articleController.notifier).initialized(),
                           ref
                               .read(receiveSharingIntentProvider.notifier)

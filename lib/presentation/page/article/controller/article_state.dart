@@ -8,6 +8,9 @@ part 'article_state.freezed.dart';
 class ArticleState with _$ArticleState {
   const factory ArticleState({
     required List<Article> articleList,
+    required String title,
+    required String url,
+    String? memo,
   }) = _ArticleState;
   const ArticleState._();
 }

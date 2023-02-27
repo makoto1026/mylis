@@ -17,6 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ArticleState {
   List<Article> get articleList => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
+  String? get memo => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ArticleStateCopyWith<ArticleState> get copyWith =>
@@ -29,7 +32,8 @@ abstract class $ArticleStateCopyWith<$Res> {
           ArticleState value, $Res Function(ArticleState) then) =
       _$ArticleStateCopyWithImpl<$Res, ArticleState>;
   @useResult
-  $Res call({List<Article> articleList});
+  $Res call(
+      {List<Article> articleList, String title, String url, String? memo});
 }
 
 /// @nodoc
@@ -46,12 +50,27 @@ class _$ArticleStateCopyWithImpl<$Res, $Val extends ArticleState>
   @override
   $Res call({
     Object? articleList = null,
+    Object? title = null,
+    Object? url = null,
+    Object? memo = freezed,
   }) {
     return _then(_value.copyWith(
       articleList: null == articleList
           ? _value.articleList
           : articleList // ignore: cast_nullable_to_non_nullable
               as List<Article>,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      memo: freezed == memo
+          ? _value.memo
+          : memo // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -64,7 +83,8 @@ abstract class _$$_ArticleStateCopyWith<$Res>
       __$$_ArticleStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Article> articleList});
+  $Res call(
+      {List<Article> articleList, String title, String url, String? memo});
 }
 
 /// @nodoc
@@ -79,12 +99,27 @@ class __$$_ArticleStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? articleList = null,
+    Object? title = null,
+    Object? url = null,
+    Object? memo = freezed,
   }) {
     return _then(_$_ArticleState(
       articleList: null == articleList
           ? _value._articleList
           : articleList // ignore: cast_nullable_to_non_nullable
               as List<Article>,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      memo: freezed == memo
+          ? _value.memo
+          : memo // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -92,7 +127,11 @@ class __$$_ArticleStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ArticleState extends _ArticleState {
-  const _$_ArticleState({required final List<Article> articleList})
+  const _$_ArticleState(
+      {required final List<Article> articleList,
+      required this.title,
+      required this.url,
+      this.memo})
       : _articleList = articleList,
         super._();
 
@@ -105,8 +144,15 @@ class _$_ArticleState extends _ArticleState {
   }
 
   @override
+  final String title;
+  @override
+  final String url;
+  @override
+  final String? memo;
+
+  @override
   String toString() {
-    return 'ArticleState(articleList: $articleList)';
+    return 'ArticleState(articleList: $articleList, title: $title, url: $url, memo: $memo)';
   }
 
   @override
@@ -115,12 +161,15 @@ class _$_ArticleState extends _ArticleState {
         (other.runtimeType == runtimeType &&
             other is _$_ArticleState &&
             const DeepCollectionEquality()
-                .equals(other._articleList, _articleList));
+                .equals(other._articleList, _articleList) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.memo, memo) || other.memo == memo));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_articleList));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_articleList), title, url, memo);
 
   @JsonKey(ignore: true)
   @override
@@ -130,12 +179,21 @@ class _$_ArticleState extends _ArticleState {
 }
 
 abstract class _ArticleState extends ArticleState {
-  const factory _ArticleState({required final List<Article> articleList}) =
-      _$_ArticleState;
+  const factory _ArticleState(
+      {required final List<Article> articleList,
+      required final String title,
+      required final String url,
+      final String? memo}) = _$_ArticleState;
   const _ArticleState._() : super._();
 
   @override
   List<Article> get articleList;
+  @override
+  String get title;
+  @override
+  String get url;
+  @override
+  String? get memo;
   @override
   @JsonKey(ignore: true)
   _$$_ArticleStateCopyWith<_$_ArticleState> get copyWith =>

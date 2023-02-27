@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/article.dart';
 import 'package:mylis/presentation/util/set_article_icon.dart';
-import 'package:mylis/theme/color.dart';
 
 class ArticleBox extends HookConsumerWidget {
   const ArticleBox({

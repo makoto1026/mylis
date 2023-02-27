@@ -17,6 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TagState {
   List<Tag> get tagList => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  int get position => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TagStateCopyWith<TagState> get copyWith =>
@@ -28,7 +32,12 @@ abstract class $TagStateCopyWith<$Res> {
   factory $TagStateCopyWith(TagState value, $Res Function(TagState) then) =
       _$TagStateCopyWithImpl<$Res, TagState>;
   @useResult
-  $Res call({List<Tag> tagList});
+  $Res call(
+      {List<Tag> tagList,
+      String name,
+      int position,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -45,12 +54,32 @@ class _$TagStateCopyWithImpl<$Res, $Val extends TagState>
   @override
   $Res call({
     Object? tagList = null,
+    Object? name = null,
+    Object? position = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
       tagList: null == tagList
           ? _value.tagList
           : tagList // ignore: cast_nullable_to_non_nullable
               as List<Tag>,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -62,7 +91,12 @@ abstract class _$$_TagStateCopyWith<$Res> implements $TagStateCopyWith<$Res> {
       __$$_TagStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Tag> tagList});
+  $Res call(
+      {List<Tag> tagList,
+      String name,
+      int position,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -77,12 +111,32 @@ class __$$_TagStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? tagList = null,
+    Object? name = null,
+    Object? position = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_$_TagState(
       tagList: null == tagList
           ? _value._tagList
           : tagList // ignore: cast_nullable_to_non_nullable
               as List<Tag>,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -90,7 +144,12 @@ class __$$_TagStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_TagState extends _TagState {
-  const _$_TagState({required final List<Tag> tagList})
+  const _$_TagState(
+      {required final List<Tag> tagList,
+      required this.name,
+      required this.position,
+      required this.createdAt,
+      required this.updatedAt})
       : _tagList = tagList,
         super._();
 
@@ -103,8 +162,17 @@ class _$_TagState extends _TagState {
   }
 
   @override
+  final String name;
+  @override
+  final int position;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
+
+  @override
   String toString() {
-    return 'TagState(tagList: $tagList)';
+    return 'TagState(tagList: $tagList, name: $name, position: $position, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -112,12 +180,24 @@ class _$_TagState extends _TagState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TagState &&
-            const DeepCollectionEquality().equals(other._tagList, _tagList));
+            const DeepCollectionEquality().equals(other._tagList, _tagList) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.position, position) ||
+                other.position == position) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_tagList));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_tagList),
+      name,
+      position,
+      createdAt,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -127,11 +207,24 @@ class _$_TagState extends _TagState {
 }
 
 abstract class _TagState extends TagState {
-  const factory _TagState({required final List<Tag> tagList}) = _$_TagState;
+  const factory _TagState(
+      {required final List<Tag> tagList,
+      required final String name,
+      required final int position,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$_TagState;
   const _TagState._() : super._();
 
   @override
   List<Tag> get tagList;
+  @override
+  String get name;
+  @override
+  int get position;
+  @override
+  DateTime get createdAt;
+  @override
+  DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_TagStateCopyWith<_$_TagState> get copyWith =>
