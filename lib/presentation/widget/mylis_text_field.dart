@@ -42,7 +42,7 @@ class MylisTextField extends HookConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 5),
         TextFormField(
           controller: controller,
           inputFormatters:

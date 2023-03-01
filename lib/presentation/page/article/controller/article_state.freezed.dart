@@ -19,6 +19,7 @@ mixin _$ArticleState {
   List<Article> get articleList => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
+  Tag? get tag => throw _privateConstructorUsedError;
   String? get memo => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -33,7 +34,11 @@ abstract class $ArticleStateCopyWith<$Res> {
       _$ArticleStateCopyWithImpl<$Res, ArticleState>;
   @useResult
   $Res call(
-      {List<Article> articleList, String title, String url, String? memo});
+      {List<Article> articleList,
+      String title,
+      String url,
+      Tag? tag,
+      String? memo});
 }
 
 /// @nodoc
@@ -52,6 +57,7 @@ class _$ArticleStateCopyWithImpl<$Res, $Val extends ArticleState>
     Object? articleList = null,
     Object? title = null,
     Object? url = null,
+    Object? tag = freezed,
     Object? memo = freezed,
   }) {
     return _then(_value.copyWith(
@@ -67,6 +73,10 @@ class _$ArticleStateCopyWithImpl<$Res, $Val extends ArticleState>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      tag: freezed == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as Tag?,
       memo: freezed == memo
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
@@ -84,7 +94,11 @@ abstract class _$$_ArticleStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<Article> articleList, String title, String url, String? memo});
+      {List<Article> articleList,
+      String title,
+      String url,
+      Tag? tag,
+      String? memo});
 }
 
 /// @nodoc
@@ -101,6 +115,7 @@ class __$$_ArticleStateCopyWithImpl<$Res>
     Object? articleList = null,
     Object? title = null,
     Object? url = null,
+    Object? tag = freezed,
     Object? memo = freezed,
   }) {
     return _then(_$_ArticleState(
@@ -116,6 +131,10 @@ class __$$_ArticleStateCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      tag: freezed == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as Tag?,
       memo: freezed == memo
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
@@ -131,6 +150,7 @@ class _$_ArticleState extends _ArticleState {
       {required final List<Article> articleList,
       required this.title,
       required this.url,
+      this.tag,
       this.memo})
       : _articleList = articleList,
         super._();
@@ -148,11 +168,13 @@ class _$_ArticleState extends _ArticleState {
   @override
   final String url;
   @override
+  final Tag? tag;
+  @override
   final String? memo;
 
   @override
   String toString() {
-    return 'ArticleState(articleList: $articleList, title: $title, url: $url, memo: $memo)';
+    return 'ArticleState(articleList: $articleList, title: $title, url: $url, tag: $tag, memo: $memo)';
   }
 
   @override
@@ -164,12 +186,13 @@ class _$_ArticleState extends _ArticleState {
                 .equals(other._articleList, _articleList) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.url, url) || other.url == url) &&
+            (identical(other.tag, tag) || other.tag == tag) &&
             (identical(other.memo, memo) || other.memo == memo));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_articleList), title, url, memo);
+      const DeepCollectionEquality().hash(_articleList), title, url, tag, memo);
 
   @JsonKey(ignore: true)
   @override
@@ -183,6 +206,7 @@ abstract class _ArticleState extends ArticleState {
       {required final List<Article> articleList,
       required final String title,
       required final String url,
+      final Tag? tag,
       final String? memo}) = _$_ArticleState;
   const _ArticleState._() : super._();
 
@@ -192,6 +216,8 @@ abstract class _ArticleState extends ArticleState {
   String get title;
   @override
   String get url;
+  @override
+  Tag? get tag;
   @override
   String? get memo;
   @override

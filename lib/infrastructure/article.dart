@@ -31,10 +31,9 @@ class IArticleRepository extends ArticleRepository {
   @override
   Future<List<Article>> getList(String userUuid, String tagUuid) async {
     const userId = "94Jrw17JegeWKqDkW2S5";
-    const tagId = "PNdPodf7XX6lsrHfyNHB";
     final List<Article> articleList = [];
     await Firestore.users
-        .doc("$userId/tags/$tagId/")
+        .doc("$userId/tags/$tagUuid/")
         .collection("articles")
         .get()
         .then(
@@ -51,7 +50,7 @@ class IArticleRepository extends ArticleRepository {
   @override
   Future<void> create(Article article) async {
     const userId = "94Jrw17JegeWKqDkW2S5";
-    const tagId = "PNdPodf7XX6lsrHfyNHB";
+    final tagId = article.tag?.uuid;
     final postData = {
       "title": article.title,
       "url": article.url,

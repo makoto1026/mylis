@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/article/controller/article_controller.dart';
-import 'package:mylis/presentation/page/home/widget/article_list_view.dart';
+import 'package:mylis/presentation/page/article/widget/article_list_view.dart';
 import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
@@ -49,17 +49,23 @@ class HomePage extends HookConsumerWidget {
         .toList();
 
     tabList.add(
-      const Tab(text: "＋"),
+      const Tab(text: "タグ＋"),
     );
 
     final pages = tabState.tagList
         .map(
-          (e) => const ArticleListView(isArticles: true),
+          (e) => ArticleListView(
+            isArticles: true,
+            tagUuid: e.uuid ?? "",
+          ),
         )
         .toList();
 
     pages.add(
-      const ArticleListView(isArticles: false),
+      const ArticleListView(
+        isArticles: false,
+        tagUuid: "",
+      ),
     );
 
     return DefaultTabController(

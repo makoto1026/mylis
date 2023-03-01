@@ -25,16 +25,19 @@ class ITagRepository extends TagRepository {
   @override
   Future<List<Tag>> getList(String userUuid) async {
     const userId = "94Jrw17JegeWKqDkW2S5";
-    final List<Tag> tagsUuidList = [];
+    final List<Tag> tagList = [];
     await Firestore.users.doc(userId).collection("tags").get().then(
       (querySnapshot) {
         for (var doc in querySnapshot.docs) {
-          final tag = TagMapper.fromJSON(doc.data());
-          tagsUuidList.add(tag);
+          var tag = TagMapper.fromJSON(doc.data());
+          tag.uuid = doc.id;
+          tagList.add(tag);
         }
       },
     );
-    return tagsUuidList;
+    // TODO: 自分の好きな順番に変えられるようにする
+    tagList.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    return tagList;
   }
 
   @override
