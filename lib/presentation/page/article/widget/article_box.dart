@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/article.dart';
 import 'package:mylis/presentation/util/set_article_icon.dart';
+import 'package:mylis/theme/color.dart';
 
 class ArticleBox extends HookConsumerWidget {
   const ArticleBox({
@@ -22,17 +23,21 @@ class ArticleBox extends HookConsumerWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              spreadRadius: 0,
-              blurRadius: 7,
-              offset: const Offset(0, 0),
-              color: Colors.grey.withOpacity(0.5),
-            ),
-          ],
+          // border: Border.all(
+          //   color: ThemeColor.black,
+          //   width: 0.5,
+          // ),
+          // boxShadow: [
+          //   BoxShadow(
+          //     spreadRadius: 0,
+          //     blurRadius: 7,
+          //     offset: const Offset(0, 0),
+          //     color: Colors.grey.withOpacity(0.5),
+          //   ),
+          // ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             children: [
               SizedBox(width: screenSize.width * 0.02),
@@ -45,6 +50,7 @@ class ArticleBox extends HookConsumerWidget {
                       const SizedBox(width: 10),
                       Column(
                         mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             item.title,
@@ -56,11 +62,11 @@ class ArticleBox extends HookConsumerWidget {
                           if (item.memo != "")
                             Column(
                               children: [
-                                const SizedBox(height: 5),
+                                const SizedBox(height: 0),
                                 Text(
                                   item.memo,
                                   style: const TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 12,
                                   ),
                                 ),
                               ],

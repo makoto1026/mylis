@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/article.dart';
+import 'package:mylis/domain/entities/tag.dart';
 import 'package:mylis/domain/repository/article.dart';
 import 'package:mylis/domain/repository/tag.dart';
 import 'package:mylis/domain/repository/user.dart';
@@ -14,11 +15,18 @@ class ArticleController extends StateNotifier<ArticleState> {
     required this.tagRepository,
     required this.userRepository,
   }) : super(
-          const ArticleState(
+          ArticleState(
             articleList: [],
             title: '',
             url: '',
             memo: '',
+            tag: Tag(
+              uuid: "",
+              name: "",
+              position: 0,
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+            ),
           ),
         );
 
@@ -26,12 +34,13 @@ class ArticleController extends StateNotifier<ArticleState> {
   TagRepository tagRepository;
   UserRepository userRepository;
 
-  Future<void> initialized() async {
-    await getList();
+  Future<void> initialized(String tagUuid) async {
+    const tagId = "PNdPodf7XX6lsrHfyNHB";
+    await getList(tagId);
   }
 
-  Future<void> getList() async {
-    final articleList = await articleRepository.getList("", "");
+  Future<void> getList(String tagUuid) async {
+    final articleList = await articleRepository.getList("", tagUuid);
     state = state.copyWith(articleList: articleList);
   }
 
@@ -39,11 +48,20 @@ class ArticleController extends StateNotifier<ArticleState> {
     String? title,
     String? url,
     String? memo,
+    String? tagUuid,
   }) {
+    final tag = Tag(
+      uuid: tagUuid ?? state.tag?.uuid,
+      name: state.tag?.name ?? "",
+      position: state.tag?.position ?? 0,
+      createdAt: state.tag?.createdAt ?? DateTime.now(),
+      updatedAt: state.tag?.updatedAt ?? DateTime.now(),
+    );
     state = state.copyWith(
       title: title ?? state.title,
       url: url ?? state.url,
       memo: memo ?? state.memo,
+      tag: tag,
     );
   }
 
@@ -52,6 +70,7 @@ class ArticleController extends StateNotifier<ArticleState> {
       title: state.title,
       url: state.url,
       memo: state.memo ?? "",
+      tag: state.tag,
       createdAt: DateTime.now(),
     );
     await articleRepository.create(article);

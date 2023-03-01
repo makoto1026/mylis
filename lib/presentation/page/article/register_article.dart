@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/article/controller/article_controller.dart';
+import 'package:mylis/presentation/widget/drop_down_box.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
@@ -13,11 +13,6 @@ class RegisterArticlePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // useEffect(() {
-    //   ref.watch(articleController.notifier).refresh();
-    //   return () {};
-    // }, []);
-
     final registerArticleState = ref.watch(articleController);
 
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
@@ -40,12 +35,10 @@ class RegisterArticlePage extends HookConsumerWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(
-          vertical: 50,
-          horizontal: 30,
-        ),
+        padding: const EdgeInsets.all(30),
         child: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MylisTextField(
                 title: "タイトル",
@@ -53,7 +46,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                     .read(articleController.notifier)
                     .setNewArticle(title: value),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 25),
               MylisTextField(
                 title: "URL",
                 maxLines: 20,
@@ -65,7 +58,31 @@ class RegisterArticlePage extends HookConsumerWidget {
                     .read(articleController.notifier)
                     .setNewArticle(url: value),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 25),
+              const Text(
+                "タグ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Row(
+                children: [
+                  const DropDownBox(),
+                  const SizedBox(width: 20),
+                  GestureDetector(
+                    // TODO: ポップアップでタグ登録できる。閉じた時にタグリストを更新。
+                    onTap: () => {},
+                    child: const Text(
+                      "追加",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 25),
               MylisTextField(
                 title: "メモ（任意）",
                 maxLines: 20,
@@ -86,7 +103,6 @@ class RegisterArticlePage extends HookConsumerWidget {
                       child: OutlinedRoundRectButton(
                         onPressed: () => {
                           Navigator.pop(context),
-                          ref.read(articleController.notifier).initialized(),
                           ref
                               .read(receiveSharingIntentProvider.notifier)
                               .initialized(),
@@ -105,7 +121,6 @@ class RegisterArticlePage extends HookConsumerWidget {
                             registerArticleState.url == "",
                         onPressed: () => {
                           ref.read(articleController.notifier).create(),
-                          ref.read(articleController.notifier).initialized(),
                           ref
                               .read(receiveSharingIntentProvider.notifier)
                               .initialized(),

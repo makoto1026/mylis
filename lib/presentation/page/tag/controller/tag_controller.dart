@@ -3,7 +3,6 @@ import 'package:mylis/domain/entities/tag.dart';
 import 'package:mylis/domain/repository/tag.dart';
 import 'package:mylis/infrastructure/tag.dart';
 import 'package:mylis/presentation/page/tag/controller/tag_state.dart';
-import 'package:yaml/yaml.dart';
 
 class TagController extends StateNotifier<TagState> {
   TagController({
@@ -11,6 +10,7 @@ class TagController extends StateNotifier<TagState> {
   }) : super(
           TagState(
             tagList: [],
+            uuid: "",
             name: "",
             position: 0,
             createdAt: DateTime.now(),
@@ -35,6 +35,7 @@ class TagController extends StateNotifier<TagState> {
 
   Future<void> create() async {
     final tag = Tag(
+      uuid: "",
       name: state.name,
       position: state.tagList.length + 1,
       createdAt: state.createdAt,
@@ -44,7 +45,13 @@ class TagController extends StateNotifier<TagState> {
   }
 
   Future<void> refresh() async {
-    state = state.copyWith(name: "");
+    state = state.copyWith(
+      uuid: "",
+      name: "",
+      position: 0,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
     getList();
   }
 }

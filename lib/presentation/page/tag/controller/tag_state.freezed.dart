@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TagState {
   List<Tag> get tagList => throw _privateConstructorUsedError;
+  String? get uuid => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get position => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -34,6 +35,7 @@ abstract class $TagStateCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Tag> tagList,
+      String? uuid,
       String name,
       int position,
       DateTime createdAt,
@@ -54,6 +56,7 @@ class _$TagStateCopyWithImpl<$Res, $Val extends TagState>
   @override
   $Res call({
     Object? tagList = null,
+    Object? uuid = freezed,
     Object? name = null,
     Object? position = null,
     Object? createdAt = null,
@@ -64,6 +67,10 @@ class _$TagStateCopyWithImpl<$Res, $Val extends TagState>
           ? _value.tagList
           : tagList // ignore: cast_nullable_to_non_nullable
               as List<Tag>,
+      uuid: freezed == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -93,6 +100,7 @@ abstract class _$$_TagStateCopyWith<$Res> implements $TagStateCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Tag> tagList,
+      String? uuid,
       String name,
       int position,
       DateTime createdAt,
@@ -111,6 +119,7 @@ class __$$_TagStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? tagList = null,
+    Object? uuid = freezed,
     Object? name = null,
     Object? position = null,
     Object? createdAt = null,
@@ -121,6 +130,10 @@ class __$$_TagStateCopyWithImpl<$Res>
           ? _value._tagList
           : tagList // ignore: cast_nullable_to_non_nullable
               as List<Tag>,
+      uuid: freezed == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -146,6 +159,7 @@ class __$$_TagStateCopyWithImpl<$Res>
 class _$_TagState extends _TagState {
   const _$_TagState(
       {required final List<Tag> tagList,
+      this.uuid,
       required this.name,
       required this.position,
       required this.createdAt,
@@ -162,6 +176,8 @@ class _$_TagState extends _TagState {
   }
 
   @override
+  final String? uuid;
+  @override
   final String name;
   @override
   final int position;
@@ -172,7 +188,7 @@ class _$_TagState extends _TagState {
 
   @override
   String toString() {
-    return 'TagState(tagList: $tagList, name: $name, position: $position, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'TagState(tagList: $tagList, uuid: $uuid, name: $name, position: $position, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -181,6 +197,7 @@ class _$_TagState extends _TagState {
         (other.runtimeType == runtimeType &&
             other is _$_TagState &&
             const DeepCollectionEquality().equals(other._tagList, _tagList) &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.position, position) ||
                 other.position == position) &&
@@ -194,6 +211,7 @@ class _$_TagState extends _TagState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_tagList),
+      uuid,
       name,
       position,
       createdAt,
@@ -209,6 +227,7 @@ class _$_TagState extends _TagState {
 abstract class _TagState extends TagState {
   const factory _TagState(
       {required final List<Tag> tagList,
+      final String? uuid,
       required final String name,
       required final int position,
       required final DateTime createdAt,
@@ -217,6 +236,8 @@ abstract class _TagState extends TagState {
 
   @override
   List<Tag> get tagList;
+  @override
+  String? get uuid;
   @override
   String get name;
   @override

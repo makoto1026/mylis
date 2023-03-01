@@ -8,6 +8,7 @@ part 'tag_state.freezed.dart';
 class TagState with _$TagState {
   const factory TagState({
     required List<Tag> tagList,
+    String? uuid,
     required String name,
     required int position,
     required DateTime createdAt,

@@ -21,8 +21,8 @@ class SetArticleIcon {
 
     return SvgPicture.asset(
       iconPath,
-      width: 40,
-      height: 40,
+      width: 34,
+      height: 34,
       color: ThemeColor.black,
     );
   }
