@@ -16,3 +16,12 @@ class Article {
   final DateTime createdAt;
   // final DateTime updatedAt;
 }
+
+class ArticlesWithTag {
+  ArticlesWithTag({
+    required this.uuid,
+    required this.articles,
+  });
+  final String uuid;
+  final List<Article> articles;
+}

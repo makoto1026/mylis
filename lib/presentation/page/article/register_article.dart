@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/article/controller/article_controller.dart';
+import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/drop_down_box.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
@@ -16,6 +17,8 @@ class RegisterArticlePage extends HookConsumerWidget {
     final registerArticleState = ref.watch(articleController);
 
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
+
+    final tagUuids = ref.watch(tagController);
 
     if (receiveSharingState.url != "") {
       WidgetsBinding.instance.addPostFrameCallback(
@@ -124,6 +127,9 @@ class RegisterArticlePage extends HookConsumerWidget {
                           ref
                               .read(receiveSharingIntentProvider.notifier)
                               .initialized(),
+                          ref
+                              .read(articleController.notifier)
+                              .initialized(tagUuids.tagList),
                           Navigator.pop(context),
                         },
                         text: "登録",

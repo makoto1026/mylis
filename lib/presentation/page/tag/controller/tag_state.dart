@@ -9,10 +9,7 @@ class TagState with _$TagState {
   const factory TagState({
     required List<Tag> tagList,
     String? uuid,
-    required String name,
-    required int position,
-    required DateTime createdAt,
-    required DateTime updatedAt,
+    required Tag tag,
   }) = _TagState;
   const TagState._();
 }
