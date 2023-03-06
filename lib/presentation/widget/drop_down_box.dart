@@ -30,7 +30,7 @@ class DropDownBox extends HookConsumerWidget {
               ),
             ),
             DropdownButton<Tag>(
-              value: state.tagList[0],
+              value: state.tag,
               items: state.tagList
                   .map(
                     (e) => DropdownMenuItem<Tag>(
@@ -65,8 +65,9 @@ class DropDownBox extends HookConsumerWidget {
               ),
               underline: const SizedBox.shrink(),
               onChanged: (value) => {
+                ref.read(tagController.notifier).setTag(value!),
                 ref.read(articleController.notifier).setNewArticle(
-                      tagUuid: value?.uuid ?? "",
+                      tagUuid: value.uuid ?? "",
                     ),
               },
             ),

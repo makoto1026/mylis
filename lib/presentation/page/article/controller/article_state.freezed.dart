@@ -16,11 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ArticleState {
-  List<Article> get articleList => throw _privateConstructorUsedError;
+  List<ArticlesWithTag> get articleList => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
   Tag? get tag => throw _privateConstructorUsedError;
   String? get memo => throw _privateConstructorUsedError;
+  int get setCount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ArticleStateCopyWith<ArticleState> get copyWith =>
@@ -34,11 +35,12 @@ abstract class $ArticleStateCopyWith<$Res> {
       _$ArticleStateCopyWithImpl<$Res, ArticleState>;
   @useResult
   $Res call(
-      {List<Article> articleList,
+      {List<ArticlesWithTag> articleList,
       String title,
       String url,
       Tag? tag,
-      String? memo});
+      String? memo,
+      int setCount});
 }
 
 /// @nodoc
@@ -59,12 +61,13 @@ class _$ArticleStateCopyWithImpl<$Res, $Val extends ArticleState>
     Object? url = null,
     Object? tag = freezed,
     Object? memo = freezed,
+    Object? setCount = null,
   }) {
     return _then(_value.copyWith(
       articleList: null == articleList
           ? _value.articleList
           : articleList // ignore: cast_nullable_to_non_nullable
-              as List<Article>,
+              as List<ArticlesWithTag>,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -81,6 +84,10 @@ class _$ArticleStateCopyWithImpl<$Res, $Val extends ArticleState>
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
               as String?,
+      setCount: null == setCount
+          ? _value.setCount
+          : setCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -94,11 +101,12 @@ abstract class _$$_ArticleStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<Article> articleList,
+      {List<ArticlesWithTag> articleList,
       String title,
       String url,
       Tag? tag,
-      String? memo});
+      String? memo,
+      int setCount});
 }
 
 /// @nodoc
@@ -117,12 +125,13 @@ class __$$_ArticleStateCopyWithImpl<$Res>
     Object? url = null,
     Object? tag = freezed,
     Object? memo = freezed,
+    Object? setCount = null,
   }) {
     return _then(_$_ArticleState(
       articleList: null == articleList
           ? _value._articleList
           : articleList // ignore: cast_nullable_to_non_nullable
-              as List<Article>,
+              as List<ArticlesWithTag>,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -139,6 +148,10 @@ class __$$_ArticleStateCopyWithImpl<$Res>
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
               as String?,
+      setCount: null == setCount
+          ? _value.setCount
+          : setCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -147,17 +160,18 @@ class __$$_ArticleStateCopyWithImpl<$Res>
 
 class _$_ArticleState extends _ArticleState {
   const _$_ArticleState(
-      {required final List<Article> articleList,
+      {required final List<ArticlesWithTag> articleList,
       required this.title,
       required this.url,
       this.tag,
-      this.memo})
+      this.memo,
+      required this.setCount})
       : _articleList = articleList,
         super._();
 
-  final List<Article> _articleList;
+  final List<ArticlesWithTag> _articleList;
   @override
-  List<Article> get articleList {
+  List<ArticlesWithTag> get articleList {
     if (_articleList is EqualUnmodifiableListView) return _articleList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_articleList);
@@ -171,10 +185,12 @@ class _$_ArticleState extends _ArticleState {
   final Tag? tag;
   @override
   final String? memo;
+  @override
+  final int setCount;
 
   @override
   String toString() {
-    return 'ArticleState(articleList: $articleList, title: $title, url: $url, tag: $tag, memo: $memo)';
+    return 'ArticleState(articleList: $articleList, title: $title, url: $url, tag: $tag, memo: $memo, setCount: $setCount)';
   }
 
   @override
@@ -187,12 +203,20 @@ class _$_ArticleState extends _ArticleState {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.tag, tag) || other.tag == tag) &&
-            (identical(other.memo, memo) || other.memo == memo));
+            (identical(other.memo, memo) || other.memo == memo) &&
+            (identical(other.setCount, setCount) ||
+                other.setCount == setCount));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_articleList), title, url, tag, memo);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_articleList),
+      title,
+      url,
+      tag,
+      memo,
+      setCount);
 
   @JsonKey(ignore: true)
   @override
@@ -203,15 +227,16 @@ class _$_ArticleState extends _ArticleState {
 
 abstract class _ArticleState extends ArticleState {
   const factory _ArticleState(
-      {required final List<Article> articleList,
+      {required final List<ArticlesWithTag> articleList,
       required final String title,
       required final String url,
       final Tag? tag,
-      final String? memo}) = _$_ArticleState;
+      final String? memo,
+      required final int setCount}) = _$_ArticleState;
   const _ArticleState._() : super._();
 
   @override
-  List<Article> get articleList;
+  List<ArticlesWithTag> get articleList;
   @override
   String get title;
   @override
@@ -220,6 +245,8 @@ abstract class _ArticleState extends ArticleState {
   Tag? get tag;
   @override
   String? get memo;
+  @override
+  int get setCount;
   @override
   @JsonKey(ignore: true)
   _$$_ArticleStateCopyWith<_$_ArticleState> get copyWith =>

@@ -14,17 +14,17 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    useEffect(() {
-      () async {
-        await ref.read(tagController.notifier).initialized();
-      }();
+    // useEffect(() {
+    //   () async {
+    //     await ref.read(tagController.notifier).initialized();
+    //     final tagState = ref.watch(tagController);
+    //     ref.watch(articleController.notifier).initialized(tagState.tagList);
+    //   }();
 
-      return () {};
-    }, []);
-
-    final tabState = ref.watch(tagController);
-
+    //   return () {};
+    // }, []);
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
+    final tagState = ref.watch(tagController);
 
     useValueChanged(
       receiveSharingState,
@@ -40,7 +40,7 @@ class HomePage extends HookConsumerWidget {
       },
     );
 
-    final tabList = tabState.tagList
+    final tabList = tagState.tagList
         .map(
           (e) => Tab(
             text: e.name,
@@ -52,7 +52,7 @@ class HomePage extends HookConsumerWidget {
       const Tab(text: "タグ＋"),
     );
 
-    final pages = tabState.tagList
+    final pages = tagState.tagList
         .map(
           (e) => ArticleListView(
             isArticles: true,
