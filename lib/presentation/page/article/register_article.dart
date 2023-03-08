@@ -6,7 +6,9 @@ import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/drop_down_box.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
+import 'package:mylis/presentation/widget/register_tag_dialog.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
+import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/mixin.dart';
 
 class RegisterArticlePage extends HookConsumerWidget {
@@ -18,7 +20,7 @@ class RegisterArticlePage extends HookConsumerWidget {
 
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
 
-    final tagUuids = ref.watch(tagController);
+    final tagState = ref.watch(tagController);
 
     if (receiveSharingState.url != "") {
       WidgetsBinding.instance.addPostFrameCallback(
@@ -75,7 +77,13 @@ class RegisterArticlePage extends HookConsumerWidget {
                   const SizedBox(width: 20),
                   GestureDetector(
                     // TODO: ポップアップでタグ登録できる。閉じた時にタグリストを更新。
-                    onTap: () => {},
+                    onTap: () => {
+                      showDialog(
+                        context: context,
+                        barrierColor: ThemeColor.orange.withOpacity(0.5),
+                        builder: (context) => const RegisterTagDialog(),
+                      ),
+                    },
                     child: const Text(
                       "追加",
                       style: TextStyle(
@@ -129,7 +137,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                               .initialized(),
                           ref
                               .read(articleController.notifier)
-                              .initialized(tagUuids.tagList),
+                              .initialized(tagState.tagList),
                           Navigator.pop(context),
                         },
                         text: "登録",
