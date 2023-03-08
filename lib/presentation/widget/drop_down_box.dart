@@ -30,7 +30,7 @@ class DropDownBox extends HookConsumerWidget {
               ),
             ),
             DropdownButton<Tag>(
-              value: state.tag,
+              value: state.tagList.isNotEmpty ? state.tag : null,
               items: state.tagList
                   .map(
                     (e) => DropdownMenuItem<Tag>(
