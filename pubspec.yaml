@@ -30,6 +30,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   receive_sharing_intent: ^1.4.5
   flutter_svg: ^1.1.6
+  fluttertoast: ^8.0.7
 
 dev_dependencies:
   flutter_test:

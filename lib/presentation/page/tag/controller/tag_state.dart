@@ -10,6 +10,7 @@ class TagState with _$TagState {
     required List<Tag> tagList,
     String? uuid,
     required Tag tag,
+    required bool isLoading,
   }) = _TagState;
   const TagState._();
 }

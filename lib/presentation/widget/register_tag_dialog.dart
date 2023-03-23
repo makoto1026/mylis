@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
-import 'package:mylis/provider/loading_state_provider.dart';
+import 'package:mylis/snippets/toast.dart';
 
 class RegisterTagDialog extends HookConsumerWidget {
   const RegisterTagDialog({Key? key}) : super(key: key);
@@ -38,20 +39,17 @@ class RegisterTagDialog extends HookConsumerWidget {
                   width: 160,
                   child: RoundRectButton(
                     onPressed: () async => {
+                      FocusScope.of(context).unfocus(),
+                      await ref.read(tagController.notifier).setIsLoading(true),
                       await ref
-                          .read(loadingStateProvider.notifier)
-                          .startLoading(),
-                      // await ref
-                      //     .read(tagController.notifier)
-                      //     .create(tagName: tagName.value),
-                      // await ref.read(tagController.notifier).refresh(),
-                      await Future.delayed(const Duration(seconds: 3)),
-
+                          .read(tagController.notifier)
+                          .create(tagName: tagName.value),
+                      await ref.read(tagController.notifier).refresh(),
                       await ref
-                          .read(loadingStateProvider.notifier)
-                          .stopLoading(),
-
+                          .read(tagController.notifier)
+                          .setIsLoading(false),
                       Navigator.pop(context),
+                      await showToast(message: "タグを追加しました"),
                     },
                     text: "登録",
                   ),

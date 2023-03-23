@@ -18,6 +18,7 @@ class TagController extends StateNotifier<TagState> {
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
             ),
+            isLoading: false,
           ),
         );
 
@@ -71,7 +72,12 @@ class TagController extends StateNotifier<TagState> {
       uuid: "",
       tag: tag,
     );
-    getList();
+    await getList();
+    await setTag(state.tagList[0]);
+  }
+
+  Future<void> setIsLoading(bool isLoading) async {
+    state = state.copyWith(isLoading: isLoading);
   }
 }
 

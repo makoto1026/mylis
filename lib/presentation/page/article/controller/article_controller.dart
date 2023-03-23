@@ -60,11 +60,13 @@ class ArticleController extends StateNotifier<ArticleState> {
     if (state.articleList.isEmpty || state.articleList.length == length) {
       return [];
     }
-    final res = state.articleList.firstWhere((e) => e.uuid == tagUuid,
-        orElse: () => ArticlesWithTag(
-              uuid: "",
-              articles: [],
-            ));
+    final res = state.articleList.firstWhere(
+      (e) => e.uuid == tagUuid,
+      orElse: () => ArticlesWithTag(
+        uuid: "",
+        articles: [],
+      ),
+    );
     return res.articles;
   }
 

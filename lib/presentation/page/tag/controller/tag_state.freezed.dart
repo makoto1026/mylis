@@ -19,6 +19,7 @@ mixin _$TagState {
   List<Tag> get tagList => throw _privateConstructorUsedError;
   String? get uuid => throw _privateConstructorUsedError;
   Tag get tag => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TagStateCopyWith<TagState> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $TagStateCopyWith<$Res> {
   factory $TagStateCopyWith(TagState value, $Res Function(TagState) then) =
       _$TagStateCopyWithImpl<$Res, TagState>;
   @useResult
-  $Res call({List<Tag> tagList, String? uuid, Tag tag});
+  $Res call({List<Tag> tagList, String? uuid, Tag tag, bool isLoading});
 }
 
 /// @nodoc
@@ -49,6 +50,7 @@ class _$TagStateCopyWithImpl<$Res, $Val extends TagState>
     Object? tagList = null,
     Object? uuid = freezed,
     Object? tag = null,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
       tagList: null == tagList
@@ -63,6 +65,10 @@ class _$TagStateCopyWithImpl<$Res, $Val extends TagState>
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as Tag,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -74,7 +80,7 @@ abstract class _$$_TagStateCopyWith<$Res> implements $TagStateCopyWith<$Res> {
       __$$_TagStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Tag> tagList, String? uuid, Tag tag});
+  $Res call({List<Tag> tagList, String? uuid, Tag tag, bool isLoading});
 }
 
 /// @nodoc
@@ -91,6 +97,7 @@ class __$$_TagStateCopyWithImpl<$Res>
     Object? tagList = null,
     Object? uuid = freezed,
     Object? tag = null,
+    Object? isLoading = null,
   }) {
     return _then(_$_TagState(
       tagList: null == tagList
@@ -105,6 +112,10 @@ class __$$_TagStateCopyWithImpl<$Res>
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as Tag,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -113,7 +124,10 @@ class __$$_TagStateCopyWithImpl<$Res>
 
 class _$_TagState extends _TagState {
   const _$_TagState(
-      {required final List<Tag> tagList, this.uuid, required this.tag})
+      {required final List<Tag> tagList,
+      this.uuid,
+      required this.tag,
+      required this.isLoading})
       : _tagList = tagList,
         super._();
 
@@ -129,10 +143,12 @@ class _$_TagState extends _TagState {
   final String? uuid;
   @override
   final Tag tag;
+  @override
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'TagState(tagList: $tagList, uuid: $uuid, tag: $tag)';
+    return 'TagState(tagList: $tagList, uuid: $uuid, tag: $tag, isLoading: $isLoading)';
   }
 
   @override
@@ -142,12 +158,14 @@ class _$_TagState extends _TagState {
             other is _$_TagState &&
             const DeepCollectionEquality().equals(other._tagList, _tagList) &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
-            (identical(other.tag, tag) || other.tag == tag));
+            (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_tagList), uuid, tag);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_tagList), uuid, tag, isLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -160,7 +178,8 @@ abstract class _TagState extends TagState {
   const factory _TagState(
       {required final List<Tag> tagList,
       final String? uuid,
-      required final Tag tag}) = _$_TagState;
+      required final Tag tag,
+      required final bool isLoading}) = _$_TagState;
   const _TagState._() : super._();
 
   @override
@@ -169,6 +188,8 @@ abstract class _TagState extends TagState {
   String? get uuid;
   @override
   Tag get tag;
+  @override
+  bool get isLoading;
   @override
   @JsonKey(ignore: true)
   _$$_TagStateCopyWith<_$_TagState> get copyWith =>
