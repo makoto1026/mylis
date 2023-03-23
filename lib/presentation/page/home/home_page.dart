@@ -14,17 +14,20 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // useEffect(() {
-    //   () async {
-    //     await ref.read(tagController.notifier).initialized();
-    //     final tagState = ref.watch(tagController);
-    //     ref.watch(articleController.notifier).initialized(tagState.tagList);
-    //   }();
+    TabController tabController;
 
-    //   return () {};
-    // }, []);
+    useEffect(() {
+      () async {
+        // await ref.read(tagController.notifier).initialized();
+        // final tagState = ref.watch(tagController);
+        // ref.watch(articleController.notifier).initialized(tagState.tagList);
+      }();
+
+      return () {};
+    }, []);
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
     final tagState = ref.watch(tagController);
+    final articles = ref.watch(articleController).articleList;
 
     useValueChanged(
       receiveSharingState,
@@ -68,6 +71,19 @@ class HomePage extends HookConsumerWidget {
       ),
     );
 
+    tabController =
+        useTabController(initialLength: tagState.tagList.length + 1);
+
+    useValueChanged(
+      articles,
+      (a, b) async {
+        final setTag = ref.watch(tagController).tag;
+        final filteredTagIndex =
+            tagState.tagList.indexWhere((e) => e.name == setTag.name);
+        tabController.animateTo(filteredTagIndex);
+      },
+    );
+
     return DefaultTabController(
       initialIndex: 0,
       length: tabList.length,
@@ -79,6 +95,7 @@ class HomePage extends HookConsumerWidget {
           ),
           backgroundColor: ThemeColor.white,
           bottom: TabBar(
+            controller: tabController,
             isScrollable: true,
             indicatorColor: ThemeColor.orange,
             indicatorSize: TabBarIndicatorSize.label,
@@ -91,6 +108,9 @@ class HomePage extends HookConsumerWidget {
             ),
             unselectedLabelColor: ThemeColor.gray,
             tabs: tabList,
+            onTap: (index) => {
+              tabController.animateTo(13),
+            },
           ),
         ),
         floatingActionButton: SizedBox(
@@ -113,6 +133,7 @@ class HomePage extends HookConsumerWidget {
           ),
         ),
         body: TabBarView(
+          controller: tabController,
           children: pages,
         ),
       ),

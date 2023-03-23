@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
+import 'package:mylis/provider/loading_state_provider.dart';
+import 'package:mylis/snippets/toast.dart';
 
 class RegisterTagView extends HookConsumerWidget {
   const RegisterTagView({Key? key}) : super(key: key);
@@ -30,8 +32,13 @@ class RegisterTagView extends HookConsumerWidget {
                 width: 160,
                 child: RoundRectButton(
                   onPressed: () async => {
+                    await ref
+                        .read(loadingStateProvider.notifier)
+                        .startLoading(),
                     await ref.read(tagController.notifier).create(),
                     await ref.read(tagController.notifier).refresh(),
+                    await ref.read(loadingStateProvider.notifier).stopLoading(),
+                    await showToast(message: "タグを追加しました"),
                   },
                   text: "登録",
                 ),
