@@ -11,6 +11,7 @@ import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
 import 'package:mylis/provider/current_user_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/provider/session_provider.dart';
+import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/default.dart';
 
@@ -48,6 +49,7 @@ class MyApp extends HookConsumerWidget {
           ref.read(receiveSharingIntentProvider.notifier).initialized(),
           // ref.read(userController.notifier).initialized(),
           ref.read(tagController.notifier).initialized(),
+          ref.read(currentTabProvider.notifier).initialized()
         });
         final tagState = ref.watch(tagController);
         await ref

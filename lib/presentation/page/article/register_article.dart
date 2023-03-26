@@ -169,8 +169,10 @@ class RegisterArticlePage extends HookConsumerWidget {
                                 ref
                                     .read(articleController.notifier)
                                     .initialized(tagState.tagList),
+                                ref.read(articleController.notifier).setCount(),
                                 await Future.delayed(
-                                    const Duration(seconds: 3)),
+                                  const Duration(seconds: 3),
+                                ),
                                 await ref
                                     .read(loadingStateProvider.notifier)
                                     .stopLoading(),

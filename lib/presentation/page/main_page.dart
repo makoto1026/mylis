@@ -107,21 +107,21 @@ class MainPage extends HookConsumerWidget {
           },
           iconSize: 100,
           activeColor: ThemeColor.orange,
-          inactiveColor: ThemeColor.gray,
+          inactiveColor: ThemeColor.darkGray,
           backgroundColor: ThemeColor.white,
           items: Tab.values
               .map(
                 (e) => BottomNavigationBarItem(
-                  label: () {
-                    switch (e) {
-                      case Tab.home:
-                        return "ホーム";
-                      case Tab.memo:
-                        return "メモ";
-                      case Tab.myPage:
-                        return "マイページ";
-                    }
-                  }(),
+                  // label: () {
+                  //   switch (e) {
+                  //     case Tab.home:
+                  //       return "ホーム";
+                  //     case Tab.memo:
+                  //       return "メモ";
+                  //     case Tab.myPage:
+                  //       return "マイページ";
+                  //   }
+                  // }(),
                   icon: () {
                     switch (e) {
                       case Tab.home:
@@ -130,7 +130,7 @@ class MainPage extends HookConsumerWidget {
                           size: 28,
                           color: e == currentTab.tab
                               ? ThemeColor.orange
-                              : ThemeColor.gray,
+                              : ThemeColor.darkGray,
                         );
                       case Tab.memo:
                         return SvgPicture.asset(
@@ -139,7 +139,7 @@ class MainPage extends HookConsumerWidget {
                           height: 26,
                           color: e == currentTab.tab
                               ? ThemeColor.orange
-                              : ThemeColor.gray,
+                              : ThemeColor.darkGray,
                         );
 
                       case Tab.myPage:
@@ -148,7 +148,7 @@ class MainPage extends HookConsumerWidget {
                           size: 28,
                           color: e == currentTab.tab
                               ? ThemeColor.orange
-                              : ThemeColor.gray,
+                              : ThemeColor.darkGray,
                         );
                     }
                   }(),
