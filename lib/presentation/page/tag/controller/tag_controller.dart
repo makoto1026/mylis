@@ -44,7 +44,22 @@ class TagController extends StateNotifier<TagState> {
     state = state.copyWith(tag: tag);
   }
 
+  void setNameWithEditTag(String name) {
+    final tag = Tag(
+      uuid: state.tag.uuid,
+      name: name,
+      position: state.tag.position,
+      createdAt: state.tag.createdAt,
+      updatedAt: state.tag.updatedAt,
+    );
+    state = state.copyWith(tag: tag);
+  }
+
   Future<void> setTag(Tag tag) async {
+    state = state.copyWith(tag: tag);
+  }
+
+  Future<void> setTagWithEditTag(Tag tag) async {
     state = state.copyWith(tag: tag);
   }
 
@@ -59,6 +74,18 @@ class TagController extends StateNotifier<TagState> {
       updatedAt: DateTime.now(),
     );
     await tagRepository.create(tag);
+  }
+
+  // TODO: 編集は別のコントローラで管理した方がいいかも
+  Future<void> update() async {
+    final tag = Tag(
+      uuid: state.tag.uuid,
+      name: state.tag.name,
+      position: state.tag.position,
+      createdAt: state.tag.createdAt,
+      updatedAt: DateTime.now(),
+    );
+    await tagRepository.update(tag);
   }
 
   Future<void> refresh() async {

@@ -6,9 +6,13 @@ class CurrentTabProvider extends StateNotifier<TabState> {
   CurrentTabProvider()
       : super(
           const TabState(
-            tab: Tab.myPage,
+            tab: Tab.home,
           ),
         );
+
+  Future<void> initialized() async {
+    state = state.copyWith(tab: Tab.home);
+  }
 
   void changeTab(Tab tab) {
     if (tab == state.tab) {

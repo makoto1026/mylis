@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/my_page/widget/mypage_text_button.dart';
 import 'package:mylis/provider/session_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
@@ -27,26 +28,26 @@ class MyPage extends HookConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                "サブスクリプション",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+              // TODO: リリースキャンペーン終了後に解放
+              // MypageTextButton(
+              //   onTap: () => {},
+              //   text: "サブスクリプション",
+              // ),
+              MypageTextButton(
+                onTap: () => {
+                  Navigator.pushNamed(
+                    context,
+                    RouteNames.editTagList.path,
+                  )
+                },
+                text: "タグ編集",
               ),
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 30),
-              Text(
-                "カスタマイズ",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 30),
-              GestureDetector(
-                onTap: () {
+              // MypageTextButton(
+              //   onTap: () => {},
+              //   text: "カスタマイズ",
+              // ),
+              MypageTextButton(
+                onTap: () => {
                   ref.read(sessionProvider.notifier).signOut().whenComplete(
                         () => {
                           tabController.changeTab(
@@ -58,53 +59,27 @@ class MyPage extends HookConsumerWidget {
                             (route) => false,
                           )
                         },
-                      );
+                      ),
                 },
-                child: Text(
-                  "ログアウト",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                text: "ログアウト",
               ),
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 30),
-              Text(
-                "使い方",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+              MypageTextButton(
+                onTap: () => {},
+                text: "使い方",
               ),
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 30),
-              Text(
-                "お問い合わせ",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+              MypageTextButton(
+                onTap: () => {},
+                text: "お問い合わせ",
               ),
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 30),
-              Text(
-                "利用規約",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+              MypageTextButton(
+                onTap: () => {},
+                text: "利用規約",
               ),
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 30),
-              Text(
-                "プライバシーポリシー",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+              MypageTextButton(
+                onTap: () => {},
+                text: "プライバシーポリシー",
+                hasMargin: false,
               ),
-              SizedBox(height: 10),
-              Divider(),
             ],
           ),
         ),

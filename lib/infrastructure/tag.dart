@@ -52,6 +52,25 @@ class ITagRepository extends TagRepository {
 
     await Firestore.users.doc(userId).collection("tags").add(postData);
   }
+
+  @override
+  Future<void> update(Tag tag) async {
+    const userId = "94Jrw17JegeWKqDkW2S5";
+    final postData = {
+      "name": tag.name,
+      "position": tag.position,
+      "created_at": tag.createdAt,
+      "updated_at": tag.updatedAt,
+    };
+    final documentReference =
+        Firestore.users.doc(userId).collection("tags").doc(tag.uuid);
+
+    await documentReference.update(postData).then((value) {
+      print('--------Data updated successfully.------------');
+    }).catchError((error) {
+      print('-----------Failed to update data: $error------------');
+    });
+  }
 }
 
 final tagRepositoryProvider =

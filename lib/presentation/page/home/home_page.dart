@@ -106,11 +106,8 @@ class HomePage extends HookConsumerWidget {
             unselectedLabelStyle: const TextStyle(
               fontWeight: FontWeight.normal,
             ),
-            unselectedLabelColor: ThemeColor.gray,
+            unselectedLabelColor: ThemeColor.darkGray,
             tabs: tabList,
-            onTap: (index) => {
-              tabController.animateTo(13),
-            },
           ),
         ),
         floatingActionButton: SizedBox(
