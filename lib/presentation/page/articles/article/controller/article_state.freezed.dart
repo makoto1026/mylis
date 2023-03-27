@@ -16,11 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ArticleState {
-  List<ArticlesWithTag> get articleList => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
-  String get url => throw _privateConstructorUsedError;
-  Tag? get tag => throw _privateConstructorUsedError;
-  String? get memo => throw _privateConstructorUsedError;
+  List<ArticlesWithTag> get articlesWithTag =>
+      throw _privateConstructorUsedError;
   int get setCount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -34,13 +31,7 @@ abstract class $ArticleStateCopyWith<$Res> {
           ArticleState value, $Res Function(ArticleState) then) =
       _$ArticleStateCopyWithImpl<$Res, ArticleState>;
   @useResult
-  $Res call(
-      {List<ArticlesWithTag> articleList,
-      String title,
-      String url,
-      Tag? tag,
-      String? memo,
-      int setCount});
+  $Res call({List<ArticlesWithTag> articlesWithTag, int setCount});
 }
 
 /// @nodoc
@@ -56,34 +47,14 @@ class _$ArticleStateCopyWithImpl<$Res, $Val extends ArticleState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? articleList = null,
-    Object? title = null,
-    Object? url = null,
-    Object? tag = freezed,
-    Object? memo = freezed,
+    Object? articlesWithTag = null,
     Object? setCount = null,
   }) {
     return _then(_value.copyWith(
-      articleList: null == articleList
-          ? _value.articleList
-          : articleList // ignore: cast_nullable_to_non_nullable
+      articlesWithTag: null == articlesWithTag
+          ? _value.articlesWithTag
+          : articlesWithTag // ignore: cast_nullable_to_non_nullable
               as List<ArticlesWithTag>,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      tag: freezed == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
-              as Tag?,
-      memo: freezed == memo
-          ? _value.memo
-          : memo // ignore: cast_nullable_to_non_nullable
-              as String?,
       setCount: null == setCount
           ? _value.setCount
           : setCount // ignore: cast_nullable_to_non_nullable
@@ -100,13 +71,7 @@ abstract class _$$_ArticleStateCopyWith<$Res>
       __$$_ArticleStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {List<ArticlesWithTag> articleList,
-      String title,
-      String url,
-      Tag? tag,
-      String? memo,
-      int setCount});
+  $Res call({List<ArticlesWithTag> articlesWithTag, int setCount});
 }
 
 /// @nodoc
@@ -120,34 +85,14 @@ class __$$_ArticleStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? articleList = null,
-    Object? title = null,
-    Object? url = null,
-    Object? tag = freezed,
-    Object? memo = freezed,
+    Object? articlesWithTag = null,
     Object? setCount = null,
   }) {
     return _then(_$_ArticleState(
-      articleList: null == articleList
-          ? _value._articleList
-          : articleList // ignore: cast_nullable_to_non_nullable
+      articlesWithTag: null == articlesWithTag
+          ? _value._articlesWithTag
+          : articlesWithTag // ignore: cast_nullable_to_non_nullable
               as List<ArticlesWithTag>,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      tag: freezed == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
-              as Tag?,
-      memo: freezed == memo
-          ? _value.memo
-          : memo // ignore: cast_nullable_to_non_nullable
-              as String?,
       setCount: null == setCount
           ? _value.setCount
           : setCount // ignore: cast_nullable_to_non_nullable
@@ -160,37 +105,25 @@ class __$$_ArticleStateCopyWithImpl<$Res>
 
 class _$_ArticleState extends _ArticleState {
   const _$_ArticleState(
-      {required final List<ArticlesWithTag> articleList,
-      required this.title,
-      required this.url,
-      this.tag,
-      this.memo,
+      {required final List<ArticlesWithTag> articlesWithTag,
       required this.setCount})
-      : _articleList = articleList,
+      : _articlesWithTag = articlesWithTag,
         super._();
 
-  final List<ArticlesWithTag> _articleList;
+  final List<ArticlesWithTag> _articlesWithTag;
   @override
-  List<ArticlesWithTag> get articleList {
-    if (_articleList is EqualUnmodifiableListView) return _articleList;
+  List<ArticlesWithTag> get articlesWithTag {
+    if (_articlesWithTag is EqualUnmodifiableListView) return _articlesWithTag;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_articleList);
+    return EqualUnmodifiableListView(_articlesWithTag);
   }
 
-  @override
-  final String title;
-  @override
-  final String url;
-  @override
-  final Tag? tag;
-  @override
-  final String? memo;
   @override
   final int setCount;
 
   @override
   String toString() {
-    return 'ArticleState(articleList: $articleList, title: $title, url: $url, tag: $tag, memo: $memo, setCount: $setCount)';
+    return 'ArticleState(articlesWithTag: $articlesWithTag, setCount: $setCount)';
   }
 
   @override
@@ -199,24 +132,14 @@ class _$_ArticleState extends _ArticleState {
         (other.runtimeType == runtimeType &&
             other is _$_ArticleState &&
             const DeepCollectionEquality()
-                .equals(other._articleList, _articleList) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.url, url) || other.url == url) &&
-            (identical(other.tag, tag) || other.tag == tag) &&
-            (identical(other.memo, memo) || other.memo == memo) &&
+                .equals(other._articlesWithTag, _articlesWithTag) &&
             (identical(other.setCount, setCount) ||
                 other.setCount == setCount));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_articleList),
-      title,
-      url,
-      tag,
-      memo,
-      setCount);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_articlesWithTag), setCount);
 
   @JsonKey(ignore: true)
   @override
@@ -227,24 +150,12 @@ class _$_ArticleState extends _ArticleState {
 
 abstract class _ArticleState extends ArticleState {
   const factory _ArticleState(
-      {required final List<ArticlesWithTag> articleList,
-      required final String title,
-      required final String url,
-      final Tag? tag,
-      final String? memo,
+      {required final List<ArticlesWithTag> articlesWithTag,
       required final int setCount}) = _$_ArticleState;
   const _ArticleState._() : super._();
 
   @override
-  List<ArticlesWithTag> get articleList;
-  @override
-  String get title;
-  @override
-  String get url;
-  @override
-  Tag? get tag;
-  @override
-  String? get memo;
+  List<ArticlesWithTag> get articlesWithTag;
   @override
   int get setCount;
   @override

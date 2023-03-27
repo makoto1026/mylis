@@ -65,11 +65,10 @@ class ITagRepository extends TagRepository {
     final documentReference =
         Firestore.users.doc(userId).collection("tags").doc(tag.uuid);
 
-    await documentReference.update(postData).then((value) {
-      print('--------Data updated successfully.------------');
-    }).catchError((error) {
-      print('-----------Failed to update data: $error------------');
-    });
+    await documentReference
+        .update(postData)
+        .then((value) {})
+        .catchError((error) {});
   }
 }
 

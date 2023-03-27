@@ -5,6 +5,8 @@ import 'package:mylis/domain/repository/article.dart';
 import 'package:mylis/infrastructure/firestore/firestore.dart';
 import 'package:mylis/infrastructure/mapper/article_mapper.dart';
 
+// TODO: 各APIのエラーハンドリング
+
 class IArticleRepository extends ArticleRepository {
   IArticleRepository();
 

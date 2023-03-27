@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/tag.dart';
-import 'package:mylis/presentation/page/article/controller/article_controller.dart';
-import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
+import 'package:mylis/presentation/page/articles/register_article/controller/register_article_controller.dart';
+import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/theme/color.dart';
 
 class DropDownBox extends HookConsumerWidget {
@@ -66,7 +66,7 @@ class DropDownBox extends HookConsumerWidget {
               underline: const SizedBox.shrink(),
               onChanged: (value) => {
                 ref.read(tagController.notifier).setTag(value!),
-                ref.read(articleController.notifier).setNewArticle(
+                ref.read(registerArticleController.notifier).setNewArticle(
                       tagUuid: value.uuid ?? "",
                     ),
               },

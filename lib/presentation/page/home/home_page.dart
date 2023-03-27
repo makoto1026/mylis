@@ -1,33 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
-import 'package:mylis/presentation/page/article/controller/article_controller.dart';
-import 'package:mylis/presentation/page/article/widget/article_list_view.dart';
-import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
+import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
+import 'package:mylis/presentation/page/articles/article/widget/article_list_view.dart';
+import 'package:mylis/presentation/page/articles/register_article/controller/register_article_controller.dart';
+import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/mixin.dart';
+
+class _MyTickerProvider implements TickerProvider {
+  @override
+  Ticker createTicker(TickerCallback onTick) {
+    return Ticker(onTick);
+  }
+}
 
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TabController tabController;
+    final receiveSharingState = ref.watch(receiveSharingIntentProvider);
+    final tagList = ref.watch(tagController).tagList;
+    final articleState = ref.watch(articleController);
+    var tabController = TabController(
+      vsync: _MyTickerProvider(),
+      length: tagList.length,
+      initialIndex: 0,
+    );
+
+    TabController _createNewTabController() => TabController(
+          vsync: _MyTickerProvider(),
+          length: tagList.length,
+        );
 
     useEffect(() {
       () async {
         // await ref.read(tagController.notifier).initialized();
         // final tagState = ref.watch(tagController);
         // ref.watch(articleController.notifier).initialized(tagState.tagList);
+        tabController = _createNewTabController();
       }();
-
       return () {};
     }, []);
-    final receiveSharingState = ref.watch(receiveSharingIntentProvider);
-    final tagState = ref.watch(tagController);
-    // final articles = ref.watch(articleController).articleList;
 
     useValueChanged(
       receiveSharingState,
@@ -43,23 +61,27 @@ class HomePage extends HookConsumerWidget {
       },
     );
 
-    //TODO: 記事登録時にタグを指定した場合、そのタグのタブに移動する
+    useValueChanged(
+      articleState,
+      (a, b) async {
+        final setTag = ref.watch(tagController).tag;
+        final filteredTagIndex =
+            tagList.indexWhere((e) => e.uuid == setTag.uuid);
+        tabController.index = filteredTagIndex;
+      },
+    );
 
-    // tabController =
-    //     useTabController(initialLength: tagState.tagList.length + 1);
-    // useValueChanged(
-    //   articles,
-    //   (a, b) async {
-    //     final setTag = ref.watch(tagController).tag;
-    //     final filteredTagIndex =
-    //         tagState.tagList.indexWhere((e) => e.name == setTag.name);
-    //     tabController.animateTo(filteredTagIndex);
-    //   },
-    // );
+    useValueChanged(
+      tagList,
+      (a, b) async {
+        tabController = _createNewTabController();
+        tabController.index = tagList.length - 2;
+      },
+    );
 
     return DefaultTabController(
       initialIndex: 0,
-      length: tagState.tagList.length,
+      length: tagList.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -68,7 +90,7 @@ class HomePage extends HookConsumerWidget {
           ),
           backgroundColor: ThemeColor.white,
           bottom: TabBar(
-            // controller: tabController,
+            controller: tabController,
             isScrollable: true,
             indicatorColor: ThemeColor.orange,
             indicatorSize: TabBarIndicatorSize.label,
@@ -80,7 +102,7 @@ class HomePage extends HookConsumerWidget {
               fontWeight: FontWeight.normal,
             ),
             unselectedLabelColor: ThemeColor.darkGray,
-            tabs: tagState.tagList
+            tabs: tagList
                 .map(
                   (e) => Tab(
                     text: e.name,
@@ -94,7 +116,7 @@ class HomePage extends HookConsumerWidget {
           height: 70,
           child: FloatingActionButton(
             onPressed: () async => {
-              await ref.watch(articleController.notifier).refresh(),
+              await ref.watch(registerArticleController.notifier).refresh(),
               Navigator.pushNamed(
                 context,
                 RouteNames.registerArticle.path,
@@ -109,8 +131,8 @@ class HomePage extends HookConsumerWidget {
           ),
         ),
         body: TabBarView(
-          // controller: tabController,
-          children: tagState.tagList
+          controller: tabController,
+          children: tagList
               .map(
                 (e) => ArticleListView(tagUuid: e.uuid ?? ""),
               )

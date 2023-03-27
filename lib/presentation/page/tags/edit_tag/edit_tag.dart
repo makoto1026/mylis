@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/tag.dart';
-import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
+import 'package:mylis/presentation/page/tags/edit_tag/controller/edit_tag_controller.dart';
+import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/mixin.dart';
@@ -16,7 +17,7 @@ class EditTagPage extends HookConsumerWidget {
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(tagController.notifier).setTagWithEditTag(tag);
+        ref.read(editTagController.notifier).setTag(tag);
       });
       return () {};
     }, []);
@@ -37,7 +38,7 @@ class EditTagPage extends HookConsumerWidget {
         actions: [
           TextButton(
             onPressed: () async {
-              ref.read(tagController.notifier).update();
+              ref.read(editTagController.notifier).update();
               showToast(message: "タグを更新しました");
               ref.read(tagController.notifier).initialized();
               Navigator.pop(context);
@@ -57,7 +58,7 @@ class EditTagPage extends HookConsumerWidget {
         child: Center(
             child: TextField(
           onChanged: (value) {
-            ref.read(tagController.notifier).setNameWithEditTag(value);
+            ref.read(editTagController.notifier).setName(value);
           },
           decoration: InputDecoration(
             labelText: tag.name,

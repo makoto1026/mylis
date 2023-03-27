@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'tag_state.dart';
+part of 'edit_tag_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,29 +15,29 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$TagState {
-  List<Tag> get tagList => throw _privateConstructorUsedError;
+mixin _$EditTagState {
   String? get uuid => throw _privateConstructorUsedError;
   Tag get tag => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $TagStateCopyWith<TagState> get copyWith =>
+  $EditTagStateCopyWith<EditTagState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TagStateCopyWith<$Res> {
-  factory $TagStateCopyWith(TagState value, $Res Function(TagState) then) =
-      _$TagStateCopyWithImpl<$Res, TagState>;
+abstract class $EditTagStateCopyWith<$Res> {
+  factory $EditTagStateCopyWith(
+          EditTagState value, $Res Function(EditTagState) then) =
+      _$EditTagStateCopyWithImpl<$Res, EditTagState>;
   @useResult
-  $Res call({List<Tag> tagList, String? uuid, Tag tag, bool isLoading});
+  $Res call({String? uuid, Tag tag, bool isLoading});
 }
 
 /// @nodoc
-class _$TagStateCopyWithImpl<$Res, $Val extends TagState>
-    implements $TagStateCopyWith<$Res> {
-  _$TagStateCopyWithImpl(this._value, this._then);
+class _$EditTagStateCopyWithImpl<$Res, $Val extends EditTagState>
+    implements $EditTagStateCopyWith<$Res> {
+  _$EditTagStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -47,16 +47,11 @@ class _$TagStateCopyWithImpl<$Res, $Val extends TagState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tagList = null,
     Object? uuid = freezed,
     Object? tag = null,
     Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
-      tagList: null == tagList
-          ? _value.tagList
-          : tagList // ignore: cast_nullable_to_non_nullable
-              as List<Tag>,
       uuid: freezed == uuid
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
@@ -74,36 +69,32 @@ class _$TagStateCopyWithImpl<$Res, $Val extends TagState>
 }
 
 /// @nodoc
-abstract class _$$_TagStateCopyWith<$Res> implements $TagStateCopyWith<$Res> {
-  factory _$$_TagStateCopyWith(
-          _$_TagState value, $Res Function(_$_TagState) then) =
-      __$$_TagStateCopyWithImpl<$Res>;
+abstract class _$$_EditTagStateCopyWith<$Res>
+    implements $EditTagStateCopyWith<$Res> {
+  factory _$$_EditTagStateCopyWith(
+          _$_EditTagState value, $Res Function(_$_EditTagState) then) =
+      __$$_EditTagStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Tag> tagList, String? uuid, Tag tag, bool isLoading});
+  $Res call({String? uuid, Tag tag, bool isLoading});
 }
 
 /// @nodoc
-class __$$_TagStateCopyWithImpl<$Res>
-    extends _$TagStateCopyWithImpl<$Res, _$_TagState>
-    implements _$$_TagStateCopyWith<$Res> {
-  __$$_TagStateCopyWithImpl(
-      _$_TagState _value, $Res Function(_$_TagState) _then)
+class __$$_EditTagStateCopyWithImpl<$Res>
+    extends _$EditTagStateCopyWithImpl<$Res, _$_EditTagState>
+    implements _$$_EditTagStateCopyWith<$Res> {
+  __$$_EditTagStateCopyWithImpl(
+      _$_EditTagState _value, $Res Function(_$_EditTagState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tagList = null,
     Object? uuid = freezed,
     Object? tag = null,
     Object? isLoading = null,
   }) {
-    return _then(_$_TagState(
-      tagList: null == tagList
-          ? _value._tagList
-          : tagList // ignore: cast_nullable_to_non_nullable
-              as List<Tag>,
+    return _then(_$_EditTagState(
       uuid: freezed == uuid
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
@@ -122,22 +113,9 @@ class __$$_TagStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TagState extends _TagState {
-  const _$_TagState(
-      {required final List<Tag> tagList,
-      this.uuid,
-      required this.tag,
-      required this.isLoading})
-      : _tagList = tagList,
-        super._();
-
-  final List<Tag> _tagList;
-  @override
-  List<Tag> get tagList {
-    if (_tagList is EqualUnmodifiableListView) return _tagList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tagList);
-  }
+class _$_EditTagState extends _EditTagState {
+  const _$_EditTagState({this.uuid, required this.tag, required this.isLoading})
+      : super._();
 
   @override
   final String? uuid;
@@ -148,15 +126,14 @@ class _$_TagState extends _TagState {
 
   @override
   String toString() {
-    return 'TagState(tagList: $tagList, uuid: $uuid, tag: $tag, isLoading: $isLoading)';
+    return 'EditTagState(uuid: $uuid, tag: $tag, isLoading: $isLoading)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TagState &&
-            const DeepCollectionEquality().equals(other._tagList, _tagList) &&
+            other is _$_EditTagState &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.tag, tag) || other.tag == tag) &&
             (identical(other.isLoading, isLoading) ||
@@ -164,26 +141,22 @@ class _$_TagState extends _TagState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_tagList), uuid, tag, isLoading);
+  int get hashCode => Object.hash(runtimeType, uuid, tag, isLoading);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TagStateCopyWith<_$_TagState> get copyWith =>
-      __$$_TagStateCopyWithImpl<_$_TagState>(this, _$identity);
+  _$$_EditTagStateCopyWith<_$_EditTagState> get copyWith =>
+      __$$_EditTagStateCopyWithImpl<_$_EditTagState>(this, _$identity);
 }
 
-abstract class _TagState extends TagState {
-  const factory _TagState(
-      {required final List<Tag> tagList,
-      final String? uuid,
+abstract class _EditTagState extends EditTagState {
+  const factory _EditTagState(
+      {final String? uuid,
       required final Tag tag,
-      required final bool isLoading}) = _$_TagState;
-  const _TagState._() : super._();
+      required final bool isLoading}) = _$_EditTagState;
+  const _EditTagState._() : super._();
 
-  @override
-  List<Tag> get tagList;
   @override
   String? get uuid;
   @override
@@ -192,6 +165,6 @@ abstract class _TagState extends TagState {
   bool get isLoading;
   @override
   @JsonKey(ignore: true)
-  _$$_TagStateCopyWith<_$_TagState> get copyWith =>
+  _$$_EditTagStateCopyWith<_$_EditTagState> get copyWith =>
       throw _privateConstructorUsedError;
 }
