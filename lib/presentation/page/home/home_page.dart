@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
-import 'package:mylis/presentation/page/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/article/widget/article_list_view.dart';
+import 'package:mylis/presentation/page/register_article/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
@@ -94,7 +94,7 @@ class HomePage extends HookConsumerWidget {
           height: 70,
           child: FloatingActionButton(
             onPressed: () async => {
-              await ref.watch(articleController.notifier).refresh(),
+              await ref.watch(registerArticleController.notifier).refresh(),
               Navigator.pushNamed(
                 context,
                 RouteNames.registerArticle.path,

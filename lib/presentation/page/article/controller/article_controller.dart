@@ -15,27 +15,15 @@ class ArticleController extends StateNotifier<ArticleState> {
   ArticleController({
     required this.articleRepository,
     required this.tagRepository,
-    required this.userRepository,
   }) : super(
           ArticleState(
-            articleList: [],
-            title: '',
-            url: '',
-            memo: '',
-            tag: Tag(
-              uuid: "",
-              name: "",
-              position: 0,
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-            ),
+            articlesWithTag: [],
             setCount: 0,
           ),
         );
 
   ArticleRepository articleRepository;
   TagRepository tagRepository;
-  UserRepository userRepository;
 
   Future<void> initialized(List<Tag> tags) async {
     final List<ArticlesWithTag> array = [];
@@ -47,7 +35,7 @@ class ArticleController extends StateNotifier<ArticleState> {
           articles: res,
         ),
       );
-      state = state.copyWith(articleList: array);
+      state = state.copyWith(articlesWithTag: array);
     }
     await setCount();
   }
@@ -60,10 +48,11 @@ class ArticleController extends StateNotifier<ArticleState> {
   }
 
   List<Article> setArticlesWithTag(String tagUuid, int length) {
-    if (state.articleList.isEmpty || state.articleList.length == length) {
+    if (state.articlesWithTag.isEmpty ||
+        state.articlesWithTag.length == length) {
       return [];
     }
-    final res = state.articleList.firstWhere(
+    final res = state.articlesWithTag.firstWhere(
       (e) => e.uuid == tagUuid,
       orElse: () => ArticlesWithTag(
         uuid: "",
@@ -73,54 +62,13 @@ class ArticleController extends StateNotifier<ArticleState> {
     return res.articles;
   }
 
-  void setNewArticle({
-    String? title,
-    String? url,
-    String? memo,
-    String? tagUuid,
-  }) {
-    final tag = Tag(
-      uuid: tagUuid ?? state.tag?.uuid,
-      name: state.tag?.name ?? "",
-      position: state.tag?.position ?? 0,
-      createdAt: state.tag?.createdAt ?? DateTime.now(),
-      updatedAt: state.tag?.updatedAt ?? DateTime.now(),
-    );
-    state = state.copyWith(
-      title: title ?? state.title,
-      url: url ?? state.url,
-      memo: memo ?? state.memo,
-      tag: tag,
-    );
-  }
-
-  Future<void> create() async {
-    final article = Article(
-      title: state.title,
-      url: state.url,
-      memo: state.memo ?? "",
-      tag: state.tag,
-      createdAt: DateTime.now(),
-    );
-    await articleRepository.create(article);
-    await setCount();
-  }
-
   Future<Article> getArticle(String tagUuid) async {
     return articleRepository.get("", tagUuid, tagUuid);
-  }
-
-  Future<void> refresh() async {
-    state = state.copyWith(title: "", url: "", memo: "");
   }
 
   Future<void> setCount() async {
     final count = state.setCount;
     state = state.copyWith(setCount: count + 1);
-  }
-
-  Future<void> setTag(Tag tag) async {
-    state = state.copyWith(tag: tag);
   }
 }
 
@@ -129,6 +77,5 @@ final articleController =
   (ref) => ArticleController(
     articleRepository: ref.watch(articleRepositoryProvider),
     tagRepository: ref.watch(tagRepositoryProvider),
-    userRepository: ref.watch(userRepositoryProvider),
   ),
 );

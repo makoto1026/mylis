@@ -112,16 +112,6 @@ class MainPage extends HookConsumerWidget {
           items: Tab.values
               .map(
                 (e) => BottomNavigationBarItem(
-                  // label: () {
-                  //   switch (e) {
-                  //     case Tab.home:
-                  //       return "ホーム";
-                  //     case Tab.memo:
-                  //       return "メモ";
-                  //     case Tab.myPage:
-                  //       return "マイページ";
-                  //   }
-                  // }(),
                   icon: () {
                     switch (e) {
                       case Tab.home:
