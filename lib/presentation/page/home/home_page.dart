@@ -3,10 +3,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
-import 'package:mylis/presentation/page/article/controller/article_controller.dart';
-import 'package:mylis/presentation/page/article/widget/article_list_view.dart';
-import 'package:mylis/presentation/page/register_article/controller/register_article_controller.dart';
-import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
+import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
+import 'package:mylis/presentation/page/articles/article/widget/article_list_view.dart';
+import 'package:mylis/presentation/page/articles/register_article/controller/register_article_controller.dart';
+import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/mixin.dart';
@@ -24,16 +24,17 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
-    final tagState = ref.watch(tagController);
+    final tagList = ref.watch(tagController).tagList;
     final articleState = ref.watch(articleController);
     var tabController = TabController(
       vsync: _MyTickerProvider(),
-      length: tagState.tagList.length,
+      length: tagList.length,
+      initialIndex: 0,
     );
 
     TabController _createNewTabController() => TabController(
           vsync: _MyTickerProvider(),
-          length: tagState.tagList.length,
+          length: tagList.length,
         );
 
     useEffect(() {
@@ -63,26 +64,24 @@ class HomePage extends HookConsumerWidget {
     useValueChanged(
       articleState,
       (a, b) async {
-        tabController = _createNewTabController();
-
         final setTag = ref.watch(tagController).tag;
         final filteredTagIndex =
-            tagState.tagList.indexWhere((e) => e.name == setTag.name);
-        tabController.animateTo(filteredTagIndex);
+            tagList.indexWhere((e) => e.uuid == setTag.uuid);
+        tabController.index = filteredTagIndex;
       },
     );
 
-    //TODO: 記事登録時にタグを指定した場合、そのタグのタブに移動する
     useValueChanged(
-      tagState,
+      tagList,
       (a, b) async {
         tabController = _createNewTabController();
+        tabController.index = tagList.length - 2;
       },
     );
 
     return DefaultTabController(
       initialIndex: 0,
-      length: tagState.tagList.length,
+      length: tagList.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -103,7 +102,7 @@ class HomePage extends HookConsumerWidget {
               fontWeight: FontWeight.normal,
             ),
             unselectedLabelColor: ThemeColor.darkGray,
-            tabs: tagState.tagList
+            tabs: tagList
                 .map(
                   (e) => Tab(
                     text: e.name,
@@ -133,7 +132,7 @@ class HomePage extends HookConsumerWidget {
         ),
         body: TabBarView(
           controller: tabController,
-          children: tagState.tagList
+          children: tagList
               .map(
                 (e) => ArticleListView(tagUuid: e.uuid ?? ""),
               )

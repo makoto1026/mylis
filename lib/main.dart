@@ -6,8 +6,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/config.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
-import 'package:mylis/presentation/page/article/controller/article_controller.dart';
-import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
+import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/provider/current_user_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/provider/session_provider.dart';
@@ -16,6 +15,7 @@ import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/default.dart';
 
 import 'firebase_options.dart';
+import 'presentation/page/tags/tag/controller/tag_controller.dart';
 
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

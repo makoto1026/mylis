@@ -35,10 +35,8 @@ class AuthController extends StateNotifier<AuthState> {
           },
         )
         .catchError(
-      (e) {
-        print(e);
-      },
-    );
+          (e) {},
+        );
   }
 
   Future<void> emailSignIn() async {
@@ -51,10 +49,8 @@ class AuthController extends StateNotifier<AuthState> {
           },
         )
         .catchError(
-      (e) {
-        print(e);
-      },
-    );
+          (e) {},
+        );
   }
 
   void setEmail(String email) {

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
-import 'package:mylis/presentation/page/article/controller/article_controller.dart';
-import 'package:mylis/presentation/page/register_article/controller/register_article_controller.dart';
-import 'package:mylis/presentation/page/tag/controller/tag_controller.dart';
+import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
+import 'package:mylis/presentation/page/articles/register_article/controller/register_article_controller.dart';
+import 'package:mylis/presentation/page/tags/register_tag/controller/register_tag_controller.dart';
+import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/drop_down_box.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
-import 'package:mylis/presentation/widget/register_tag_dialog.dart';
+import 'package:mylis/presentation/page/tags/register_tag/widget/register_tag_dialog.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
@@ -25,6 +26,8 @@ class RegisterArticlePage extends HookConsumerWidget {
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
 
     final tagState = ref.watch(tagController);
+
+    final isLoading = ref.watch(registerTagController).isLoading;
 
     useEffect(() {
       () async {
@@ -53,7 +56,7 @@ class RegisterArticlePage extends HookConsumerWidget {
       );
     }
 
-    return tagState.isLoading
+    return isLoading
         ? Container(
             color: Colors.transparent,
             width: double.infinity,

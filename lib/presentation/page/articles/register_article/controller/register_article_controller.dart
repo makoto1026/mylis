@@ -3,7 +3,7 @@ import 'package:mylis/domain/entities/article.dart';
 import 'package:mylis/domain/entities/tag.dart';
 import 'package:mylis/domain/repository/article.dart';
 import 'package:mylis/infrastructure/article.dart';
-import 'package:mylis/presentation/page/register_article/controller/register_article_state.dart';
+import 'package:mylis/presentation/page/articles/register_article/controller/register_article_state.dart';
 
 class RegisterArticleController extends StateNotifier<RegisterArticleState> {
   RegisterArticleController({

@@ -62,10 +62,7 @@ class EmailSignInPage extends HookConsumerWidget {
                       width: 160,
                       child: RoundRectButton(
                         onPressed: () => {
-                          ref
-                              .read(authController.notifier)
-                              .emailSignIn()
-                              .then(
+                          ref.read(authController.notifier).emailSignIn().then(
                                 (value) => {
                                   Navigator.pushNamedAndRemoveUntil(
                                     context,
@@ -73,9 +70,6 @@ class EmailSignInPage extends HookConsumerWidget {
                                     (route) => false,
                                   )
                                 },
-                              )
-                              .catchError(
-                                (e) => print(e),
                               )
                         },
                         text: "サインイン",

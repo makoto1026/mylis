@@ -4,12 +4,10 @@ import 'package:url_launcher/url_launcher_string.dart';
 Future<void> openUrl({
   required String url,
 }) async {
-  try {
-    await launchUrl(
-      Uri.parse(url),
-      mode: LaunchMode.externalApplication,
-    );
-  } catch (e) {}
+  await launchUrl(
+    Uri.parse(url),
+    mode: LaunchMode.externalApplication,
+  );
 }
 
 Future<void> openMailApp() async {

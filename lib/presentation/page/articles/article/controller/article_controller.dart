@@ -5,7 +5,7 @@ import 'package:mylis/domain/repository/article.dart';
 import 'package:mylis/domain/repository/tag.dart';
 import 'package:mylis/infrastructure/article.dart';
 import 'package:mylis/infrastructure/tag.dart';
-import 'package:mylis/presentation/page/article/controller/article_state.dart';
+import 'package:mylis/presentation/page/articles/article/controller/article_state.dart';
 
 class ArticleController extends StateNotifier<ArticleState> {
   ArticleController({

@@ -2,15 +2,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mylis/domain/entities/tag.dart';
 
-part 'tag_state.freezed.dart';
+part 'edit_tag_state.freezed.dart';
 
 @freezed
-class TagState with _$TagState {
-  const factory TagState({
-    required List<Tag> tagList,
+class EditTagState with _$EditTagState {
+  const factory EditTagState({
     String? uuid,
     required Tag tag,
     required bool isLoading,
-  }) = _TagState;
-  const TagState._();
+  }) = _EditTagState;
+  const EditTagState._();
 }

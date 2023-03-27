@@ -6,10 +6,8 @@ import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
 class ReceiveSharingIntentProvider
     extends StateNotifier<ReceiveSharingIntentState> {
-  ReceiveSharingIntentProvider({
-    required Reader read,
-  })  : _read = read,
-        super(
+  ReceiveSharingIntentProvider()
+      : super(
           const ReceiveSharingIntentState(
             images: [],
             title: '',
@@ -17,7 +15,6 @@ class ReceiveSharingIntentProvider
           ),
         );
 
-  final Reader _read;
   late StreamSubscription _intentDataStreamSubscription;
 
   Future<void> initialized() async {
@@ -25,7 +22,6 @@ class ReceiveSharingIntentProvider
     _intentDataStreamSubscription =
         ReceiveSharingIntent.getMediaStream().listen(
       (event) {
-        print("-------getMediaStream = $event-------");
         // NavigationService.navigatorKey.currentState?.pushNamed(
         //   RouteNames.registerArticle.path,
         //   arguments: event,
@@ -36,7 +32,6 @@ class ReceiveSharingIntentProvider
 
     ReceiveSharingIntent.getInitialMedia().then(
       (event) {
-        print("-------getInitialMedia = $event-------");
         // NavigationService.navigatorKey.currentState?.pushNamed(
         //   RouteNames.registerArticle.path,
         //   arguments: event,
@@ -47,7 +42,6 @@ class ReceiveSharingIntentProvider
 
     _intentDataStreamSubscription = ReceiveSharingIntent.getTextStream().listen(
       (event) {
-        print("-------getTextStream = $event-------");
         // NavigationService.navigatorKey.currentState?.pushNamed(
         //   RouteNames.registerArticle.path,
         //   arguments: event,
@@ -58,7 +52,6 @@ class ReceiveSharingIntentProvider
 
     ReceiveSharingIntent.getInitialText().then(
       (event) {
-        print("-------getInitialText = $event-------");
         state = state.copyWith(url: event ?? "");
       },
     );
@@ -73,7 +66,5 @@ class ReceiveSharingIntentProvider
 
 final receiveSharingIntentProvider = StateNotifierProvider<
     ReceiveSharingIntentProvider, ReceiveSharingIntentState>(
-  (ref) => ReceiveSharingIntentProvider(
-    read: ref.read,
-  ),
+  (ref) => ReceiveSharingIntentProvider(),
 );

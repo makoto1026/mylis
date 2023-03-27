@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/presentation/page/article/controller/article_controller.dart';
-import 'package:mylis/presentation/page/article/widget/article_box.dart';
-import 'package:mylis/presentation/page/tag/register_tag.dart';
+import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
+import 'package:mylis/presentation/page/articles/article/widget/article_box.dart';
+import 'package:mylis/presentation/page/tags/register_tag/register_tag.dart';
 import 'package:mylis/snippets/url_launcher.dart';
 
 class ArticleListView extends HookConsumerWidget {
@@ -66,7 +66,7 @@ class ArticleListView extends HookConsumerWidget {
     return tagUuid == ""
         ? const RegisterTagView()
         : Container(
-            color: Color.fromARGB(255, 236, 236, 236),
+            color: const Color.fromARGB(255, 236, 236, 236),
             padding: const EdgeInsets.all(10),
             child: state.value.isNotEmpty
                 ? GridView.count(

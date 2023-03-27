@@ -23,7 +23,7 @@ class SessionProvider extends StateNotifier<void> {
         value: "true",
       ),
     ]);
-    final isSignedIn = await _secureStorageService.read(key: "is_signed_in");
+    // final isSignedIn = await _secureStorageService.read(key: "is_signed_in");
 
     checkSignInState();
   }

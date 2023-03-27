@@ -36,10 +36,8 @@ class IUserRepository extends UserRepository {
           },
         )
         .catchError(
-      (e) {
-        print(e);
-      },
-    );
+          (e) {},
+        );
     return id;
   }
 }
