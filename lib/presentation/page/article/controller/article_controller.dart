@@ -1,14 +1,10 @@
-import 'dart:io';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/article.dart';
 import 'package:mylis/domain/entities/tag.dart';
 import 'package:mylis/domain/repository/article.dart';
 import 'package:mylis/domain/repository/tag.dart';
-import 'package:mylis/domain/repository/user.dart';
 import 'package:mylis/infrastructure/article.dart';
 import 'package:mylis/infrastructure/tag.dart';
-import 'package:mylis/infrastructure/user.dart';
 import 'package:mylis/presentation/page/article/controller/article_state.dart';
 
 class ArticleController extends StateNotifier<ArticleState> {
@@ -16,7 +12,7 @@ class ArticleController extends StateNotifier<ArticleState> {
     required this.articleRepository,
     required this.tagRepository,
   }) : super(
-          ArticleState(
+          const ArticleState(
             articlesWithTag: [],
             setCount: 0,
           ),
