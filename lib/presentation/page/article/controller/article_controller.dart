@@ -53,6 +53,9 @@ class ArticleController extends StateNotifier<ArticleState> {
   }
 
   Future<List<Article>> getList(String tagUuid) async {
+    if (tagUuid == "") {
+      return [];
+    }
     return articleRepository.getList("", tagUuid);
   }
 

@@ -31,6 +31,14 @@ class TagController extends StateNotifier<TagState> {
 
   Future<void> getList() async {
     final tagList = await tagRepository.getList("");
+    tagList.add(
+      Tag(
+        name: "タグ +",
+        position: tagList.length + 1,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      ),
+    );
     state = state.copyWith(tagList: tagList);
   }
 

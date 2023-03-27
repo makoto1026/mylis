@@ -9,12 +9,10 @@ import 'package:mylis/snippets/url_launcher.dart';
 
 class ArticleListView extends HookConsumerWidget {
   const ArticleListView({
-    required this.isArticles,
     required this.tagUuid,
     Key? key,
   }) : super(key: key);
 
-  final bool isArticles;
   final String tagUuid;
 
   @override
@@ -39,11 +37,11 @@ class ArticleListView extends HookConsumerWidget {
     useEffect(() {
       () async {
         SchedulerBinding.instance.addPostFrameCallback((_) async {
-          state.value = isArticles
-              ? ref
+          state.value = tagUuid == ""
+              ? []
+              : ref
                   .watch(articleController.notifier)
-                  .setArticlesWithTag(tagUuid, state.value.length)
-              : [];
+                  .setArticlesWithTag(tagUuid, state.value.length);
         });
 
         articlesController.addListener(_articleScrollListener);
@@ -54,19 +52,20 @@ class ArticleListView extends HookConsumerWidget {
     useValueChanged(
       articlesList.setCount,
       (a, b) async {
-        final res = isArticles
-            ? ref
+        final res = tagUuid == ""
+            ? []
+            : ref
                 .watch(articleController.notifier)
-                .setArticlesWithTag(tagUuid, state.value.length)
-            : [];
+                .setArticlesWithTag(tagUuid, state.value.length);
         if (res.isNotEmpty) {
           state.value = res;
         }
       },
     );
 
-    return isArticles
-        ? Container(
+    return tagUuid == ""
+        ? const RegisterTagView()
+        : Container(
             color: Color.fromARGB(255, 236, 236, 236),
             padding: const EdgeInsets.all(10),
             child: state.value.isNotEmpty
@@ -88,7 +87,6 @@ class ArticleListView extends HookConsumerWidget {
                     ).toList(),
                   )
                 : const SizedBox.shrink(),
-          )
-        : const RegisterTagView();
+          );
   }
 }

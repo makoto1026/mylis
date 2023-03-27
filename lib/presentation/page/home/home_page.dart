@@ -14,7 +14,7 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    TabController tabController;
+    // TabController tabController;
 
     useEffect(() {
       () async {
@@ -27,7 +27,7 @@ class HomePage extends HookConsumerWidget {
     }, []);
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
     final tagState = ref.watch(tagController);
-    final articles = ref.watch(articleController).articleList;
+    // final articles = ref.watch(articleController).articleList;
 
     useValueChanged(
       receiveSharingState,
@@ -43,50 +43,23 @@ class HomePage extends HookConsumerWidget {
       },
     );
 
-    final tabList = tagState.tagList
-        .map(
-          (e) => Tab(
-            text: e.name,
-          ),
-        )
-        .toList();
+    //TODO: 記事登録時にタグを指定した場合、そのタグのタブに移動する
 
-    tabList.add(
-      const Tab(text: "タグ＋"),
-    );
-
-    final pages = tagState.tagList
-        .map(
-          (e) => ArticleListView(
-            isArticles: true,
-            tagUuid: e.uuid ?? "",
-          ),
-        )
-        .toList();
-
-    pages.add(
-      const ArticleListView(
-        isArticles: false,
-        tagUuid: "",
-      ),
-    );
-
-    tabController =
-        useTabController(initialLength: tagState.tagList.length + 1);
-
-    useValueChanged(
-      articles,
-      (a, b) async {
-        final setTag = ref.watch(tagController).tag;
-        final filteredTagIndex =
-            tagState.tagList.indexWhere((e) => e.name == setTag.name);
-        tabController.animateTo(filteredTagIndex);
-      },
-    );
+    // tabController =
+    //     useTabController(initialLength: tagState.tagList.length + 1);
+    // useValueChanged(
+    //   articles,
+    //   (a, b) async {
+    //     final setTag = ref.watch(tagController).tag;
+    //     final filteredTagIndex =
+    //         tagState.tagList.indexWhere((e) => e.name == setTag.name);
+    //     tabController.animateTo(filteredTagIndex);
+    //   },
+    // );
 
     return DefaultTabController(
       initialIndex: 0,
-      length: tabList.length,
+      length: tagState.tagList.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -95,7 +68,7 @@ class HomePage extends HookConsumerWidget {
           ),
           backgroundColor: ThemeColor.white,
           bottom: TabBar(
-            controller: tabController,
+            // controller: tabController,
             isScrollable: true,
             indicatorColor: ThemeColor.orange,
             indicatorSize: TabBarIndicatorSize.label,
@@ -107,7 +80,13 @@ class HomePage extends HookConsumerWidget {
               fontWeight: FontWeight.normal,
             ),
             unselectedLabelColor: ThemeColor.darkGray,
-            tabs: tabList,
+            tabs: tagState.tagList
+                .map(
+                  (e) => Tab(
+                    text: e.name,
+                  ),
+                )
+                .toList(),
           ),
         ),
         floatingActionButton: SizedBox(
@@ -130,8 +109,12 @@ class HomePage extends HookConsumerWidget {
           ),
         ),
         body: TabBarView(
-          controller: tabController,
-          children: pages,
+          // controller: tabController,
+          children: tagState.tagList
+              .map(
+                (e) => ArticleListView(tagUuid: e.uuid ?? ""),
+              )
+              .toList(),
         ),
       ),
     );
