@@ -69,7 +69,7 @@ class RegisterArticlePage extends HookConsumerWidget {
             appBar: AppBar(
               title: const Text(
                 '記事登録',
-                style: pageHeaderTextStyle,
+                style: orangeTextStyle,
               ),
             ),
             body: SingleChildScrollView(

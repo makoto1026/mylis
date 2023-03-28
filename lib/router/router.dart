@@ -9,8 +9,10 @@ import 'package:mylis/presentation/page/my_page/my_page.dart';
 import 'package:mylis/presentation/page/memo/memo.dart';
 import 'package:mylis/presentation/page/home/home_page.dart';
 import 'package:mylis/presentation/page/main_page.dart';
+import 'package:mylis/presentation/page/privacy_policy/privacy_policy.dart';
 import 'package:mylis/presentation/page/tags/edit_tag/edit_tag.dart';
 import 'package:mylis/presentation/page/tags/edit_tag/edit_tag_list.dart';
+import 'package:mylis/presentation/page/terms_of_use/terms_of_use.dart';
 
 final routerProvider = Provider((ref) => <String, WidgetBuilder>{
       RouteNames.main.path: (BuildContext context) => const MainPage(),
@@ -29,6 +31,10 @@ final routerProvider = Provider((ref) => <String, WidgetBuilder>{
       RouteNames.editTagList.path: (BuildContext context) =>
           const EditTagListPage(),
       RouteNames.editTag.path: (BuildContext context) => const EditTagPage(),
+      RouteNames.privacyPolicy.path: (BuildContext context) =>
+          const PrivacyPolicyPage(),
+      RouteNames.termsOfUse.path: (BuildContext context) =>
+          const TermsOfUsePage(),
     });
 
 enum RouteNames {
@@ -43,6 +49,8 @@ enum RouteNames {
   myPage,
   editTagList,
   editTag,
+  privacyPolicy,
+  termsOfUse,
 }
 
 extension RouteNamesExtension on RouteNames {

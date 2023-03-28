@@ -15,8 +15,8 @@ class EmailSignInPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'メールアドレスサインイン',
-          style: pageHeaderTextStyle,
+          'メールアドレスログイン',
+          style: orangeTextStyle,
         ),
       ),
       body: Padding(
@@ -72,7 +72,7 @@ class EmailSignInPage extends HookConsumerWidget {
                                 },
                               )
                         },
-                        text: "サインイン",
+                        text: "ログイン",
                       ),
                     ),
                   ),

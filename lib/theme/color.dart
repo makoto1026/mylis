@@ -6,6 +6,6 @@ class ThemeColor {
   static const orange = Color(0xffff8c00);
   static const darkGray = Color(0xff707070);
   static const gray = Color(0xffCECECE);
-  static const blue = Color(0xff818CBD);
+  static const blue = Color(0xff1DA1F1);
   static const yellow = Color(0xffEFD567);
 }

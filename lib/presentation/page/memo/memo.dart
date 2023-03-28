@@ -42,7 +42,7 @@ class MemoPage extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text(
           'メモ',
-          style: pageHeaderTextStyle,
+          style: orangeTextStyle,
         ),
         backgroundColor: ThemeColor.white,
       ),
