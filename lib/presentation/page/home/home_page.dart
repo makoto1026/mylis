@@ -86,7 +86,7 @@ class HomePage extends HookConsumerWidget {
         appBar: AppBar(
           title: const Text(
             'ホーム',
-            style: pageHeaderTextStyle,
+            style: orangeTextStyle,
           ),
           backgroundColor: ThemeColor.white,
           bottom: TabBar(

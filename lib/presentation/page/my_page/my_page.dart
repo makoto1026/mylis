@@ -18,7 +18,7 @@ class MyPage extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text(
           'マイページ',
-          style: pageHeaderTextStyle,
+          style: orangeTextStyle,
         ),
       ),
       body: Center(
@@ -50,9 +50,9 @@ class MyPage extends HookConsumerWidget {
                 onTap: () => {
                   ref.read(sessionProvider.notifier).signOut().whenComplete(
                         () => {
-                          tabController.changeTab(
-                            main_page.Tab.home,
-                          ),
+                          // tabController.changeTab(
+                          //   main_page.Tab.home,
+                          // ),
                           Navigator.pushNamedAndRemoveUntil(
                             context,
                             RouteNames.auth.path,

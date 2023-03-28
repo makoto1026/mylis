@@ -22,7 +22,7 @@ class RegisterMemoPage extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text(
           'メモ登録',
-          style: pageHeaderTextStyle,
+          style: orangeTextStyle,
         ),
       ),
       body: Padding(

@@ -26,7 +26,7 @@ class EditTagPage extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text(
           'タグ編集',
-          style: pageHeaderTextStyle,
+          style: orangeTextStyle,
         ),
         leading: IconButton(
           icon: const Icon(Icons.close),

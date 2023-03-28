@@ -16,7 +16,7 @@ class EmailSignUpPage extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text(
           '新規登録',
-          style: pageHeaderTextStyle,
+          style: orangeTextStyle,
         ),
       ),
       body: Padding(
