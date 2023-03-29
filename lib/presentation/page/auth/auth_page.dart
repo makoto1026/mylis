@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/auth/controller/auth_controller.dart';
 import 'package:mylis/presentation/page/auth/widget/auth_button.dart';
 import 'package:mylis/router/router.dart';
+import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
 
 class AuthPage extends HookConsumerWidget {
@@ -62,7 +64,19 @@ class AuthPage extends HookConsumerWidget {
               const SizedBox(height: 20),
               AuthButton(
                 onPressed: () => {
-                  Navigator.pushNamed(context, RouteNames.emailSignIn.path),
+                  ref
+                      .read(authController.notifier)
+                      .signInWithGoogle()
+                      .then(
+                        (value) => {
+                          Navigator.pushNamed(context, RouteNames.home.path),
+                        },
+                      )
+                      .catchError(
+                    (e) async {
+                      await showToast(message: "Google認証に失敗しました");
+                    },
+                  ),
                 },
                 iconPath: "assets/icons/google.svg",
                 text: "Googleログイン・新規登録",
