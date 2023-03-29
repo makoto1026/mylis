@@ -24,10 +24,19 @@ class AuthController extends StateNotifier<AuthState> {
   UserRepository userRepository;
   final Reader _read;
 
-  Future<void> emailSignUp() async {
+  void setEmail(String email) {
+    state = state.copyWith(email: email);
+  }
+
+  void setPassword(String password) {
+    state = state.copyWith(password: password);
+  }
+
+  // メールアドレスサインアップ
+  Future<void> signUpWithEmail() async {
     var auth = Auth(email: state.email, password: state.password);
     await authRepository
-        .emailSignUp(auth)
+        .signUpWithEmail(auth)
         .then(
           (value) async => {
             await userRepository.create(state.email, state.password),
@@ -39,10 +48,11 @@ class AuthController extends StateNotifier<AuthState> {
         );
   }
 
-  Future<void> emailSignIn() async {
+  // メールアドレスサインイン
+  Future<void> signInWithEmail() async {
     var auth = Auth(email: state.email, password: state.password);
     await authRepository
-        .emailSignIn(auth)
+        .signInWithEmail(auth)
         .then(
           (value) => {
             _read(sessionProvider.notifier).signIn(),
@@ -53,12 +63,13 @@ class AuthController extends StateNotifier<AuthState> {
         );
   }
 
-  void setEmail(String email) {
-    state = state.copyWith(email: email);
-  }
-
-  void setPassword(String password) {
-    state = state.copyWith(password: password);
+  // Googleサインイン
+  Future<void> signInWithGoogle() async {
+    await authRepository.signInWithGoogle().then(
+          (value) => {
+            _read(sessionProvider.notifier).signIn(),
+          },
+        );
   }
 }
 

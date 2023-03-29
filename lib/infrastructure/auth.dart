@@ -1,19 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/auth.dart';
 import 'package:mylis/domain/repository/auth.dart';
+import 'package:mylis/infrastructure/firestore/firestore.dart';
 
 class IAuthRepository extends AuthRepository {
   IAuthRepository();
 
-  final firebase = FirebaseAuth.instance;
+  final firebaseAuth = FirebaseAuth.instance;
   final firestore = FirebaseFirestore.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
-  Future<String> emailSignUp(Auth auth) async {
+  Future<String> signUpWithEmail(Auth auth) async {
     final UserCredential userInfo =
-        await firebase.createUserWithEmailAndPassword(
+        await firebaseAuth.createUserWithEmailAndPassword(
       email: auth.email,
       password: auth.password,
     );
@@ -30,13 +33,60 @@ class IAuthRepository extends AuthRepository {
   }
 
   @override
-  Future<String> emailSignIn(Auth auth) async {
-    final userInfo = await firebase.signInWithEmailAndPassword(
+  Future<String> signInWithEmail(Auth auth) async {
+    final userInfo = await firebaseAuth.signInWithEmailAndPassword(
       email: auth.email,
       password: auth.password,
     );
 
     return userInfo.user!.uid;
+  }
+
+  @override
+  Future<String> signInWithGoogle() async {
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount!.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final UserCredential authResult =
+        await firebaseAuth.signInWithCredential(credential);
+    final User? user = authResult.user;
+
+    if (user != null) {
+      assert(!user.isAnonymous);
+      assert(await user.getIdToken() != "");
+
+      final User currentUser = firebaseAuth.currentUser!;
+      assert(user.uid == currentUser.uid);
+      final docRef = Firestore.users.doc(user.uid);
+      docRef.get().then(
+            (value) => {
+              if (!value.exists)
+                docRef.set(
+                  {
+                    "createdAt": DateTime.now(),
+                    "email": user.email,
+                    "password": "",
+                  },
+                )
+            },
+          );
+
+      return user.uid;
+    }
+
+    return '';
+  }
+
+  @override
+  Future<void> signOutGoogle() async {
+    await googleSignIn.signOut();
   }
 }
 

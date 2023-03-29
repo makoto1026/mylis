@@ -13,8 +13,8 @@ import 'package:mylis/provider/session_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/default.dart';
-
-import 'firebase_options.dart';
+import 'package:mylis/firebase_options_dev.dart' as dev;
+import 'package:mylis/firebase_options_prod.dart' as prod;
 import 'presentation/page/tags/tag/controller/tag_controller.dart';
 
 Future<void> main() async {
@@ -22,7 +22,14 @@ Future<void> main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  const env = String.fromEnvironment("ENV");
+  if (env == "dev") {
+    await Firebase.initializeApp(
+        options: dev.DefaultFirebaseOptions.currentPlatform);
+  } else {
+    await Firebase.initializeApp(
+        options: prod.DefaultFirebaseOptions.currentPlatform);
+  }
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
