@@ -11,6 +11,7 @@ class IArticleRepository extends ArticleRepository {
   IArticleRepository();
 
   final firestore = FirebaseFirestore.instance;
+  final userDB = Firestore.users;
 
   @override
   Future<Article> get(
@@ -19,7 +20,7 @@ class IArticleRepository extends ArticleRepository {
     const tagId = "PNdPodf7XX6lsrHfyNHB";
     const articleId = "ooQMDpswehs8ILe4FrnX";
 
-    return await Firestore.users
+    return await userDB
         .doc("$userId/tags/$tagId/articles/$articleId")
         .get()
         .then(
@@ -34,7 +35,7 @@ class IArticleRepository extends ArticleRepository {
   Future<List<Article>> getList(String userUuid, String tagUuid) async {
     const userId = "94Jrw17JegeWKqDkW2S5";
     final List<Article> articleList = [];
-    await Firestore.users
+    await userDB
         .doc("$userId/tags/$tagUuid/")
         .collection("articles")
         .get()
@@ -60,10 +61,34 @@ class IArticleRepository extends ArticleRepository {
       "created_at": article.createdAt,
     };
 
-    await Firestore.users
+    await userDB
         .doc("$userId/tags/$tagId")
         .collection("articles")
         .add(postData);
+  }
+
+  @override
+  Future<void> update(Article article) async {
+    const userId = "94Jrw17JegeWKqDkW2S5";
+    final tagId = article.tag?.uuid;
+    final postData = {
+      "title": article.title,
+      "url": article.url,
+      "memo": article.memo,
+      "created_at": article.createdAt,
+    };
+
+    await userDB
+        .doc("$userId/tags/$tagId/articles/${article.uuid}}")
+        .update(postData);
+  }
+
+  @override
+  Future<void> delete(Article article) async {
+    const userId = "94Jrw17JegeWKqDkW2S5";
+    final tagId = article.tag?.uuid;
+
+    await userDB.doc("$userId/tags/$tagId/articles/${article.uuid}}").delete();
   }
 }
 

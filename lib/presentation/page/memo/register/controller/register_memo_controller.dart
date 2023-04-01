@@ -2,7 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/memo.dart';
 import 'package:mylis/domain/repository/memo.dart';
 import 'package:mylis/infrastructure/memo.dart';
-import 'package:mylis/presentation/page/memo/register_memo/controller/register_memo_state.dart';
+import 'package:mylis/presentation/page/memo/register/controller/register_memo_state.dart';
 
 class RegisterMemoController extends StateNotifier<RegisterMemoState> {
   RegisterMemoController({

@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_box.dart';
-import 'package:mylis/presentation/page/tags/register_tag/register_tag.dart';
+import 'package:mylis/presentation/page/tags/register/register_tag.dart';
 import 'package:mylis/snippets/url_launcher.dart';
 
 class ArticleListView extends HookConsumerWidget {
@@ -41,7 +41,7 @@ class ArticleListView extends HookConsumerWidget {
               ? []
               : ref
                   .watch(articleController.notifier)
-                  .setArticlesWithTag(tagUuid, state.value.length);
+                  .setArticlesWithTagUUID(tagUuid, state.value.length);
         });
 
         articlesController.addListener(_articleScrollListener);
@@ -56,7 +56,7 @@ class ArticleListView extends HookConsumerWidget {
             ? []
             : ref
                 .watch(articleController.notifier)
-                .setArticlesWithTag(tagUuid, state.value.length);
+                .setArticlesWithTagUUID(tagUuid, state.value.length);
         if (res.isNotEmpty) {
           state.value = res;
         }

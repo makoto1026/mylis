@@ -7,7 +7,7 @@ part 'article_state.freezed.dart';
 @freezed
 class ArticleState with _$ArticleState {
   const factory ArticleState({
-    required List<ArticlesWithTag> articlesWithTag,
+    required List<ArticlesWithTagUUID> articlesWithTag,
     required int setCount,
   }) = _ArticleState;
   const ArticleState._();

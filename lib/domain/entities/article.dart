@@ -2,6 +2,7 @@ import 'package:mylis/domain/entities/tag.dart';
 
 class Article {
   Article({
+    this.uuid,
     required this.title,
     required this.url,
     required this.memo,
@@ -9,6 +10,7 @@ class Article {
     required this.createdAt,
     // required this.updatedAt,
   });
+  final String? uuid;
   final String title;
   final String url;
   final String memo;
@@ -17,8 +19,8 @@ class Article {
   // final DateTime updatedAt;
 }
 
-class ArticlesWithTag {
-  ArticlesWithTag({
+class ArticlesWithTagUUID {
+  ArticlesWithTagUUID({
     required this.uuid,
     required this.articles,
   });

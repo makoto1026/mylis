@@ -5,4 +5,5 @@ abstract class TagRepository {
   Future<List<Tag>> getList(String userUuid);
   Future<void> create(Tag tag);
   Future<void> update(Tag tag);
+  Future<void> delete(String tagUUID);
 }

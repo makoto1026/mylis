@@ -2,13 +2,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/tag.dart';
 import 'package:mylis/domain/repository/tag.dart';
 import 'package:mylis/infrastructure/tag.dart';
-import 'package:mylis/presentation/page/tags/edit_tag/controller/edit_tag_state.dart';
+import 'package:mylis/presentation/page/tags/delete/delete_tag_state.dart';
 
-class EditTagController extends StateNotifier<EditTagState> {
-  EditTagController({
+class DeleteTagController extends StateNotifier<DeleteTagState> {
+  DeleteTagController({
     required this.tagRepository,
   }) : super(
-          EditTagState(
+          DeleteTagState(
             uuid: "",
             tag: Tag(
               uuid: "",
@@ -27,18 +27,7 @@ class EditTagController extends StateNotifier<EditTagState> {
     state = state.copyWith(tag: tag);
   }
 
-  void setName(String name) {
-    final tag = Tag(
-      uuid: state.tag.uuid,
-      name: name,
-      position: state.tag.position,
-      createdAt: state.tag.createdAt,
-      updatedAt: state.tag.updatedAt,
-    );
-    state = state.copyWith(tag: tag);
-  }
-
-  Future<void> update() async {
+  Future<void> delete() async {
     final tag = Tag(
       uuid: state.tag.uuid,
       name: state.tag.name,
@@ -46,7 +35,7 @@ class EditTagController extends StateNotifier<EditTagState> {
       createdAt: state.tag.createdAt,
       updatedAt: DateTime.now(),
     );
-    await tagRepository.update(tag);
+    await tagRepository.delete(tag.uuid ?? "");
   }
 
   Future<void> refresh() async {
@@ -67,7 +56,7 @@ class EditTagController extends StateNotifier<EditTagState> {
   }
 }
 
-final editTagController =
-    StateNotifierProvider<EditTagController, EditTagState>(
-  (ref) => EditTagController(tagRepository: ref.watch(tagRepositoryProvider)),
+final deleteTagController =
+    StateNotifierProvider<DeleteTagController, DeleteTagState>(
+  (ref) => DeleteTagController(tagRepository: ref.watch(tagRepositoryProvider)),
 );

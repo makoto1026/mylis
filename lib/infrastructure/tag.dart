@@ -9,12 +9,13 @@ class ITagRepository extends TagRepository {
   ITagRepository();
 
   final firestore = FirebaseFirestore.instance;
+  final userDB = Firestore.users;
 
   @override
   Future<Tag> get(String userUuid, String tagUuid) async {
     const userId = "94Jrw17JegeWKqDkW2S5";
     const tagId = "PNdPodf7XX6lsrHfyNHB";
-    return await Firestore.users.doc("$userId/tags/$tagId").get().then(
+    return await userDB.doc("$userId/tags/$tagId").get().then(
       (event) {
         final doc = event.data();
         return TagMapper.fromJSON(doc!);
@@ -26,7 +27,7 @@ class ITagRepository extends TagRepository {
   Future<List<Tag>> getList(String userUuid) async {
     const userId = "94Jrw17JegeWKqDkW2S5";
     final List<Tag> tagList = [];
-    await Firestore.users.doc(userId).collection("tags").get().then(
+    await userDB.doc(userId).collection("tags").get().then(
       (querySnapshot) {
         for (var doc in querySnapshot.docs) {
           var tag = TagMapper.fromJSON(doc.data());
@@ -50,7 +51,7 @@ class ITagRepository extends TagRepository {
       "updated_at": tag.updatedAt,
     };
 
-    await Firestore.users.doc(userId).collection("tags").add(postData);
+    await userDB.doc(userId).collection("tags").add(postData);
   }
 
   @override
@@ -63,12 +64,18 @@ class ITagRepository extends TagRepository {
       "updated_at": tag.updatedAt,
     };
     final documentReference =
-        Firestore.users.doc(userId).collection("tags").doc(tag.uuid);
+        userDB.doc(userId).collection("tags").doc(tag.uuid);
 
-    await documentReference
-        .update(postData)
-        .then((value) {})
-        .catchError((error) {});
+    await documentReference.update(postData);
+  }
+
+  @override
+  Future<void> delete(String tagUUID) async {
+    const userId = "94Jrw17JegeWKqDkW2S5";
+    final documentReference =
+        userDB.doc(userId).collection("tags").doc(tagUUID);
+
+    await documentReference.delete();
   }
 }
 

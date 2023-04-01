@@ -4,4 +4,6 @@ abstract class MemoRepository {
   Future<Memo> get(String userUuid, String memoUuid);
   Future<List<Memo>> getList(String userUuid);
   Future<void> create(Memo memo);
+  Future<void> update(Memo memo);
+  Future<void> delete(Memo memo);
 }

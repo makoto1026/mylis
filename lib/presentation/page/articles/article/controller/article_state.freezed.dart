@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ArticleState {
-  List<ArticlesWithTag> get articlesWithTag =>
+  List<ArticlesWithTagUUID> get articlesWithTag =>
       throw _privateConstructorUsedError;
   int get setCount => throw _privateConstructorUsedError;
 
@@ -31,7 +31,7 @@ abstract class $ArticleStateCopyWith<$Res> {
           ArticleState value, $Res Function(ArticleState) then) =
       _$ArticleStateCopyWithImpl<$Res, ArticleState>;
   @useResult
-  $Res call({List<ArticlesWithTag> articlesWithTag, int setCount});
+  $Res call({List<ArticlesWithTagUUID> articlesWithTag, int setCount});
 }
 
 /// @nodoc
@@ -54,7 +54,7 @@ class _$ArticleStateCopyWithImpl<$Res, $Val extends ArticleState>
       articlesWithTag: null == articlesWithTag
           ? _value.articlesWithTag
           : articlesWithTag // ignore: cast_nullable_to_non_nullable
-              as List<ArticlesWithTag>,
+              as List<ArticlesWithTagUUID>,
       setCount: null == setCount
           ? _value.setCount
           : setCount // ignore: cast_nullable_to_non_nullable
@@ -71,7 +71,7 @@ abstract class _$$_ArticleStateCopyWith<$Res>
       __$$_ArticleStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<ArticlesWithTag> articlesWithTag, int setCount});
+  $Res call({List<ArticlesWithTagUUID> articlesWithTag, int setCount});
 }
 
 /// @nodoc
@@ -92,7 +92,7 @@ class __$$_ArticleStateCopyWithImpl<$Res>
       articlesWithTag: null == articlesWithTag
           ? _value._articlesWithTag
           : articlesWithTag // ignore: cast_nullable_to_non_nullable
-              as List<ArticlesWithTag>,
+              as List<ArticlesWithTagUUID>,
       setCount: null == setCount
           ? _value.setCount
           : setCount // ignore: cast_nullable_to_non_nullable
@@ -105,14 +105,14 @@ class __$$_ArticleStateCopyWithImpl<$Res>
 
 class _$_ArticleState extends _ArticleState {
   const _$_ArticleState(
-      {required final List<ArticlesWithTag> articlesWithTag,
+      {required final List<ArticlesWithTagUUID> articlesWithTag,
       required this.setCount})
       : _articlesWithTag = articlesWithTag,
         super._();
 
-  final List<ArticlesWithTag> _articlesWithTag;
+  final List<ArticlesWithTagUUID> _articlesWithTag;
   @override
-  List<ArticlesWithTag> get articlesWithTag {
+  List<ArticlesWithTagUUID> get articlesWithTag {
     if (_articlesWithTag is EqualUnmodifiableListView) return _articlesWithTag;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_articlesWithTag);
@@ -150,12 +150,12 @@ class _$_ArticleState extends _ArticleState {
 
 abstract class _ArticleState extends ArticleState {
   const factory _ArticleState(
-      {required final List<ArticlesWithTag> articlesWithTag,
+      {required final List<ArticlesWithTagUUID> articlesWithTag,
       required final int setCount}) = _$_ArticleState;
   const _ArticleState._() : super._();
 
   @override
-  List<ArticlesWithTag> get articlesWithTag;
+  List<ArticlesWithTagUUID> get articlesWithTag;
   @override
   int get setCount;
   @override

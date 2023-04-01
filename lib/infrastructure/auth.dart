@@ -11,6 +11,7 @@ class IAuthRepository extends AuthRepository {
 
   final firebaseAuth = FirebaseAuth.instance;
   final firestore = FirebaseFirestore.instance;
+  final userDB = Firestore.users;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
@@ -64,7 +65,7 @@ class IAuthRepository extends AuthRepository {
 
       final User currentUser = firebaseAuth.currentUser!;
       assert(user.uid == currentUser.uid);
-      final docRef = Firestore.users.doc(user.uid);
+      final docRef = userDB.doc(user.uid);
       docRef.get().then(
             (value) => {
               if (!value.exists)
