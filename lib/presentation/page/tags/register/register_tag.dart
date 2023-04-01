@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/presentation/page/tags/register_tag/controller/register_tag_controller.dart';
+import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';

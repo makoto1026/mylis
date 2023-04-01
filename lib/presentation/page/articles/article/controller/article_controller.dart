@@ -22,11 +22,11 @@ class ArticleController extends StateNotifier<ArticleState> {
   TagRepository tagRepository;
 
   Future<void> initialized(List<Tag> tags) async {
-    final List<ArticlesWithTag> array = [];
+    final List<ArticlesWithTagUUID> array = [];
     for (Tag i in tags) {
       final res = await getList(i.uuid ?? "");
       array.add(
-        ArticlesWithTag(
+        ArticlesWithTagUUID(
           uuid: i.uuid ?? "",
           articles: res,
         ),
@@ -43,14 +43,14 @@ class ArticleController extends StateNotifier<ArticleState> {
     return articleRepository.getList("", tagUuid);
   }
 
-  List<Article> setArticlesWithTag(String tagUuid, int length) {
+  List<Article> setArticlesWithTagUUID(String tagUuid, int length) {
     if (state.articlesWithTag.isEmpty ||
         state.articlesWithTag.length == length) {
       return [];
     }
     final res = state.articlesWithTag.firstWhere(
       (e) => e.uuid == tagUuid,
-      orElse: () => ArticlesWithTag(
+      orElse: () => ArticlesWithTagUUID(
         uuid: "",
         articles: [],
       ),

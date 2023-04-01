@@ -9,11 +9,12 @@ class IUserRepository extends UserRepository {
   IUserRepository();
 
   final firestore = FirebaseFirestore.instance;
+  final userssDB = Firestore.users;
 
   @override
   Future<User> get(String uuid) async {
     const userId = "94Jrw17JegeWKqDkW2S5";
-    return await Firestore.users.doc(userId).get().then(
+    return await userssDB.doc(userId).get().then(
       (value) {
         final doc = value.data();
         return UserMapper.fromJSON(doc!);
@@ -28,7 +29,7 @@ class IUserRepository extends UserRepository {
       "password": password,
     };
     var id = "";
-    await Firestore.users
+    await userssDB
         .add(postData)
         .then(
           (value) => {

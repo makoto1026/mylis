@@ -2,7 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/tag.dart';
 import 'package:mylis/domain/repository/tag.dart';
 import 'package:mylis/infrastructure/tag.dart';
-import 'package:mylis/presentation/page/tags/register_tag/controller/register_tag_state.dart';
+import 'package:mylis/presentation/page/tags/register/controller/register_tag_state.dart';
 
 class RegisterTagController extends StateNotifier<RegisterTagState> {
   RegisterTagController({

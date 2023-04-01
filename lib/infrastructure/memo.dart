@@ -7,14 +7,14 @@ import 'package:mylis/infrastructure/mapper/memo_mapper.dart';
 class IMemoRepository extends MemoRepository {
   IMemoRepository();
 
-  final firestore = Firestore.users;
+  final userssDB = Firestore.users;
 
   @override
   Future<Memo> get(String userUuid, String memoUuid) async {
     const userId = "94Jrw17JegeWKqDkW2S5";
     const memoId = "ooQMDpswehs8ILe4FrnX";
 
-    return await firestore.doc("$userId/memos/$memoId").get().then(
+    return await userssDB.doc("$userId/memos/$memoId").get().then(
       (value) {
         final doc = value.data();
         return MemoMapper.fromJSON(doc!);
@@ -26,7 +26,7 @@ class IMemoRepository extends MemoRepository {
   Future<List<Memo>> getList(String userUuid) async {
     const userId = "94Jrw17JegeWKqDkW2S5";
     final List<Memo> memoList = [];
-    await firestore.doc(userId).collection("memos").get().then(
+    await userssDB.doc(userId).collection("memos").get().then(
       (querySnapshot) {
         for (var doc in querySnapshot.docs) {
           final memo = MemoMapper.fromJSON(doc.data());
@@ -47,8 +47,30 @@ class IMemoRepository extends MemoRepository {
       "updated_at": memo.updatedAt,
       "deleted_at": memo.deletedAt,
     };
+    await userssDB.doc(userId).collection("memos").add(postData);
+  }
 
-    await Firestore.users.doc(userId).collection("memos").add(postData);
+  @override
+  Future<void> update(Memo memo) async {
+    const userId = "94Jrw17JegeWKqDkW2S5";
+    final postData = {
+      "title": memo.title,
+      "body": memo.body,
+      "created_at": memo.createdAt,
+      "updated_at": memo.updatedAt,
+      "deleted_at": memo.deletedAt,
+    };
+    await userssDB
+        .doc(userId)
+        .collection("memos")
+        .doc(memo.uuid)
+        .update(postData);
+  }
+
+  @override
+  Future<void> delete(Memo memo) async {
+    const userId = "94Jrw17JegeWKqDkW2S5";
+    await userssDB.doc(userId).collection("memos").doc(memo.uuid).delete();
   }
 }
 
