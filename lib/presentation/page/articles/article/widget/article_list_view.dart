@@ -25,6 +25,7 @@ class ArticleListView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = useState<List<Article>>([]);
     final articlesController = useScrollController();
+    final isBack = useState(false);
 
     void _articleScrollListener() async {
       if (articlesController.offset >=
@@ -110,29 +111,48 @@ class ArticleListView extends HookConsumerWidget {
                                       ),
                                       TextButton(
                                         onPressed: () async => {
+                                          isBack.value = true,
                                           await ref
                                               .read(
                                                   loadingStateProvider.notifier)
                                               .startLoading(),
                                           // await ref
-                                          //     .read(deleteArticleController
+                                          //     .read(editArticleController
                                           //         .notifier)
                                           //     .delete(),
                                           // await ref
-                                          //     .read(deleteArticleController
+                                          //     .read(editArticleController
                                           //         .notifier)
                                           //     .refresh(),
-                                          await ref
-                                              .read(
-                                                  loadingStateProvider.notifier)
-                                              .stopLoading(),
-                                          Navigator.pop(context),
-                                          await showToast(message: "削除しました"),
+                                          // await ref
+                                          //     .read(
+                                          //         loadingStateProvider.notifier)
+                                          //     .stopLoading(),
+                                          // Navigator.pop(context),
+                                          // await showToast(message: "削除しました"),
+
+                                          Future.delayed(
+                                            const Duration(seconds: 3),
+                                            () async {
+                                              await ref
+                                                  .read(loadingStateProvider
+                                                      .notifier)
+                                                  .stopLoading();
+                                              await showToast(
+                                                  message: "削除しました");
+                                              // ignore: use_build_context_synchronously
+                                              Navigator.pop(context);
+                                            },
+                                          ),
                                         },
                                         child: const Text("はい"),
                                       ),
                                     ],
                                   );
+                                },
+                              ).whenComplete(
+                                () => {
+                                  isBack.value ? Navigator.pop(context) : null,
                                 },
                               ),
                             },

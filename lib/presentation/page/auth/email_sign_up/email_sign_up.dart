@@ -51,7 +51,6 @@ class EmailSignUpPage extends HookConsumerWidget {
                         onPressed: () => {
                           Navigator.pop(context),
                         },
-                        text: "戻る",
                       ),
                     ),
                   ),

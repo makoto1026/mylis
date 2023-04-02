@@ -63,7 +63,6 @@ class RegisterMemoPage extends HookConsumerWidget {
                           Navigator.pop(context),
                           ref.read(memoController.notifier).initialized(),
                         },
-                        text: "戻る",
                       ),
                     ),
                   ),

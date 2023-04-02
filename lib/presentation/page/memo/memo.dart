@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
+import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controller.dart';
 import 'package:mylis/presentation/page/memo/widget/memo_box.dart';
+import 'package:mylis/presentation/page/memo/widget/memo_detail_dialog.dart';
 import 'package:mylis/presentation/widget/select_action_dialog.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/router/router.dart';
@@ -16,7 +18,6 @@ class MemoPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final memosController = useScrollController();
-    final height = useState(70);
 
     void _articleScrollListener() async {
       if (memosController.offset >= memosController.position.maxScrollExtent &&
@@ -82,7 +83,16 @@ class MemoPage extends HookConsumerWidget {
                   state.memoList.length,
                   (index) => GestureDetector(
                     //TODO: メモをタップした時の挙動を考える
-                    onTap: () => {},
+                    onTap: () => {
+                      showDialog(
+                        context: context,
+                        barrierColor: ThemeColor.orange.withOpacity(0.5),
+                        builder: (context) => MemoDetailDialog(
+                          memo: state.memoList[index],
+                        ),
+                      ),
+                    },
+                    //TODO: 不要なら消す
                     onLongPress: () => {
                       showDialog(
                         context: context,
@@ -111,14 +121,12 @@ class MemoPage extends HookConsumerWidget {
                                         await ref
                                             .read(loadingStateProvider.notifier)
                                             .startLoading(),
-                                        // await ref
-                                        //     .read(deleteArticleController
-                                        //         .notifier)
-                                        //     .delete(),
-                                        // await ref
-                                        //     .read(deleteArticleController
-                                        //         .notifier)
-                                        //     .refresh(),
+                                        await ref
+                                            .read(editMemoController.notifier)
+                                            .delete(),
+                                        await ref
+                                            .read(editMemoController.notifier)
+                                            .refresh(),
                                         await ref
                                             .read(loadingStateProvider.notifier)
                                             .stopLoading(),

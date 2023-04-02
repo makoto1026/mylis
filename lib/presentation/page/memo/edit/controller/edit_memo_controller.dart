@@ -9,6 +9,7 @@ class EditMemoController extends StateNotifier<EditMemoState> {
     required this.memoRepository,
   }) : super(
           EditMemoState(
+            uuid: '',
             title: '',
             body: '',
             createdAt: DateTime.now(),
@@ -21,6 +22,7 @@ class EditMemoController extends StateNotifier<EditMemoState> {
 
   Future<void> setMemo(Memo memo) async {
     state = state.copyWith(
+      uuid: memo.uuid,
       title: memo.title,
       body: memo.body,
       createdAt: memo.createdAt,
@@ -41,6 +43,7 @@ class EditMemoController extends StateNotifier<EditMemoState> {
 
   Future<void> update() async {
     final memo = Memo(
+      uuid: state.uuid,
       title: state.title,
       body: state.body,
       createdAt: state.createdAt,
@@ -48,6 +51,10 @@ class EditMemoController extends StateNotifier<EditMemoState> {
       deletedAt: state.deletedAt ?? DateTime.now(),
     );
     await memoRepository.update(memo);
+  }
+
+  Future<void> delete() async {
+    await memoRepository.delete(state.uuid ?? "");
   }
 
   //TODO: refreshは必要なのか？ref.refresh()でいける？

@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$EditMemoState {
+  String? get uuid => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get body => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -35,7 +36,8 @@ abstract class $EditMemoStateCopyWith<$Res> {
       _$EditMemoStateCopyWithImpl<$Res, EditMemoState>;
   @useResult
   $Res call(
-      {String title,
+      {String? uuid,
+      String title,
       String body,
       DateTime createdAt,
       DateTime updatedAt,
@@ -56,6 +58,7 @@ class _$EditMemoStateCopyWithImpl<$Res, $Val extends EditMemoState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uuid = freezed,
     Object? title = null,
     Object? body = null,
     Object? createdAt = null,
@@ -64,6 +67,10 @@ class _$EditMemoStateCopyWithImpl<$Res, $Val extends EditMemoState>
     Object? memo = freezed,
   }) {
     return _then(_value.copyWith(
+      uuid: freezed == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -101,7 +108,8 @@ abstract class _$$_EditMemoStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String title,
+      {String? uuid,
+      String title,
       String body,
       DateTime createdAt,
       DateTime updatedAt,
@@ -120,6 +128,7 @@ class __$$_EditMemoStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uuid = freezed,
     Object? title = null,
     Object? body = null,
     Object? createdAt = null,
@@ -128,6 +137,10 @@ class __$$_EditMemoStateCopyWithImpl<$Res>
     Object? memo = freezed,
   }) {
     return _then(_$_EditMemoState(
+      uuid: freezed == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -160,7 +173,8 @@ class __$$_EditMemoStateCopyWithImpl<$Res>
 
 class _$_EditMemoState extends _EditMemoState {
   const _$_EditMemoState(
-      {required this.title,
+      {this.uuid,
+      required this.title,
       required this.body,
       required this.createdAt,
       required this.updatedAt,
@@ -168,6 +182,8 @@ class _$_EditMemoState extends _EditMemoState {
       this.memo})
       : super._();
 
+  @override
+  final String? uuid;
   @override
   final String title;
   @override
@@ -183,7 +199,7 @@ class _$_EditMemoState extends _EditMemoState {
 
   @override
   String toString() {
-    return 'EditMemoState(title: $title, body: $body, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, memo: $memo)';
+    return 'EditMemoState(uuid: $uuid, title: $title, body: $body, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, memo: $memo)';
   }
 
   @override
@@ -191,6 +207,7 @@ class _$_EditMemoState extends _EditMemoState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_EditMemoState &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.body, body) || other.body == body) &&
             (identical(other.createdAt, createdAt) ||
@@ -204,7 +221,7 @@ class _$_EditMemoState extends _EditMemoState {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, title, body, createdAt, updatedAt, deletedAt, memo);
+      runtimeType, uuid, title, body, createdAt, updatedAt, deletedAt, memo);
 
   @JsonKey(ignore: true)
   @override
@@ -215,7 +232,8 @@ class _$_EditMemoState extends _EditMemoState {
 
 abstract class _EditMemoState extends EditMemoState {
   const factory _EditMemoState(
-      {required final String title,
+      {final String? uuid,
+      required final String title,
       required final String body,
       required final DateTime createdAt,
       required final DateTime updatedAt,
@@ -223,6 +241,8 @@ abstract class _EditMemoState extends EditMemoState {
       final String? memo}) = _$_EditMemoState;
   const _EditMemoState._() : super._();
 
+  @override
+  String? get uuid;
   @override
   String get title;
   @override

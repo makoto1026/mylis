@@ -6,6 +6,7 @@ part 'edit_memo_state.freezed.dart';
 @freezed
 class EditMemoState with _$EditMemoState {
   const factory EditMemoState({
+    String? uuid,
     required String title,
     required String body,
     required DateTime createdAt,

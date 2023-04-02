@@ -49,6 +49,10 @@ class EditTagController extends StateNotifier<EditTagState> {
     await tagRepository.update(tag);
   }
 
+  Future<void> delete() async {
+    await tagRepository.delete(state.uuid ?? "");
+  }
+
   Future<void> refresh() async {
     final tag = Tag(
       name: "",
