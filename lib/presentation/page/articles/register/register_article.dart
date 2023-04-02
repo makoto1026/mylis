@@ -150,7 +150,6 @@ class RegisterArticlePage extends HookConsumerWidget {
                                     .read(receiveSharingIntentProvider.notifier)
                                     .initialized(),
                               },
-                              text: "戻る",
                             ),
                           ),
                         ),

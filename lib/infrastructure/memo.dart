@@ -68,9 +68,9 @@ class IMemoRepository extends MemoRepository {
   }
 
   @override
-  Future<void> delete(Memo memo) async {
+  Future<void> delete(String uuid) async {
     const userId = "94Jrw17JegeWKqDkW2S5";
-    await userssDB.doc(userId).collection("memos").doc(memo.uuid).delete();
+    await userssDB.doc(userId).collection("memos").doc(uuid).delete();
   }
 }
 

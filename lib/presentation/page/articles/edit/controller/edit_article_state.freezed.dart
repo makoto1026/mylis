@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$EditArticleState {
+  String? get uuid => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
   String? get memo => throw _privateConstructorUsedError;
@@ -33,7 +34,13 @@ abstract class $EditArticleStateCopyWith<$Res> {
           EditArticleState value, $Res Function(EditArticleState) then) =
       _$EditArticleStateCopyWithImpl<$Res, EditArticleState>;
   @useResult
-  $Res call({String title, String url, String? memo, Tag? tag, int setCount});
+  $Res call(
+      {String? uuid,
+      String title,
+      String url,
+      String? memo,
+      Tag? tag,
+      int setCount});
 }
 
 /// @nodoc
@@ -49,6 +56,7 @@ class _$EditArticleStateCopyWithImpl<$Res, $Val extends EditArticleState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uuid = freezed,
     Object? title = null,
     Object? url = null,
     Object? memo = freezed,
@@ -56,6 +64,10 @@ class _$EditArticleStateCopyWithImpl<$Res, $Val extends EditArticleState>
     Object? setCount = null,
   }) {
     return _then(_value.copyWith(
+      uuid: freezed == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -88,7 +100,13 @@ abstract class _$$_EditArticleStateCopyWith<$Res>
       __$$_EditArticleStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String title, String url, String? memo, Tag? tag, int setCount});
+  $Res call(
+      {String? uuid,
+      String title,
+      String url,
+      String? memo,
+      Tag? tag,
+      int setCount});
 }
 
 /// @nodoc
@@ -102,6 +120,7 @@ class __$$_EditArticleStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uuid = freezed,
     Object? title = null,
     Object? url = null,
     Object? memo = freezed,
@@ -109,6 +128,10 @@ class __$$_EditArticleStateCopyWithImpl<$Res>
     Object? setCount = null,
   }) {
     return _then(_$_EditArticleState(
+      uuid: freezed == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -137,13 +160,16 @@ class __$$_EditArticleStateCopyWithImpl<$Res>
 
 class _$_EditArticleState extends _EditArticleState {
   const _$_EditArticleState(
-      {required this.title,
+      {this.uuid,
+      required this.title,
       required this.url,
       this.memo,
       this.tag,
       required this.setCount})
       : super._();
 
+  @override
+  final String? uuid;
   @override
   final String title;
   @override
@@ -157,7 +183,7 @@ class _$_EditArticleState extends _EditArticleState {
 
   @override
   String toString() {
-    return 'EditArticleState(title: $title, url: $url, memo: $memo, tag: $tag, setCount: $setCount)';
+    return 'EditArticleState(uuid: $uuid, title: $title, url: $url, memo: $memo, tag: $tag, setCount: $setCount)';
   }
 
   @override
@@ -165,6 +191,7 @@ class _$_EditArticleState extends _EditArticleState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_EditArticleState &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.memo, memo) || other.memo == memo) &&
@@ -174,7 +201,8 @@ class _$_EditArticleState extends _EditArticleState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, title, url, memo, tag, setCount);
+  int get hashCode =>
+      Object.hash(runtimeType, uuid, title, url, memo, tag, setCount);
 
   @JsonKey(ignore: true)
   @override
@@ -185,13 +213,16 @@ class _$_EditArticleState extends _EditArticleState {
 
 abstract class _EditArticleState extends EditArticleState {
   const factory _EditArticleState(
-      {required final String title,
+      {final String? uuid,
+      required final String title,
       required final String url,
       final String? memo,
       final Tag? tag,
       required final int setCount}) = _$_EditArticleState;
   const _EditArticleState._() : super._();
 
+  @override
+  String? get uuid;
   @override
   String get title;
   @override

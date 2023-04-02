@@ -7,6 +7,7 @@ part 'edit_article_state.freezed.dart';
 @freezed
 class EditArticleState with _$EditArticleState {
   const factory EditArticleState({
+    String? uuid,
     required String title,
     required String url,
     String? memo,
