@@ -19,7 +19,20 @@ class EditMemoController extends StateNotifier<EditMemoState> {
 
   MemoRepository memoRepository;
 
-  void setMemo({String? title, String? body}) {
+  Future<void> setMemo(Memo memo) async {
+    state = state.copyWith(
+      title: memo.title,
+      body: memo.body,
+      createdAt: memo.createdAt,
+      updatedAt: memo.updatedAt,
+      deletedAt: memo.deletedAt,
+    );
+  }
+
+  Future<void> setUpdateValue({
+    String? title,
+    String? body,
+  }) async {
     state = state.copyWith(
       title: title ?? state.title,
       body: body ?? state.body,
@@ -31,12 +44,13 @@ class EditMemoController extends StateNotifier<EditMemoState> {
       title: state.title,
       body: state.body,
       createdAt: state.createdAt,
-      updatedAt: state.updatedAt,
+      updatedAt: DateTime.now(),
       deletedAt: state.deletedAt ?? DateTime.now(),
     );
     await memoRepository.update(memo);
   }
 
+  //TODO: refreshは必要なのか？ref.refresh()でいける？
   Future<void> refresh() async {
     state = state.copyWith(
       title: "",

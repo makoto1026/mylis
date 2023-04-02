@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/articles/edit/edit_article.dart';
 import 'package:mylis/presentation/page/articles/register/register_article.dart';
 import 'package:mylis/presentation/page/auth/auth_page.dart';
 import 'package:mylis/presentation/page/auth/email_sign_in/email_sign_in.dart';
 import 'package:mylis/presentation/page/auth/email_sign_up/email_sign_up.dart';
+import 'package:mylis/presentation/page/memo/edit/edit_memo.dart';
 import 'package:mylis/presentation/page/memo/register/register_memo.dart';
 import 'package:mylis/presentation/page/my_page/my_page.dart';
 import 'package:mylis/presentation/page/memo/memo.dart';
@@ -28,6 +30,9 @@ final routerProvider = Provider((ref) => <String, WidgetBuilder>{
       RouteNames.registerMemo.path: (BuildContext context) =>
           const RegisterMemoPage(),
       RouteNames.myPage.path: (BuildContext context) => const MyPage(),
+      RouteNames.editArticle.path: (BuildContext context) =>
+          const EditArticlePage(),
+      RouteNames.editMemo.path: (BuildContext context) => const EditMemoPage(),
       RouteNames.editTagList.path: (BuildContext context) =>
           const EditTagListPage(),
       RouteNames.editTag.path: (BuildContext context) => const EditTagPage(),
@@ -47,6 +52,8 @@ enum RouteNames {
   registerArticle,
   registerMemo,
   myPage,
+  editArticle,
+  editMemo,
   editTagList,
   editTag,
   privacyPolicy,

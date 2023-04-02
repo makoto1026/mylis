@@ -56,15 +56,16 @@ class EditTagPage extends HookConsumerWidget {
           horizontal: 30,
         ),
         child: Center(
-            child: TextField(
-          onChanged: (value) {
-            ref.read(editTagController.notifier).setName(value);
-          },
-          decoration: InputDecoration(
-            labelText: tag.name,
-            border: const OutlineInputBorder(),
+          child: TextField(
+            onChanged: (value) {
+              ref.read(editTagController.notifier).setName(value);
+            },
+            decoration: InputDecoration(
+              labelText: tag.name,
+              border: const OutlineInputBorder(),
+            ),
           ),
-        )),
+        ),
       ),
     );
   }

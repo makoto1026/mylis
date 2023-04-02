@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/domain/entities/article.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_box.dart';
 import 'package:mylis/presentation/page/tags/register/register_tag.dart';
+import 'package:mylis/presentation/widget/select_action_dialog.dart';
+import 'package:mylis/provider/loading_state_provider.dart';
+import 'package:mylis/router/router.dart';
+import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/snippets/url_launcher.dart';
+import 'package:mylis/theme/color.dart';
 
 class ArticleListView extends HookConsumerWidget {
   const ArticleListView({
@@ -17,7 +23,7 @@ class ArticleListView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = useState([]);
+    final state = useState<List<Article>>([]);
     final articlesController = useScrollController();
 
     void _articleScrollListener() async {
@@ -52,7 +58,7 @@ class ArticleListView extends HookConsumerWidget {
     useValueChanged(
       articlesList.setCount,
       (a, b) async {
-        final res = tagUuid == ""
+        final List<Article> res = tagUuid == ""
             ? []
             : ref
                 .watch(articleController.notifier)
@@ -80,6 +86,58 @@ class ArticleListView extends HookConsumerWidget {
                         onTap: () {
                           openUrl(url: state.value[index].url);
                         },
+                        onLongPress: () => showDialog(
+                          context: context,
+                          barrierColor: ThemeColor.orange.withOpacity(0.5),
+                          builder: (context) => SelectActionDialog(
+                            onPressedWithEdit: () => {
+                              Navigator.pushNamed(
+                                context,
+                                RouteNames.editArticle.path,
+                                arguments: state.value[index],
+                              ),
+                            },
+                            onPressedWithDelete: () => {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("本当に削除しますか？"),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text("いいえ"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async => {
+                                          await ref
+                                              .read(
+                                                  loadingStateProvider.notifier)
+                                              .startLoading(),
+                                          // await ref
+                                          //     .read(deleteArticleController
+                                          //         .notifier)
+                                          //     .delete(),
+                                          // await ref
+                                          //     .read(deleteArticleController
+                                          //         .notifier)
+                                          //     .refresh(),
+                                          await ref
+                                              .read(
+                                                  loadingStateProvider.notifier)
+                                              .stopLoading(),
+                                          Navigator.pop(context),
+                                          await showToast(message: "削除しました"),
+                                        },
+                                        child: const Text("はい"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            },
+                          ),
+                        ),
                         child: ArticleBox(
                           item: state.value[index],
                         ),
