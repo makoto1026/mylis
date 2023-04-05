@@ -58,13 +58,15 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBFZx5TWmyi-URN0vatwNw6nmxCrrHFpZ8',
-    appId: '1:911848675860:ios:5356f7c43a6d85ac94a501',
-    messagingSenderId: '911848675860',
-    projectId: 'mylis-dev',
-    storageBucket: 'mylis-dev.appspot.com',
+    apiKey: 'AIzaSyDg-N-cTLVZyXbbEwNZGgOqZD_ynjWwlXE',
+    appId: '1:354565385108:ios:f77ae15711bff8be963d81',
+    messagingSenderId: '354565385108',
+    projectId: 'mylis-prd',
+    storageBucket: 'mylis-prd.appspot.com',
+    androidClientId:
+        '354565385108-89p6htlbfqq6toe7rfbbt944ganscghn.apps.googleusercontent.com',
     iosClientId:
-        '911848675860-d45lo3hleih3gevm3ium7uohtj6mbgla.apps.googleusercontent.com',
-    iosBundleId: 'com.example.mylis',
+        '354565385108-924ham2gucchip58hck1342a0795q1u5.apps.googleusercontent.com',
+    iosBundleId: 'com.mylis',
   );
 }

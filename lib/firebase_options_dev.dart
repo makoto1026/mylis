@@ -59,11 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBFZx5TWmyi-URN0vatwNw6nmxCrrHFpZ8',
-    appId: '1:911848675860:ios:5356f7c43a6d85ac94a501',
+    appId: '1:911848675860:ios:4525b5332711038194a501',
     messagingSenderId: '911848675860',
     projectId: 'mylis-dev',
     storageBucket: 'mylis-dev.appspot.com',
-    iosClientId: '911848675860-d45lo3hleih3gevm3ium7uohtj6mbgla.apps.googleusercontent.com',
-    iosBundleId: 'com.example.mylis',
+    iosClientId:
+        '911848675860-jd4e5hpah45c65aoo6qo6sljnrb1pjrl.apps.googleusercontent.com',
+    iosBundleId: 'com.mylis.dev',
   );
 }
