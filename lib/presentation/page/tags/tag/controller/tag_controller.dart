@@ -23,15 +23,17 @@ class TagController extends StateNotifier<TagState> {
 
   TagRepository tagRepository;
 
-  Future<void> initialized() async {
-    await getList();
+  Future<void> initialized(String? memberId) async {
+    await getList(memberId ?? '');
     await setTag(state.tagList[0]);
   }
 
-  Future<void> getList() async {
-    final tagList = await tagRepository.getList("");
+  Future<void> getList(String memberId) async {
+    final tagList = await tagRepository.getList(memberId);
+
     tagList.add(
       Tag(
+        uuid: "",
         name: "タグ +",
         position: tagList.length + 1,
         createdAt: DateTime.now(),
@@ -45,7 +47,7 @@ class TagController extends StateNotifier<TagState> {
     state = state.copyWith(tag: tag);
   }
 
-  Future<void> refresh() async {
+  Future<void> refresh(String memberId) async {
     final tag = Tag(
       name: "",
       position: 0,
@@ -56,7 +58,7 @@ class TagController extends StateNotifier<TagState> {
       uuid: "",
       tag: tag,
     );
-    await getList();
+    await getList(memberId);
     await setTag(state.tagList[0]);
   }
 }

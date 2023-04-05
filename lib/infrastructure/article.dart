@@ -6,6 +6,9 @@ import 'package:mylis/infrastructure/firestore/firestore.dart';
 import 'package:mylis/infrastructure/mapper/article_mapper.dart';
 
 // TODO: 各APIのエラーハンドリング
+// TODO: 各メソッドに渡しているidが必要かどうか
+// TODO: articleにtagを含ませるかどうか
+// TODO: 各stateにuuidを含められないのか？articleやtag、memoのuuidが空になっているので、今は個別で渡さないといけない
 
 class IArticleRepository extends ArticleRepository {
   IArticleRepository();
@@ -14,35 +17,29 @@ class IArticleRepository extends ArticleRepository {
   final userDB = Firestore.users;
 
   @override
-  Future<Article> get(
-      String userUuid, String tagUuid, String articleUuid) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
-    const tagId = "PNdPodf7XX6lsrHfyNHB";
-    const articleId = "ooQMDpswehs8ILe4FrnX";
-
+  Future<Article> get(String memberId, String tagId, String articleUuid) async {
     return await userDB
-        .doc("$userId/tags/$tagId/articles/$articleId")
+        .doc("$memberId/tags/$tagId/articles/$articleUuid")
         .get()
         .then(
       (value) {
         final doc = value.data();
-        return ArticleMapper.fromJSON(doc!);
+        return ArticleMapper.fromJSON(doc!, articleUuid);
       },
     );
   }
 
   @override
-  Future<List<Article>> getList(String userUuid, String tagUuid) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
+  Future<List<Article>> getList(String memberId, String tagId) async {
     final List<Article> articleList = [];
     await userDB
-        .doc("$userId/tags/$tagUuid/")
+        .doc("$memberId/tags/$tagId/")
         .collection("articles")
         .get()
         .then(
       (querySnapshot) {
         for (var doc in querySnapshot.docs) {
-          final article = ArticleMapper.fromJSON(doc.data());
+          final article = ArticleMapper.fromJSON(doc.data(), doc.id);
           articleList.add(article);
         }
       },
@@ -51,8 +48,7 @@ class IArticleRepository extends ArticleRepository {
   }
 
   @override
-  Future<void> create(Article article) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
+  Future<void> create(String memberId, Article article) async {
     final tagId = article.tag?.uuid;
     final postData = {
       "title": article.title,
@@ -62,15 +58,13 @@ class IArticleRepository extends ArticleRepository {
     };
 
     await userDB
-        .doc("$userId/tags/$tagId")
+        .doc("$memberId/tags/$tagId")
         .collection("articles")
         .add(postData);
   }
 
   @override
-  Future<void> update(Article article) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
-    final tagId = article.tag?.uuid;
+  Future<void> update(String memberId, Article article, String tagId) async {
     final postData = {
       "title": article.title,
       "url": article.url,
@@ -79,16 +73,13 @@ class IArticleRepository extends ArticleRepository {
     };
 
     await userDB
-        .doc("$userId/tags/$tagId/articles/${article.uuid}}")
+        .doc("$memberId/tags/$tagId/articles/${article.uuid}")
         .update(postData);
   }
 
   @override
-  Future<void> delete(Article article) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
-    final tagId = article.tag?.uuid;
-
-    await userDB.doc("$userId/tags/$tagId/articles/${article.uuid}}").delete();
+  Future<void> delete(String memberId, Article article, String tagId) async {
+    await userDB.doc("$memberId/tags/$tagId/articles/${article.uuid}").delete();
   }
 }
 

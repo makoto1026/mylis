@@ -21,13 +21,13 @@ class ArticleController extends StateNotifier<ArticleState> {
   ArticleRepository articleRepository;
   TagRepository tagRepository;
 
-  Future<void> initialized(List<Tag> tags) async {
+  Future<void> initialized(String memberId, List<Tag> tags) async {
     final List<ArticlesWithTagUUID> array = [];
     for (Tag i in tags) {
-      final res = await getList(i.uuid ?? "");
+      final res = await getList(memberId, i.uuid ?? "");
       array.add(
         ArticlesWithTagUUID(
-          uuid: i.uuid ?? "",
+          tagId: i.uuid ?? "",
           articles: res,
         ),
       );
@@ -36,30 +36,32 @@ class ArticleController extends StateNotifier<ArticleState> {
     await setCount();
   }
 
-  Future<List<Article>> getList(String tagUuid) async {
-    if (tagUuid == "") {
+  Future<List<Article>> getList(String memberId, String tagId) async {
+    if (tagId == "") {
       return [];
     }
-    return articleRepository.getList("", tagUuid);
+    return articleRepository.getList(memberId, tagId);
   }
 
-  List<Article> setArticlesWithTagUUID(String tagUuid, int length) {
+  Future<ArticlesWithTagUUID> setArticlesWithTagUUID(
+      String tagId, int length) async {
     if (state.articlesWithTag.isEmpty ||
         state.articlesWithTag.length == length) {
-      return [];
+      return ArticlesWithTagUUID(articles: [], tagId: "");
     }
     final res = state.articlesWithTag.firstWhere(
-      (e) => e.uuid == tagUuid,
+      (e) => e.tagId == tagId,
       orElse: () => ArticlesWithTagUUID(
-        uuid: "",
+        tagId: "",
         articles: [],
       ),
     );
-    return res.articles;
+
+    return res;
   }
 
-  Future<Article> getArticle(String tagUuid) async {
-    return articleRepository.get("", tagUuid, tagUuid);
+  Future<Article> getArticle(String memberId, String tagId) async {
+    return articleRepository.get(memberId, tagId, tagId);
   }
 
   Future<void> setCount() async {

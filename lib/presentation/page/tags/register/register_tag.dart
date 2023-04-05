@@ -5,6 +5,7 @@ import 'package:mylis/presentation/page/tags/register/controller/register_tag_co
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 
@@ -13,6 +14,8 @@ class RegisterTagView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 30,
@@ -36,9 +39,13 @@ class RegisterTagView extends HookConsumerWidget {
                     await ref
                         .read(loadingStateProvider.notifier)
                         .startLoading(),
-                    await ref.read(registerTagController.notifier).create(),
+                    await ref
+                        .read(registerTagController.notifier)
+                        .create(memberId: currentMemberId),
                     await ref.read(registerTagController.notifier).refresh(),
-                    await ref.read(tagController.notifier).refresh(),
+                    await ref
+                        .read(tagController.notifier)
+                        .refresh(currentMemberId),
                     await ref.read(loadingStateProvider.notifier).stopLoading(),
                     await showToast(message: "タグを追加しました"),
                   },

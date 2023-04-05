@@ -24,15 +24,14 @@ class RegisterMemoController extends StateNotifier<RegisterMemoState> {
         state.copyWith(title: title ?? state.title, body: body ?? state.body);
   }
 
-  Future<void> create() async {
+  Future<void> create(String memberId) async {
     final memo = Memo(
       title: state.title,
       body: state.body,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
-      deletedAt: DateTime.now(),
     );
-    await memoRepository.create(memo);
+    await memoRepository.create(memberId, memo);
   }
 }
 

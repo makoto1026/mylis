@@ -1,15 +1,16 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/domain/entities/user.dart';
-import 'package:mylis/domain/repository/user.dart';
-import 'package:mylis/infrastructure/user.dart';
+import 'package:mylis/domain/entities/member.dart';
+import 'package:mylis/domain/repository/member.dart';
+import 'package:mylis/infrastructure/member.dart';
 import 'package:mylis/presentation/page/my_page/controller/my_page_state.dart';
 
 class UserController extends StateNotifier<MyPageState> {
   UserController({
-    required this.userRepository,
+    required this.memberRepository,
   }) : super(
           MyPageState(
-            user: User(
+            member: Member(
+              uuid: '',
               name: '',
               sex: 0,
               lineUuid: '',
@@ -22,18 +23,15 @@ class UserController extends StateNotifier<MyPageState> {
           ),
         );
 
-  UserRepository userRepository;
+  MemberRepository memberRepository;
 
-  Future<void> initialized() async {
-    await get();
-  }
-
-  Future<void> get() async {
-    final user = await userRepository.get("");
-    state = state.copyWith(user: user);
+  Future<void> get(String uuid) async {
+    final member = await memberRepository.get(uuid);
+    state = state.copyWith(member: member);
   }
 }
 
 final userController = StateNotifierProvider<UserController, MyPageState>(
-  (ref) => UserController(userRepository: ref.watch(userRepositoryProvider)),
+  (ref) =>
+      UserController(memberRepository: ref.watch(memberRepositoryProvider)),
 );

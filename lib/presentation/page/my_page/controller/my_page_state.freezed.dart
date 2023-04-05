@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MyPageState {
-  User get user => throw _privateConstructorUsedError;
+  Member get member => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MyPageStateCopyWith<MyPageState> get copyWith =>
@@ -29,7 +29,7 @@ abstract class $MyPageStateCopyWith<$Res> {
           MyPageState value, $Res Function(MyPageState) then) =
       _$MyPageStateCopyWithImpl<$Res, MyPageState>;
   @useResult
-  $Res call({User user});
+  $Res call({Member member});
 }
 
 /// @nodoc
@@ -45,13 +45,13 @@ class _$MyPageStateCopyWithImpl<$Res, $Val extends MyPageState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = null,
+    Object? member = null,
   }) {
     return _then(_value.copyWith(
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User,
+      member: null == member
+          ? _value.member
+          : member // ignore: cast_nullable_to_non_nullable
+              as Member,
     ) as $Val);
   }
 }
@@ -64,7 +64,7 @@ abstract class _$$_MyPageStateCopyWith<$Res>
       __$$_MyPageStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({User user});
+  $Res call({Member member});
 }
 
 /// @nodoc
@@ -78,13 +78,13 @@ class __$$_MyPageStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = null,
+    Object? member = null,
   }) {
     return _then(_$_MyPageState(
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User,
+      member: null == member
+          ? _value.member
+          : member // ignore: cast_nullable_to_non_nullable
+              as Member,
     ));
   }
 }
@@ -92,14 +92,14 @@ class __$$_MyPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_MyPageState extends _MyPageState {
-  const _$_MyPageState({required this.user}) : super._();
+  const _$_MyPageState({required this.member}) : super._();
 
   @override
-  final User user;
+  final Member member;
 
   @override
   String toString() {
-    return 'MyPageState(user: $user)';
+    return 'MyPageState(member: $member)';
   }
 
   @override
@@ -107,11 +107,11 @@ class _$_MyPageState extends _MyPageState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MyPageState &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.member, member) || other.member == member));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user);
+  int get hashCode => Object.hash(runtimeType, member);
 
   @JsonKey(ignore: true)
   @override
@@ -121,11 +121,11 @@ class _$_MyPageState extends _MyPageState {
 }
 
 abstract class _MyPageState extends MyPageState {
-  const factory _MyPageState({required final User user}) = _$_MyPageState;
+  const factory _MyPageState({required final Member member}) = _$_MyPageState;
   const _MyPageState._() : super._();
 
   @override
-  User get user;
+  Member get member;
   @override
   @JsonKey(ignore: true)
   _$$_MyPageStateCopyWith<_$_MyPageState> get copyWith =>

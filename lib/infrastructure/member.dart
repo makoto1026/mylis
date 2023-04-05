@@ -1,23 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/domain/entities/user.dart';
-import 'package:mylis/domain/repository/user.dart';
+import 'package:mylis/domain/entities/member.dart';
+import 'package:mylis/domain/repository/member.dart';
 import 'package:mylis/infrastructure/firestore/firestore.dart';
-import 'package:mylis/infrastructure/mapper/user_mapper.dart';
+import 'package:mylis/infrastructure/mapper/member_mapper.dart';
 
-class IUserRepository extends UserRepository {
-  IUserRepository();
+class IMemberRepository extends MemberRepository {
+  IMemberRepository();
 
   final firestore = FirebaseFirestore.instance;
-  final userssDB = Firestore.users;
+  final usersDB = Firestore.users;
 
   @override
-  Future<User> get(String uuid) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
-    return await userssDB.doc(userId).get().then(
+  Future<Member> get(String uuid) async {
+    return await usersDB.doc(uuid).get().then(
       (value) {
         final doc = value.data();
-        return UserMapper.fromJSON(doc!);
+        return MemberMapper.fromJSON(doc!, uuid);
       },
     );
   }
@@ -27,9 +26,11 @@ class IUserRepository extends UserRepository {
     final postData = {
       "email": email,
       "password": password,
+      "created_at": DateTime.now(),
+      "updated_at": DateTime.now(),
     };
     var id = "";
-    await userssDB
+    await usersDB
         .add(postData)
         .then(
           (value) => {
@@ -43,5 +44,5 @@ class IUserRepository extends UserRepository {
   }
 }
 
-final userRepositoryProvider =
-    Provider<IUserRepository>((ref) => IUserRepository());
+final memberRepositoryProvider =
+    Provider<IMemberRepository>((ref) => IMemberRepository());

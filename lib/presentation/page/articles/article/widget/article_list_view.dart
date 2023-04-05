@@ -5,25 +5,35 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/article.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_box.dart';
+import 'package:mylis/presentation/page/articles/edit/controller/edit_article_controller.dart';
 import 'package:mylis/presentation/page/tags/register/register_tag.dart';
 import 'package:mylis/presentation/widget/select_action_dialog.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/snippets/url_launcher.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:tuple/tuple.dart';
 
 class ArticleListView extends HookConsumerWidget {
   const ArticleListView({
-    required this.tagUuid,
+    required this.tagId,
     Key? key,
   }) : super(key: key);
 
-  final String tagUuid;
+  final String tagId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = useState<List<Article>>([]);
+    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+
+    final state = useState<ArticlesWithTagUUID>(
+      ArticlesWithTagUUID(
+        articles: [],
+        tagId: tagId,
+      ),
+    );
     final articlesController = useScrollController();
     final isBack = useState(false);
 
@@ -44,11 +54,12 @@ class ArticleListView extends HookConsumerWidget {
     useEffect(() {
       () async {
         SchedulerBinding.instance.addPostFrameCallback((_) async {
-          state.value = tagUuid == ""
-              ? []
-              : ref
+          final emptyRes = ArticlesWithTagUUID(articles: [], tagId: "");
+          state.value = tagId == ""
+              ? emptyRes
+              : await ref
                   .watch(articleController.notifier)
-                  .setArticlesWithTagUUID(tagUuid, state.value.length);
+                  .setArticlesWithTagUUID(tagId, state.value.articles.length);
         });
 
         articlesController.addListener(_articleScrollListener);
@@ -59,33 +70,35 @@ class ArticleListView extends HookConsumerWidget {
     useValueChanged(
       articlesList.setCount,
       (a, b) async {
-        final List<Article> res = tagUuid == ""
-            ? []
-            : ref
+        final emptyRes = ArticlesWithTagUUID(articles: [], tagId: "");
+
+        final ArticlesWithTagUUID res = tagId == ""
+            ? emptyRes
+            : await ref
                 .watch(articleController.notifier)
-                .setArticlesWithTagUUID(tagUuid, state.value.length);
-        if (res.isNotEmpty) {
+                .setArticlesWithTagUUID(tagId, state.value.articles.length);
+        if (res.articles.isNotEmpty) {
           state.value = res;
         }
       },
     );
 
-    return tagUuid == ""
+    return tagId == ""
         ? const RegisterTagView()
         : Container(
             color: const Color.fromARGB(255, 236, 236, 236),
             padding: const EdgeInsets.all(10),
-            child: state.value.isNotEmpty
+            child: state.value.articles.isNotEmpty
                 ? GridView.count(
                     controller: articlesController,
                     crossAxisCount: 1,
                     physics: const ClampingScrollPhysics(),
                     childAspectRatio: 4.0,
                     children: List.generate(
-                      state.value.length,
+                      state.value.articles.length,
                       (index) => GestureDetector(
                         onTap: () {
-                          openUrl(url: state.value[index].url);
+                          openUrl(url: state.value.articles[index].url);
                         },
                         onLongPress: () => showDialog(
                           context: context,
@@ -95,7 +108,8 @@ class ArticleListView extends HookConsumerWidget {
                               Navigator.pushNamed(
                                 context,
                                 RouteNames.editArticle.path,
-                                arguments: state.value[index],
+                                arguments:
+                                    Tuple2(state.value.articles[index], tagId),
                               ),
                             },
                             onPressedWithDelete: () => {
@@ -116,34 +130,24 @@ class ArticleListView extends HookConsumerWidget {
                                               .read(
                                                   loadingStateProvider.notifier)
                                               .startLoading(),
-                                          // await ref
-                                          //     .read(editArticleController
-                                          //         .notifier)
-                                          //     .delete(),
-                                          // await ref
-                                          //     .read(editArticleController
-                                          //         .notifier)
-                                          //     .refresh(),
-                                          // await ref
-                                          //     .read(
-                                          //         loadingStateProvider.notifier)
-                                          //     .stopLoading(),
-                                          // Navigator.pop(context),
-                                          // await showToast(message: "削除しました"),
-
-                                          Future.delayed(
-                                            const Duration(seconds: 3),
-                                            () async {
-                                              await ref
-                                                  .read(loadingStateProvider
-                                                      .notifier)
-                                                  .stopLoading();
-                                              await showToast(
-                                                  message: "削除しました");
-                                              // ignore: use_build_context_synchronously
-                                              Navigator.pop(context);
-                                            },
-                                          ),
+                                          await ref
+                                              .read(editArticleController
+                                                  .notifier)
+                                              .delete(
+                                                currentMemberId,
+                                                state.value.articles[index],
+                                                tagId,
+                                              ),
+                                          await ref
+                                              .read(editArticleController
+                                                  .notifier)
+                                              .refresh(),
+                                          await ref
+                                              .read(
+                                                  loadingStateProvider.notifier)
+                                              .stopLoading(),
+                                          Navigator.pop(context),
+                                          await showToast(message: "削除しました"),
                                         },
                                         child: const Text("はい"),
                                       ),
@@ -159,7 +163,7 @@ class ArticleListView extends HookConsumerWidget {
                           ),
                         ),
                         child: ArticleBox(
-                          item: state.value[index],
+                          item: state.value.articles[index],
                         ),
                       ),
                     ).toList(),

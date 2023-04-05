@@ -50,11 +50,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyADAZFqD-4hZKzkU0gsAIbInUIClMPTyIY',
-    appId: '1:911848675860:android:570fce6f2afb2b2c94a501',
+    apiKey: 'AIzaSyCmXfzOwzAF6u6nKNPR5dxail5axXGLsYk',
+    appId: '1:354565385108:android:87ffc8c50b0caa20963d81',
     messagingSenderId: '911848675860',
-    projectId: 'mylis-dev',
-    storageBucket: 'mylis-dev.appspot.com',
+    projectId: 'mylis-prd',
+    storageBucket: 'mylis-prd.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

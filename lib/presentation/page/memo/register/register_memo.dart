@@ -6,6 +6,7 @@ import 'package:mylis/presentation/page/memo/register/controller/register_memo_c
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/theme/mixin.dart';
 
 class RegisterMemoPage extends HookConsumerWidget {
@@ -13,6 +14,8 @@ class RegisterMemoPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+
     useEffect(() {
       ref.refresh(registerMemoController);
       return () {};
@@ -61,7 +64,9 @@ class RegisterMemoPage extends HookConsumerWidget {
                       child: OutlinedRoundRectButton(
                         onPressed: () => {
                           Navigator.pop(context),
-                          ref.read(memoController.notifier).initialized(),
+                          ref
+                              .read(memoController.notifier)
+                              .initialized(currentMemberId),
                         },
                       ),
                     ),
@@ -73,7 +78,9 @@ class RegisterMemoPage extends HookConsumerWidget {
                       width: 160,
                       child: RoundRectButton(
                         onPressed: () => {
-                          ref.read(registerMemoController.notifier).create(),
+                          ref
+                              .read(registerMemoController.notifier)
+                              .create(currentMemberId),
                           ref.refresh(memoController),
                         },
                         text: "登録",

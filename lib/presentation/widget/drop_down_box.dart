@@ -67,7 +67,7 @@ class DropDownBox extends HookConsumerWidget {
               onChanged: (value) => {
                 ref.read(tagController.notifier).setTag(value!),
                 ref.read(registerArticleController.notifier).setNewArticle(
-                      tagUuid: value.uuid ?? "",
+                      tagId: value.uuid ?? "",
                     ),
               },
             ),

@@ -27,7 +27,6 @@ class EditMemoController extends StateNotifier<EditMemoState> {
       body: memo.body,
       createdAt: memo.createdAt,
       updatedAt: memo.updatedAt,
-      deletedAt: memo.deletedAt,
     );
   }
 
@@ -41,20 +40,20 @@ class EditMemoController extends StateNotifier<EditMemoState> {
     );
   }
 
-  Future<void> update() async {
+  Future<void> update(String memberId, String memoId) async {
     final memo = Memo(
-      uuid: state.uuid,
+      uuid: memoId,
       title: state.title,
       body: state.body,
       createdAt: state.createdAt,
       updatedAt: DateTime.now(),
-      deletedAt: state.deletedAt ?? DateTime.now(),
     );
-    await memoRepository.update(memo);
+    print('------memo id = ${memo.uuid}');
+    await memoRepository.update(memberId, memo, memoId);
   }
 
-  Future<void> delete() async {
-    await memoRepository.delete(state.uuid ?? "");
+  Future<void> delete(String memberId, String memoId) async {
+    await memoRepository.delete(memberId, memoId);
   }
 
   //TODO: refreshは必要なのか？ref.refresh()でいける？

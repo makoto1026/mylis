@@ -48,7 +48,7 @@ class EditArticleController extends StateNotifier<EditArticleState> {
     String? title,
     String? url,
     String? memo,
-    String? tagUuid,
+    String? tagId,
   }) async {
     state = state.copyWith(
       title: title ?? state.title,
@@ -58,7 +58,7 @@ class EditArticleController extends StateNotifier<EditArticleState> {
     );
   }
 
-  Future<void> update() async {
+  Future<void> update(String memberId, String tagId) async {
     final article = Article(
       uuid: state.uuid,
       title: state.title,
@@ -67,19 +67,11 @@ class EditArticleController extends StateNotifier<EditArticleState> {
       tag: state.tag,
       createdAt: DateTime.now(),
     );
-    await articleRepository.update(article);
+    await articleRepository.update(memberId, article, tagId);
   }
 
-  Future<void> delete() async {
-    final article = Article(
-      uuid: state.uuid,
-      title: state.title,
-      url: state.url,
-      memo: state.memo ?? "",
-      tag: state.tag,
-      createdAt: DateTime.now(),
-    );
-    await articleRepository.delete(article);
+  Future<void> delete(String memberId, Article article, String tagId) async {
+    await articleRepository.delete(memberId, article, tagId);
   }
 
   //TODO: refreshは必要なのか？ref.refresh()でいける？
