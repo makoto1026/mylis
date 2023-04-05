@@ -7,6 +7,7 @@ import 'package:mylis/presentation/page/articles/article/controller/article_cont
 import 'package:mylis/presentation/page/articles/article/widget/article_list_view.dart';
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/mixin.dart';
@@ -31,6 +32,7 @@ class HomePage extends HookConsumerWidget {
       length: tagList.length,
       initialIndex: 0,
     );
+    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? "";
 
     TabController _createNewTabController() => TabController(
           vsync: _MyTickerProvider(),
@@ -42,6 +44,30 @@ class HomePage extends HookConsumerWidget {
         // await ref.read(tagController.notifier).initialized();
         // final tagState = ref.watch(tagController);
         // ref.watch(articleController.notifier).initialized(tagState.tagList);
+        // await ref
+        //     .read(tagController.notifier)
+        //     .initialized(currentMemberId)
+        //     .then(
+        //       (value) async => {
+        //         await ref.watch(articleController.notifier).initialized(
+        //               currentMemberId,
+        //               ref.watch(tagController).tagList,
+        //             ),
+        //       },
+        //     );
+        if (currentMemberId != "") {
+          await ref
+              .read(tagController.notifier)
+              .initialized(ref.watch(currentMemberProvider)?.uuid)
+              .then(
+                (value) async => {
+                  await ref.watch(articleController.notifier).initialized(
+                        ref.watch(currentMemberProvider)?.uuid ?? "",
+                        ref.watch(tagController).tagList,
+                      ),
+                },
+              );
+        }
         tabController = _createNewTabController();
       }();
       return () {};
@@ -75,7 +101,7 @@ class HomePage extends HookConsumerWidget {
       tagList,
       (a, b) async {
         tabController = _createNewTabController();
-        tabController.index = tagList.length - 2;
+        tabController.index = tagList.length == 1 ? 0 : tagList.length - 2;
       },
     );
 
@@ -134,7 +160,7 @@ class HomePage extends HookConsumerWidget {
           controller: tabController,
           children: tagList
               .map(
-                (e) => ArticleListView(tagUuid: e.uuid ?? ""),
+                (e) => ArticleListView(tagId: e.uuid ?? ""),
               )
               .toList(),
         ),

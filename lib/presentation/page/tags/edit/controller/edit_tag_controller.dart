@@ -38,7 +38,7 @@ class EditTagController extends StateNotifier<EditTagState> {
     state = state.copyWith(tag: tag);
   }
 
-  Future<void> update() async {
+  Future<void> update(String memberId) async {
     final tag = Tag(
       uuid: state.tag.uuid,
       name: state.tag.name,
@@ -46,11 +46,11 @@ class EditTagController extends StateNotifier<EditTagState> {
       createdAt: state.tag.createdAt,
       updatedAt: DateTime.now(),
     );
-    await tagRepository.update(tag);
+    await tagRepository.update(memberId, tag);
   }
 
-  Future<void> delete() async {
-    await tagRepository.delete(state.uuid ?? "");
+  Future<void> delete(String memberId, String tagId) async {
+    await tagRepository.delete(memberId, tagId);
   }
 
   Future<void> refresh() async {

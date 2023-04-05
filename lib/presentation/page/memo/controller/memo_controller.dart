@@ -13,12 +13,12 @@ class MemoController extends StateNotifier<MemoState> {
 
   MemoRepository memoRepository;
 
-  Future<void> initialized() async {
-    await getList();
+  Future<void> initialized(String memberId) async {
+    await getList(memberId);
   }
 
-  Future<void> getList() async {
-    final memoList = await memoRepository.getList("");
+  Future<void> getList(String memberId) async {
+    final memoList = await memoRepository.getList(memberId);
     state = state.copyWith(memoList: memoList);
   }
 }

@@ -6,8 +6,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/config.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
-import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
-import 'package:mylis/provider/current_user_provider.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/provider/session_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
@@ -15,7 +14,6 @@ import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/default.dart';
 import 'package:mylis/firebase_options_dev.dart' as dev;
 import 'package:mylis/firebase_options_prod.dart' as prod;
-import 'presentation/page/tags/tag/controller/tag_controller.dart';
 
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +21,10 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   const env = String.fromEnvironment("ENV");
+
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp();
+  }
   if (env == "dev") {
     await Firebase.initializeApp(
         options: dev.DefaultFirebaseOptions.currentPlatform);
@@ -55,14 +57,11 @@ class MyApp extends HookConsumerWidget {
           ref.read(sessionProvider.notifier).checkSignInState(),
           ref.read(receiveSharingIntentProvider.notifier).initialized(),
           // ref.read(userController.notifier).initialized(),
-          ref.read(tagController.notifier).initialized(),
           ref.read(currentTabProvider.notifier).initialized()
         });
-        final tagState = ref.watch(tagController);
-        await ref
-            .watch(articleController.notifier)
-            .initialized(tagState.tagList);
+
         await Future.delayed(const Duration(seconds: 3));
+
         FlutterNativeSplash.remove();
       }();
       return () {};
@@ -70,7 +69,7 @@ class MyApp extends HookConsumerWidget {
 
     return MaterialApp(
       routes: ref.read(routerProvider),
-      initialRoute: ref.watch(currentUserProvider) == null
+      initialRoute: ref.watch(currentMemberProvider) == null
           ? RouteNames.auth.path
           : RouteNames.main.path,
       title: 'mylis',

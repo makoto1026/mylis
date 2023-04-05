@@ -12,10 +12,8 @@ class ITagRepository extends TagRepository {
   final userDB = Firestore.users;
 
   @override
-  Future<Tag> get(String userUuid, String tagUuid) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
-    const tagId = "PNdPodf7XX6lsrHfyNHB";
-    return await userDB.doc("$userId/tags/$tagId").get().then(
+  Future<Tag> get(String memberId, String tagId) async {
+    return await userDB.doc("$memberId/tags/$tagId").get().then(
       (event) {
         final doc = event.data();
         return TagMapper.fromJSON(doc!);
@@ -24,10 +22,9 @@ class ITagRepository extends TagRepository {
   }
 
   @override
-  Future<List<Tag>> getList(String userUuid) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
+  Future<List<Tag>> getList(String memberId) async {
     final List<Tag> tagList = [];
-    await userDB.doc(userId).collection("tags").get().then(
+    await userDB.doc(memberId).collection("tags").get().then(
       (querySnapshot) {
         for (var doc in querySnapshot.docs) {
           var tag = TagMapper.fromJSON(doc.data());
@@ -36,14 +33,14 @@ class ITagRepository extends TagRepository {
         }
       },
     );
+
     // TODO: 自分の好きな順番に変えられるようにする
     tagList.sort((a, b) => a.createdAt.compareTo(b.createdAt));
     return tagList;
   }
 
   @override
-  Future<void> create(Tag tag) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
+  Future<void> create(String memberId, Tag tag) async {
     final postData = {
       "name": tag.name,
       "position": tag.position,
@@ -51,12 +48,11 @@ class ITagRepository extends TagRepository {
       "updated_at": tag.updatedAt,
     };
 
-    await userDB.doc(userId).collection("tags").add(postData);
+    await userDB.doc(memberId).collection("tags").add(postData);
   }
 
   @override
-  Future<void> update(Tag tag) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
+  Future<void> update(String memberId, Tag tag) async {
     final postData = {
       "name": tag.name,
       "position": tag.position,
@@ -64,16 +60,15 @@ class ITagRepository extends TagRepository {
       "updated_at": tag.updatedAt,
     };
     final documentReference =
-        userDB.doc(userId).collection("tags").doc(tag.uuid);
+        userDB.doc(memberId).collection("tags").doc(tag.uuid);
 
     await documentReference.update(postData);
   }
 
   @override
-  Future<void> delete(String tagUUID) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
+  Future<void> delete(String memberId, String tagId) async {
     final documentReference =
-        userDB.doc(userId).collection("tags").doc(tagUUID);
+        userDB.doc(memberId).collection("tags").doc(tagId);
 
     await documentReference.delete();
   }

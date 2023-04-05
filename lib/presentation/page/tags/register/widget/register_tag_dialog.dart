@@ -6,6 +6,7 @@ import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart'
 import 'package:mylis/presentation/widget/base_dialog.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 
 class RegisterTagDialog extends HookConsumerWidget {
@@ -14,6 +15,8 @@ class RegisterTagDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tagName = useState("");
+    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+
     return MylisBaseDialog(
       height: 326,
       width: 326,
@@ -36,10 +39,11 @@ class RegisterTagDialog extends HookConsumerWidget {
                     await ref
                         .read(registerTagController.notifier)
                         .setIsLoading(true),
+                    await ref.read(registerTagController.notifier).create(
+                        memberId: currentMemberId, tagName: tagName.value),
                     await ref
-                        .read(registerTagController.notifier)
-                        .create(tagName: tagName.value),
-                    await ref.read(tagController.notifier).refresh(),
+                        .read(tagController.notifier)
+                        .refresh(currentMemberId),
                     await ref
                         .read(registerTagController.notifier)
                         .setIsLoading(false),

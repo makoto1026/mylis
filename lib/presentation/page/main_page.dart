@@ -39,18 +39,18 @@ class MainPage extends HookConsumerWidget {
     //       if (isSignedIn) {
     //         // メンバー情報のtokenが空の場合、再取得して保存する
     //         final token =
-    //             await ref.watch(currentUserProvider.notifier).getFcmToken();
-    //         final currentToken = ref.watch(currentUserProvider)?.deviceToken;
+    //             await ref.watch(currentMemberProvider.notifier).getFcmToken();
+    //         final currentToken = ref.watch(currentMemberProvider)?.deviceToken;
 
     //         ref
-    //             .watch(currentUserProvider.notifier)
+    //             .watch(currentMemberProvider.notifier)
     //             .setUserAgent(webViewUserAgent ?? "");
 
     //         if (currentToken == null ||
     //             currentToken == "" ||
     //             currentToken != token) {
     //           ref
-    //               .watch(currentUserProvider.notifier)
+    //               .watch(currentMemberProvider.notifier)
     //               .update(deviceToken: token);
     //         }
     //       } else {

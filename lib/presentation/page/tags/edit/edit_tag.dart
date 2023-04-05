@@ -5,6 +5,7 @@ import 'package:mylis/domain/entities/tag.dart';
 import 'package:mylis/presentation/page/tags/edit/controller/edit_tag_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
@@ -17,6 +18,7 @@ class EditTagPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tag = ModalRoute.of(context)!.settings.arguments as Tag;
     final isBack = useState(false);
+    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -41,9 +43,9 @@ class EditTagPage extends HookConsumerWidget {
         actions: [
           TextButton(
             onPressed: () async {
-              ref.read(editTagController.notifier).update();
+              ref.read(editTagController.notifier).update(currentMemberId);
               showToast(message: "タグを更新しました");
-              ref.read(tagController.notifier).initialized();
+              ref.read(tagController.notifier).initialized(currentMemberId);
               Navigator.pop(context);
             },
             style: TextButton.styleFrom(
@@ -90,29 +92,17 @@ class EditTagPage extends HookConsumerWidget {
                               await ref
                                   .read(loadingStateProvider.notifier)
                                   .startLoading(),
-                              // await ref
-                              //     .read(editTagController.notifier)
-                              //     .delete(),
-                              // await ref
-                              //     .read(editTagController.notifier)
-                              //     .refresh(),
-                              // await ref
-                              //     .read(loadingStateProvider.notifier)
-                              //     .stopLoading(),
-                              // Navigator.pop(context),
-                              // await showToast(message: "削除しました"),
-
-                              Future.delayed(
-                                const Duration(seconds: 3),
-                                () async {
-                                  await ref
-                                      .read(loadingStateProvider.notifier)
-                                      .stopLoading();
-                                  await showToast(message: "削除しました");
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.pop(context);
-                                },
-                              ),
+                              await ref
+                                  .read(editTagController.notifier)
+                                  .delete(currentMemberId, tag.uuid ?? ""),
+                              await ref
+                                  .read(editTagController.notifier)
+                                  .refresh(),
+                              await ref
+                                  .read(loadingStateProvider.notifier)
+                                  .stopLoading(),
+                              Navigator.pop(context),
+                              await showToast(message: "削除しました"),
                             },
                             child: const Text("はい"),
                           ),

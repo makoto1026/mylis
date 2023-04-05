@@ -4,16 +4,22 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/article.dart';
 import 'package:mylis/presentation/page/articles/edit/controller/edit_article_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/mixin.dart';
+import 'package:tuple/tuple.dart';
 
 class EditArticlePage extends HookConsumerWidget {
   const EditArticlePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final article = ModalRoute.of(context)!.settings.arguments as Article;
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as Tuple2<Article, String>;
+    final article = arguments.item1;
+    final tagId = arguments.item2;
+    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -38,7 +44,9 @@ class EditArticlePage extends HookConsumerWidget {
         actions: [
           TextButton(
             onPressed: () async {
-              ref.read(editArticleController.notifier).update();
+              ref
+                  .read(editArticleController.notifier)
+                  .update(currentMemberId, tagId);
               showToast(message: "記事を更新しました");
               ref.read(editArticleController.notifier).refresh();
               Navigator.pop(context);

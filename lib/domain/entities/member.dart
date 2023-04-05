@@ -1,5 +1,6 @@
-class User {
-  User({
+class Member {
+  Member({
+    required this.uuid,
     required this.name,
     required this.sex,
     required this.lineUuid,
@@ -9,6 +10,7 @@ class User {
     required this.createdAt,
     required this.updatedAt,
   });
+  final String uuid;
   final String name;
   final int sex;
   final String lineUuid;

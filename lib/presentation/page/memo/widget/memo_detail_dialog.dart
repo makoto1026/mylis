@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/memo.dart';
 import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controller.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/mixin.dart';
@@ -20,17 +22,25 @@ class MemoDetailDialog extends HookConsumerWidget {
     final textEditingController = useTextEditingController();
     final state = ref.watch(editMemoController);
     final isBack = useState(false);
+    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
 
     useEffect(() {
-      textEditingController.text = memo.body;
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        textEditingController.text = memo.body;
+        ref.watch(editMemoController.notifier).setMemo(memo);
+      });
       return () {};
     }, []);
 
     return WillPopScope(
       onWillPop: (() {
-        ref.read(editMemoController.notifier).update();
+        ref
+            .read(editMemoController.notifier)
+            .update(currentMemberId, memo.uuid ?? "");
         if (state.title == "" && state.body == "") {
-          ref.read(editMemoController.notifier).delete();
+          ref
+              .read(editMemoController.notifier)
+              .delete(currentMemberId, memo.uuid ?? "");
         }
         Navigator.of(context).pop(true);
         return Future.value(true);
@@ -90,29 +100,17 @@ class MemoDetailDialog extends HookConsumerWidget {
                                 await ref
                                     .read(loadingStateProvider.notifier)
                                     .startLoading(),
-                                // await ref
-                                //     .read(editMemoController.notifier)
-                                //     .delete(),
-                                // await ref
-                                //     .read(editMemoController.notifier)
-                                //     .refresh(),
-                                // await ref
-                                //     .read(loadingStateProvider.notifier)
-                                //     .stopLoading(),
-                                // Navigator.pop(context),
-                                // await showToast(message: "削除しました"),
-
-                                Future.delayed(
-                                  const Duration(seconds: 3),
-                                  () async {
-                                    await ref
-                                        .read(loadingStateProvider.notifier)
-                                        .stopLoading();
-                                    await showToast(message: "削除しました");
-                                    // ignore: use_build_context_synchronously
-                                    Navigator.pop(context);
-                                  },
-                                ),
+                                await ref
+                                    .read(editMemoController.notifier)
+                                    .delete(currentMemberId, memo.uuid ?? ""),
+                                await ref
+                                    .read(editMemoController.notifier)
+                                    .refresh(),
+                                await ref
+                                    .read(loadingStateProvider.notifier)
+                                    .stopLoading(),
+                                Navigator.pop(context),
+                                await showToast(message: "削除しました"),
                               },
                               child: const Text("はい"),
                             ),

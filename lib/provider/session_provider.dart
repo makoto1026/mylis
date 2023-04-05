@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/secure_storage_service.dart';
 import 'package:mylis/infrastructure/secure_storage_service.dart';
 import 'package:mylis/main.dart';
-import 'package:mylis/provider/current_user_provider.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/router/router.dart';
 
 class SessionProvider extends StateNotifier<void> {
@@ -16,34 +16,35 @@ class SessionProvider extends StateNotifier<void> {
   final SecureStorageService _secureStorageService;
   final Reader _read;
 
-  Future<void> signIn() async {
+  Future<void> signIn(String? uuid) async {
     await Future.wait([
       _secureStorageService.write(
-        key: "is_signed_in",
-        value: "true",
+        key: 'is_signed_in',
+        value: 'true',
       ),
+      _secureStorageService.write(
+        key: 'member_id',
+        value: uuid!,
+      ),
+      _read(currentMemberProvider.notifier).set(uuid).whenComplete(
+            () => checkSignInState(),
+          ),
     ]);
-    // final isSignedIn = await _secureStorageService.read(key: "is_signed_in");
-
-    checkSignInState();
   }
 
   Future<void> checkSignInState() async {
-    final isSignedIn = await _secureStorageService.read(key: "is_signed_in");
+    final isSignedIn = await _secureStorageService.read(key: 'is_signed_in');
+    final memberId = await _secureStorageService.read(key: 'member_id');
 
     if (isSignedIn == null) {
       return;
     }
 
-    await _read(currentUserProvider.notifier).set();
+    await _read(currentMemberProvider.notifier).set(memberId);
 
-    final currentUser = _read(currentUserProvider);
+    final currentUser = _read(currentMemberProvider);
 
-    if (currentUser == null) {
-      return;
-    }
-
-    if (currentUser.name != "") {
+    if (currentUser?.uuid == "" || currentUser?.uuid == null) {
       Navigator.of(_read(navKeyProvider).currentContext!, rootNavigator: true)
           .pushNamedAndRemoveUntil(
         RouteNames.auth.path,
@@ -59,8 +60,8 @@ class SessionProvider extends StateNotifier<void> {
   }
 
   Future<void> signOut() async {
-    await Future.wait([_secureStorageService.delete(key: "is_signed_in")]);
-    _read(currentUserProvider.notifier).signOut();
+    await Future.wait([_secureStorageService.delete(key: 'is_signed_in')]);
+    _read(currentMemberProvider.notifier).signOut();
   }
 }
 

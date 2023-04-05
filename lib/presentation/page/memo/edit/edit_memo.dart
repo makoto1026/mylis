@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/memo.dart';
 import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/mixin.dart';
@@ -14,6 +15,7 @@ class EditMemoPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final memo = ModalRoute.of(context)!.settings.arguments as Memo;
+    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -38,7 +40,9 @@ class EditMemoPage extends HookConsumerWidget {
         actions: [
           TextButton(
             onPressed: () async {
-              ref.read(editMemoController.notifier).update();
+              ref
+                  .read(editMemoController.notifier)
+                  .update(currentMemberId, memo.uuid ?? "");
               showToast(message: "メモを更新しました");
               ref.read(editMemoController.notifier).refresh();
               Navigator.pop(context);

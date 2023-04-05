@@ -27,7 +27,7 @@ class IAuthRepository extends AuthRepository {
     await firestore.collection("users").add({
       "email": email,
       "password": auth.password,
-      "createAt": Timestamp.now(),
+      "create_at": Timestamp.now(),
     });
 
     return userInfo.user!.uid;
@@ -58,7 +58,6 @@ class IAuthRepository extends AuthRepository {
     final UserCredential authResult =
         await firebaseAuth.signInWithCredential(credential);
     final User? user = authResult.user;
-
     if (user != null) {
       assert(!user.isAnonymous);
       assert(await user.getIdToken() != "");
@@ -71,17 +70,16 @@ class IAuthRepository extends AuthRepository {
               if (!value.exists)
                 docRef.set(
                   {
-                    "createdAt": DateTime.now(),
                     "email": user.email,
                     "password": "",
+                    "created_at": DateTime.now(),
+                    "updated_at": DateTime.now(),
                   },
                 )
             },
           );
-
       return user.uid;
     }
-
     return '';
   }
 

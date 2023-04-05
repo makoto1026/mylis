@@ -21,9 +21,9 @@ class Article {
 
 class ArticlesWithTagUUID {
   ArticlesWithTagUUID({
-    required this.uuid,
+    required this.tagId,
     required this.articles,
   });
-  final String uuid;
+  final String tagId;
   final List<Article> articles;
 }

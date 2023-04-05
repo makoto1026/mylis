@@ -1,9 +1,9 @@
 import 'package:mylis/domain/entities/tag.dart';
 
 abstract class TagRepository {
-  Future<Tag> get(String userUuid, String tagUuid);
-  Future<List<Tag>> getList(String userUuid);
-  Future<void> create(Tag tag);
-  Future<void> update(Tag tag);
-  Future<void> delete(String tagUUID);
+  Future<Tag> get(String memberId, String tagId);
+  Future<List<Tag>> getList(String memberId);
+  Future<void> create(String memberId, Tag tag);
+  Future<void> update(String memberId, Tag tag);
+  Future<void> delete(String memberId, String tagId);
 }

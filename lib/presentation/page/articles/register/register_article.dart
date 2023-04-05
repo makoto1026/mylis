@@ -11,6 +11,7 @@ import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/page/tags/register/widget/register_tag_dialog.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
@@ -22,12 +23,10 @@ class RegisterArticlePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final registerArticleState = ref.watch(registerArticleController);
-
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
-
     final tagState = ref.watch(tagController);
-
     final isLoading = ref.watch(registerTagController).isLoading;
+    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
 
     useEffect(() {
       () async {
@@ -36,7 +35,7 @@ class RegisterArticlePage extends HookConsumerWidget {
             if (tagState.tagList.isNotEmpty) {
               ref.read(tagController.notifier).setTag(tagState.tagList[0]);
               ref.read(registerArticleController.notifier).setNewArticle(
-                    tagUuid: tagState.tagList[0].uuid ?? "",
+                    tagId: tagState.tagList[0].uuid ?? "",
                   );
             }
           },
@@ -167,13 +166,14 @@ class RegisterArticlePage extends HookConsumerWidget {
                                     .startLoading(),
                                 ref
                                     .read(registerArticleController.notifier)
-                                    .create(),
+                                    .create(currentMemberId),
                                 ref
                                     .read(receiveSharingIntentProvider.notifier)
                                     .initialized(),
                                 ref
                                     .read(articleController.notifier)
-                                    .initialized(tagState.tagList),
+                                    .initialized(
+                                        currentMemberId, tagState.tagList),
                                 ref.read(articleController.notifier).setCount(),
                                 await Future.delayed(
                                   const Duration(seconds: 3),

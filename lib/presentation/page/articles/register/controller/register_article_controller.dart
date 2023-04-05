@@ -32,10 +32,10 @@ class RegisterArticleController extends StateNotifier<RegisterArticleState> {
     String? title,
     String? url,
     String? memo,
-    String? tagUuid,
+    String? tagId,
   }) async {
     final tag = Tag(
-      uuid: tagUuid ?? state.tag?.uuid,
+      uuid: tagId ?? state.tag?.uuid,
       name: state.tag?.name ?? "",
       position: state.tag?.position ?? 0,
       createdAt: state.tag?.createdAt ?? DateTime.now(),
@@ -53,7 +53,7 @@ class RegisterArticleController extends StateNotifier<RegisterArticleState> {
     state = state.copyWith(tag: tag);
   }
 
-  Future<void> create() async {
+  Future<void> create(String memberId) async {
     final article = Article(
       title: state.title,
       url: state.url,
@@ -61,7 +61,7 @@ class RegisterArticleController extends StateNotifier<RegisterArticleState> {
       tag: state.tag,
       createdAt: DateTime.now(),
     );
-    await articleRepository.create(article);
+    await articleRepository.create(memberId, article);
   }
 
   Future<void> refresh() async {

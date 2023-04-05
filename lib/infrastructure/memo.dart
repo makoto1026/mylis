@@ -10,26 +10,22 @@ class IMemoRepository extends MemoRepository {
   final userssDB = Firestore.users;
 
   @override
-  Future<Memo> get(String userUuid, String memoUuid) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
-    const memoId = "ooQMDpswehs8ILe4FrnX";
-
-    return await userssDB.doc("$userId/memos/$memoId").get().then(
+  Future<Memo> get(String memberId, String memoId) async {
+    return await userssDB.doc("$memberId/memos/$memoId").get().then(
       (value) {
         final doc = value.data();
-        return MemoMapper.fromJSON(doc!);
+        return MemoMapper.fromJSON(doc!, memoId);
       },
     );
   }
 
   @override
-  Future<List<Memo>> getList(String userUuid) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
+  Future<List<Memo>> getList(String memberId) async {
     final List<Memo> memoList = [];
-    await userssDB.doc(userId).collection("memos").get().then(
+    await userssDB.doc(memberId).collection("memos").get().then(
       (querySnapshot) {
         for (var doc in querySnapshot.docs) {
-          final memo = MemoMapper.fromJSON(doc.data());
+          final memo = MemoMapper.fromJSON(doc.data(), doc.id);
           memoList.add(memo);
         }
       },
@@ -38,39 +34,34 @@ class IMemoRepository extends MemoRepository {
   }
 
   @override
-  Future<void> create(Memo memo) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
+  Future<void> create(String memberId, Memo memo) async {
     final postData = {
       "title": memo.title,
       "body": memo.body,
       "created_at": memo.createdAt,
       "updated_at": memo.updatedAt,
-      "deleted_at": memo.deletedAt,
     };
-    await userssDB.doc(userId).collection("memos").add(postData);
+    await userssDB.doc(memberId).collection("memos").add(postData);
   }
 
   @override
-  Future<void> update(Memo memo) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
+  Future<void> update(String memberId, Memo memo, String memoId) async {
     final postData = {
       "title": memo.title,
       "body": memo.body,
       "created_at": memo.createdAt,
       "updated_at": memo.updatedAt,
-      "deleted_at": memo.deletedAt,
     };
     await userssDB
-        .doc(userId)
+        .doc(memberId)
         .collection("memos")
-        .doc(memo.uuid)
+        .doc(memoId)
         .update(postData);
   }
 
   @override
-  Future<void> delete(String uuid) async {
-    const userId = "94Jrw17JegeWKqDkW2S5";
-    await userssDB.doc(userId).collection("memos").doc(uuid).delete();
+  Future<void> delete(String memberId, String memoId) async {
+    await userssDB.doc(memberId).collection("memos").doc(memoId).delete();
   }
 }
 
