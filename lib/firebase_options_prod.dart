@@ -66,7 +66,7 @@ class DefaultFirebaseOptions {
     androidClientId:
         '354565385108-89p6htlbfqq6toe7rfbbt944ganscghn.apps.googleusercontent.com',
     iosClientId:
-        '354565385108-924ham2gucchip58hck1342a0795q1u5.apps.googleusercontent.com',
+        'com.googleusercontent.apps.354565385108-924ham2gucchip58hck1342a0795q1u5',
     iosBundleId: 'com.mylis',
   );
 }

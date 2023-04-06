@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     projectId: 'mylis-dev',
     storageBucket: 'mylis-dev.appspot.com',
     iosClientId:
-        '911848675860-jd4e5hpah45c65aoo6qo6sljnrb1pjrl.apps.googleusercontent.com',
+        'com.googleusercontent.apps.911848675860-jd4e5hpah45c65aoo6qo6sljnrb1pjrl',
     iosBundleId: 'com.mylis.dev',
   );
 }

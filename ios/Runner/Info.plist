@@ -28,10 +28,20 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
+			<string>com.mylis.dev</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.911848675860-jd4e5hpah45c65aoo6qo6sljnrb1pjrl</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
 			<string>com.mylis</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.&lt;your-reverse-client-id&gt;</string>
+				<string>com.googleusercontent.apps.354565385108-924ham2gucchip58hck1342a0795q1u5</string>
 			</array>
 		</dict>
 	</array>
