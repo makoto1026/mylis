@@ -11,8 +11,8 @@ Future<void> openUrl({
 }
 
 Future<void> openMailApp() async {
-  final title = Uri.encodeComponent('');
-  final body = Uri.encodeComponent('問題のある投稿のスクリーンショットとリンクを添付してください。');
-  const mailAddress = 'sg.enquiry@kao.com';
+  final title = Uri.encodeComponent("mylisお問い合わせ");
+  final body = Uri.encodeComponent("");
+  const mailAddress = 'trsmmkt@gmail.com';
   await launchUrlString('mailto:$mailAddress?subject=$title&body=$body');
 }
