@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/base_dialog.dart';
@@ -14,7 +14,7 @@ class RegisterTagDialog extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tagName = useState("");
+    final state = ref.watch(tagController);
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
 
     return MylisBaseDialog(
@@ -26,7 +26,9 @@ class RegisterTagDialog extends HookConsumerWidget {
           children: [
             MylisTextField(
               title: "タグ名",
-              onChanged: (value) => tagName.value = value,
+              onChanged: (value) => {
+                ref.read(registerTagController.notifier).setName(value),
+              },
             ),
             const SizedBox(height: 50),
             Center(
@@ -34,23 +36,35 @@ class RegisterTagDialog extends HookConsumerWidget {
                 height: 52,
                 width: 160,
                 child: RoundRectButton(
+                  disable: ref.watch(registerTagController).name.isEmpty,
                   onPressed: () async => {
                     FocusScope.of(context).unfocus(),
                     await ref
                         .read(registerTagController.notifier)
                         .setIsLoading(true),
-                    await ref.read(registerTagController.notifier).create(
-                        memberId: currentMemberId, tagName: tagName.value),
+                    await ref
+                        .read(registerTagController.notifier)
+                        .create(currentMemberId)
+                        .then(
+                          (value) async => {
+                            await ref
+                                .read(registerArticleController.notifier)
+                                .setNewArticle(
+                                  tagId: value,
+                                ),
+                          },
+                        ),
+                    await ref.read(registerTagController.notifier).refresh(),
                     await ref
                         .read(tagController.notifier)
                         .refresh(currentMemberId),
                     await ref
                         .read(registerTagController.notifier)
                         .setIsLoading(false),
+
                     Navigator.pop(context),
                     await showToast(message: "タグを追加しました"),
                     // TODO: 登録後に記事タイトルなどが消えてしまう事象の解消
-                    // TODO: 登録後にタグが選択されていない事象の解消
                   },
                   text: "登録",
                 ),

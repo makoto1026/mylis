@@ -22,12 +22,6 @@ class AuthPage extends HookConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                "assets/icons/icon.png",
-                width: 75,
-                height: 75,
-              ),
-              const SizedBox(height: 30),
               const Text(
                 'myLis',
                 style: TextStyle(

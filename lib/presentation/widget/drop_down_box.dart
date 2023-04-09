@@ -12,6 +12,9 @@ class DropDownBox extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(tagController);
 
+    List<Tag> tagList = List.from(state.tagList);
+    tagList.removeLast();
+
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
@@ -30,8 +33,8 @@ class DropDownBox extends HookConsumerWidget {
               ),
             ),
             DropdownButton<Tag>(
-              value: state.tagList.isNotEmpty ? state.tag : null,
-              items: state.tagList
+              value: tagList.isNotEmpty ? state.tag : null,
+              items: tagList
                   .map(
                     (e) => DropdownMenuItem<Tag>(
                       value: e,

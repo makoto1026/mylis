@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E19610529DE4D55000A7FC5 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E19610429DE4D55000A7FC5 /* GoogleService-Info-dev.plist */; };
-		0E19610929DE4DFC000A7FC5 /* GoogleService-Info-prod.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E19610829DE4DFC000A7FC5 /* GoogleService-Info-prod.plist */; };
+		0EE816BA29DFA24C00892DDF /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EE816B929DFA24C00892DDF /* GoogleService-Info-dev.plist */; };
+		0EE816BC29DFA25500892DDF /* GoogleService-Info-prod.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EE816BB29DFA25500892DDF /* GoogleService-Info-prod.plist */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -32,10 +32,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0E19610429DE4D55000A7FC5 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info-dev.plist"; path = "../../../../../Downloads/GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
-		0E19610829DE4DFC000A7FC5 /* GoogleService-Info-prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info-prod.plist"; path = "../../../../../Downloads/GoogleService-Info-prod.plist"; sourceTree = "<group>"; };
 		0E2C87B4296B1BE000B31BBB /* dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = dev.xcconfig; path = Flutter/dev.xcconfig; sourceTree = "<group>"; };
 		0E2C87B5296B1C0500B31BBB /* prod.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = prod.xcconfig; path = Flutter/prod.xcconfig; sourceTree = "<group>"; };
+		0EE816B929DFA24C00892DDF /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info-dev.plist"; path = "../../../../../keys/mysli/GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
+		0EE816BB29DFA25500892DDF /* GoogleService-Info-prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info-prod.plist"; path = "../../../../../keys/mysli/GoogleService-Info-prod.plist"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -70,8 +70,8 @@
 		0E328DE629DD8CDA005CC597 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
-				0E19610829DE4DFC000A7FC5 /* GoogleService-Info-prod.plist */,
-				0E19610429DE4D55000A7FC5 /* GoogleService-Info-dev.plist */,
+				0EE816BB29DFA25500892DDF /* GoogleService-Info-prod.plist */,
+				0EE816B929DFA24C00892DDF /* GoogleService-Info-dev.plist */,
 			);
 			path = Configurations;
 			sourceTree = "<group>";
@@ -206,8 +206,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E19610929DE4DFC000A7FC5 /* GoogleService-Info-prod.plist in Resources */,
-				0E19610529DE4D55000A7FC5 /* GoogleService-Info-dev.plist in Resources */,
+				0EE816BA29DFA24C00892DDF /* GoogleService-Info-dev.plist in Resources */,
+				0EE816BC29DFA25500892DDF /* GoogleService-Info-prod.plist in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
