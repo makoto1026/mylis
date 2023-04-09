@@ -7,6 +7,7 @@ import 'package:mylis/presentation/page/auth/email_sign_in/email_sign_in.dart';
 import 'package:mylis/presentation/page/auth/email_sign_up/email_sign_up.dart';
 import 'package:mylis/presentation/page/memo/edit/edit_memo.dart';
 import 'package:mylis/presentation/page/memo/register/register_memo.dart';
+import 'package:mylis/presentation/page/my_page/delete_account.dart';
 import 'package:mylis/presentation/page/my_page/my_page.dart';
 import 'package:mylis/presentation/page/memo/memo.dart';
 import 'package:mylis/presentation/page/home/home_page.dart';
@@ -36,6 +37,8 @@ final routerProvider = Provider((ref) => <String, WidgetBuilder>{
       RouteNames.editTagList.path: (BuildContext context) =>
           const EditTagListPage(),
       RouteNames.editTag.path: (BuildContext context) => const EditTagPage(),
+      RouteNames.deleteAccount.path: (BuildContext context) =>
+          const DeleteAccountPage(),
       RouteNames.privacyPolicy.path: (BuildContext context) =>
           const PrivacyPolicyPage(),
       RouteNames.termsOfUse.path: (BuildContext context) =>
@@ -56,6 +59,7 @@ enum RouteNames {
   editMemo,
   editTagList,
   editTag,
+  deleteAccount,
   privacyPolicy,
   termsOfUse,
 }

@@ -1,34 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:mylis/theme/color.dart';
 
 class MypageTextButton extends StatelessWidget {
   const MypageTextButton({
     required this.onTap,
     required this.text,
-    this.hasMargin = true,
+    this.isLogout = false,
     Key? key,
   }) : super(key: key);
   final VoidCallback onTap;
   final String text;
-  final bool hasMargin;
+  final bool isLogout;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        GestureDetector(
-          onTap: onTap,
-          child: Text(
-            text,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                text,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: ThemeColor.darkGray,
+                ),
+              ),
             ),
-          ),
+            isLogout
+                ? const SizedBox.shrink()
+                : const Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    color: ThemeColor.darkGray,
+                    size: 16,
+                  ),
+          ],
         ),
-        const SizedBox(height: 10),
-        const Divider(),
-        hasMargin ? const SizedBox(height: 30) : const SizedBox.shrink(),
-      ],
+      ),
     );
   }
 }
