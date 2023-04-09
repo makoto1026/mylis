@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/my_page/my_page.dart';
 import 'package:mylis/presentation/page/memo/memo.dart';
 import 'package:mylis/presentation/page/home/home_page.dart';
@@ -20,6 +21,7 @@ class MainPage extends HookConsumerWidget {
     final router = ref.watch(routerProvider);
     final currentTab = ref.watch(currentTabProvider);
     final tabController = useMemoized(() => CupertinoTabController(), []);
+    final colorState = ref.watch(customizeController);
     // final isSignedIn = ref.watch(isSignedInProvider);
 
     useEffect(() {
@@ -106,7 +108,7 @@ class MainPage extends HookConsumerWidget {
                 );
           },
           iconSize: 100,
-          activeColor: ThemeColor.orange,
+          activeColor: colorState.textColor,
           inactiveColor: ThemeColor.darkGray,
           backgroundColor: ThemeColor.white,
           items: Tab.values
@@ -119,7 +121,7 @@ class MainPage extends HookConsumerWidget {
                           Icons.home,
                           size: 28,
                           color: e == currentTab.tab
-                              ? ThemeColor.orange
+                              ? colorState.textColor
                               : ThemeColor.darkGray,
                         );
                       case Tab.memo:
@@ -128,7 +130,7 @@ class MainPage extends HookConsumerWidget {
                           width: 26,
                           height: 26,
                           color: e == currentTab.tab
-                              ? ThemeColor.orange
+                              ? colorState.textColor
                               : ThemeColor.darkGray,
                         );
 
@@ -137,7 +139,7 @@ class MainPage extends HookConsumerWidget {
                           Icons.manage_accounts_rounded,
                           size: 28,
                           color: e == currentTab.tab
-                              ? ThemeColor.orange
+                              ? colorState.textColor
                               : ThemeColor.darkGray,
                         );
                     }

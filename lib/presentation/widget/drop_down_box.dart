@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/tag.dart';
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/theme/color.dart';
 
@@ -11,6 +12,7 @@ class DropDownBox extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(tagController);
+    final colorState = ref.watch(customizeController);
 
     List<Tag> tagList = List.from(state.tagList);
     tagList.removeLast();
@@ -51,9 +53,9 @@ class DropDownBox extends HookConsumerWidget {
                   )
                   .toList(),
               isExpanded: true,
-              icon: const Icon(
+              icon: Icon(
                 Icons.keyboard_arrow_down_rounded,
-                color: ThemeColor.orange,
+                color: colorState.textColor,
               ),
               hint: const Padding(
                 padding: EdgeInsets.only(left: 15),

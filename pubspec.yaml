@@ -48,8 +48,7 @@ flutter:
     - env/
 
 flutter_native_splash:
-  background_image: "assets/images/splash.png"
-  fullscreen: true
+  background_image: "assets/images/splash_screen.png"
 
 flutter_icons:
   android: true 

@@ -42,6 +42,25 @@ class IMemberRepository extends MemberRepository {
         );
     return id;
   }
+
+  @override
+  Future<Member> update({
+    required String currentMemberId,
+    required String textColor,
+    required String buttonColor,
+    required String iconColor,
+  }) async {
+    final postData = {
+      "text_color": textColor,
+      "button_color": buttonColor,
+      "icon_color": iconColor,
+      "updated_at": DateTime.now(),
+    };
+
+    await usersDB.doc(currentMemberId).update(postData);
+
+    return await get(currentMemberId);
+  }
 }
 
 final memberRepositoryProvider =

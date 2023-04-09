@@ -13,6 +13,9 @@ class MemberMapper {
       email: json["email"] as String,
       phoneNumber: json["phone_number"] as String? ?? "",
       fcmToken: json["fcm_token"] as String? ?? "",
+      textColor: json["text_color"] as String? ?? "",
+      buttonColor: json["button_color"] as String? ?? "",
+      iconColor: json["icon_color"] as String? ?? "",
       createdAt: createdAt.toDate(),
       updatedAt: updatedAt.toDate(),
     );

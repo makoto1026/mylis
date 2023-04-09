@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/memo.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/provider/current_member_provider.dart';
@@ -16,6 +17,7 @@ class EditMemoPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final memo = ModalRoute.of(context)!.settings.arguments as Memo;
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+    final colorState = ref.watch(customizeController);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -26,9 +28,12 @@ class EditMemoPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'メモ編集',
-          style: orangeTextStyle,
+          style: TextStyle(
+            color: colorState.textColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         leading: IconButton(
           icon: const Icon(Icons.close),
