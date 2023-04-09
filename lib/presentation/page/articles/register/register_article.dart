@@ -79,6 +79,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                   children: [
                     MylisTextField(
                       title: "タイトル",
+                      initialValue: registerArticleState.title,
                       onChanged: (value) => ref
                           .read(registerArticleController.notifier)
                           .setNewArticle(title: value),
@@ -89,7 +90,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                       maxLines: 20,
                       isAFewLine: true,
                       initialValue: receiveSharingState.url == ""
-                          ? ""
+                          ? registerArticleState.url
                           : receiveSharingState.url,
                       onChanged: (value) => ref
                           .read(registerArticleController.notifier)
@@ -130,6 +131,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                       maxLines: 20,
                       minLines: 5,
                       isAFewLine: true,
+                      initialValue: registerArticleState.memo ?? "",
                       onChanged: (value) => ref
                           .read(registerArticleController.notifier)
                           .setNewArticle(memo: value),

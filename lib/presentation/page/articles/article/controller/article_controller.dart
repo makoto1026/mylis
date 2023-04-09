@@ -43,12 +43,19 @@ class ArticleController extends StateNotifier<ArticleState> {
     return articleRepository.getList(memberId, tagId);
   }
 
-  Future<ArticlesWithTagUUID> setArticlesWithTagUUID(
-      String tagId, int length) async {
-    if (state.articlesWithTag.isEmpty ||
-        state.articlesWithTag.length == length) {
-      return ArticlesWithTagUUID(articles: [], tagId: "");
-    }
+  Future<void> setArticleListWithTag(String memberId, String tagId) async {
+    final List<ArticlesWithTagUUID> array = [];
+    final res = await getList(memberId, tagId);
+    array.add(
+      ArticlesWithTagUUID(
+        tagId: tagId,
+        articles: res,
+      ),
+    );
+    state = state.copyWith(articlesWithTag: array);
+  }
+
+  ArticlesWithTagUUID setArticlesWithTagUUID(String tagId) {
     final res = state.articlesWithTag.firstWhere(
       (e) => e.tagId == tagId,
       orElse: () => ArticlesWithTagUUID(

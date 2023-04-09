@@ -40,7 +40,7 @@ class ITagRepository extends TagRepository {
   }
 
   @override
-  Future<void> create(String memberId, Tag tag) async {
+  Future<String> create(String memberId, Tag tag) async {
     final postData = {
       "name": tag.name,
       "position": tag.position,
@@ -48,7 +48,9 @@ class ITagRepository extends TagRepository {
       "updated_at": tag.updatedAt,
     };
 
-    await userDB.doc(memberId).collection("tags").add(postData);
+    final docRef = await userDB.doc(memberId).collection("tags").add(postData);
+
+    return docRef.id;
   }
 
   @override

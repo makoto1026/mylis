@@ -48,7 +48,7 @@ class IArticleRepository extends ArticleRepository {
   }
 
   @override
-  Future<void> create(String memberId, Article article) async {
+  Future<String> create(String memberId, Article article) async {
     final tagId = article.tag?.uuid;
     final postData = {
       "title": article.title,
@@ -57,10 +57,12 @@ class IArticleRepository extends ArticleRepository {
       "created_at": article.createdAt,
     };
 
-    await userDB
+    final docRef = await userDB
         .doc("$memberId/tags/$tagId")
         .collection("articles")
         .add(postData);
+
+    return docRef.id;
   }
 
   @override
