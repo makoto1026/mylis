@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/auth/controller/auth_controller.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
@@ -12,11 +13,16 @@ class EmailSignInPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(customizeController);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'メールアドレスログイン',
-          style: orangeTextStyle,
+          style: TextStyle(
+            color: colorState.textColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: Padding(

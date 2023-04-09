@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/my_page/widget/mypage_text_button.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
@@ -13,11 +14,16 @@ class DeleteAccountPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(customizeController);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "退会はこちら",
-          style: orangeTextStyle,
+          style: TextStyle(
+            color: colorState.textColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         leading: IconButton(
           icon: const Icon(Icons.close),

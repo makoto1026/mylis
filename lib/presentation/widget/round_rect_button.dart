@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/theme/color.dart';
 
-class RoundRectButton extends StatelessWidget {
+class RoundRectButton extends HookConsumerWidget {
   const RoundRectButton({
     required this.onPressed,
     required this.text,
-    this.backgroundColor = ThemeColor.orange,
     this.textColor = Colors.white,
     this.disable = false,
     this.fontSize = 16,
@@ -13,17 +14,17 @@ class RoundRectButton extends StatelessWidget {
   }) : super(key: key);
   final VoidCallback onPressed;
   final String text;
-  final Color backgroundColor;
   final Color textColor;
   final bool disable;
   final double fontSize;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(customizeController);
     return ElevatedButton(
       onPressed: disable ? null : onPressed,
       style: ElevatedButton.styleFrom(
-        primary: backgroundColor.withOpacity(disable ? 0.5 : 1),
+        primary: colorState.textColor.withOpacity(disable ? 0.5 : 1),
         shape: const StadiumBorder(
           side: BorderSide(
             color: Colors.transparent,

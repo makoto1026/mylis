@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/my_page/widget/mypage_text_button.dart';
 import 'package:mylis/provider/session_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
@@ -16,12 +17,16 @@ class MyPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tabController = ref.read(currentTabProvider.notifier);
+    final colorState = ref.watch(customizeController);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'マイページ',
-          style: orangeTextStyle,
+          style: TextStyle(
+            color: colorState.textColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: Column(
@@ -43,7 +48,12 @@ class MyPage extends HookConsumerWidget {
             text: "タグ編集",
           ),
           MypageTextButton(
-            onTap: () => {},
+            onTap: () => {
+              Navigator.pushNamed(
+                context,
+                RouteNames.customize.path,
+              )
+            },
             text: "カスタマイズ",
           ),
           MypageTextButton(

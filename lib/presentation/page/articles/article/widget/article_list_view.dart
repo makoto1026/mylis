@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_box.dart';
 import 'package:mylis/presentation/page/articles/edit/controller/edit_article_controller.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/register/register_tag.dart';
 import 'package:mylis/presentation/widget/select_action_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
@@ -25,6 +26,7 @@ class ArticleListView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+    final colorState = ref.watch(customizeController);
 
     final articlesController = useScrollController();
     final isBack = useState(false);
@@ -62,7 +64,7 @@ class ArticleListView extends HookConsumerWidget {
                         },
                         onLongPress: () => showDialog(
                           context: context,
-                          barrierColor: ThemeColor.orange.withOpacity(0.5),
+                          barrierColor: colorState.textColor.withOpacity(0.5),
                           builder: (context) => SelectActionDialog(
                             onPressedWithEdit: () => {
                               Navigator.pushNamed(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
@@ -12,6 +13,7 @@ class EditTagListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(tagController);
+    final colorState = ref.watch(customizeController);
 
     final editTagController = useScrollController();
 
@@ -36,9 +38,12 @@ class EditTagListPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'タグ編集',
-          style: orangeTextStyle,
+          style: TextStyle(
+            color: colorState.textColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         leading: IconButton(
           icon: const Icon(Icons.close),

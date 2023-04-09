@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
 import 'package:mylis/presentation/page/memo/widget/memo_box.dart';
 import 'package:mylis/presentation/page/memo/widget/memo_detail_dialog.dart';
@@ -14,6 +15,7 @@ class MemoPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(customizeController);
     final memosController = useScrollController();
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
 
@@ -46,9 +48,12 @@ class MemoPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'メモ',
-          style: orangeTextStyle,
+          style: TextStyle(
+            color: colorState.textColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: ThemeColor.white,
       ),
@@ -62,7 +67,7 @@ class MemoPage extends HookConsumerWidget {
               RouteNames.registerMemo.path,
             ),
           },
-          backgroundColor: ThemeColor.orange,
+          backgroundColor: colorState.textColor,
           child: const Icon(
             Icons.add,
             size: 40,
@@ -87,7 +92,7 @@ class MemoPage extends HookConsumerWidget {
                     onTap: () => {
                       showDialog(
                         context: context,
-                        barrierColor: ThemeColor.orange.withOpacity(0.5),
+                        barrierColor: colorState.textColor.withOpacity(0.5),
                         builder: (context) => MemoDetailDialog(
                           memo: state.memoList[index],
                         ),

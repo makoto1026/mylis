@@ -6,6 +6,7 @@ import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_list_view.dart';
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/router/router.dart';
@@ -24,6 +25,8 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(customizeController);
+    final member = ref.watch(currentMemberProvider);
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
     final tagList = ref.watch(tagController).tagList;
     final articleState = ref.watch(articleController);
@@ -65,6 +68,9 @@ class HomePage extends HookConsumerWidget {
                         ref.watch(currentMemberProvider)?.uuid ?? "",
                         ref.watch(tagController).tagList,
                       ),
+                  await ref
+                      .watch(customizeController.notifier)
+                      .initialized(member!),
                 },
               );
         }
@@ -110,17 +116,20 @@ class HomePage extends HookConsumerWidget {
       length: tagList.length,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'ホーム',
-            style: orangeTextStyle,
+            style: TextStyle(
+              color: colorState.textColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           backgroundColor: ThemeColor.white,
           bottom: TabBar(
             controller: tabController,
             isScrollable: true,
-            indicatorColor: ThemeColor.orange,
+            indicatorColor: colorState.textColor,
             indicatorSize: TabBarIndicatorSize.label,
-            labelColor: ThemeColor.orange,
+            labelColor: colorState.textColor,
             labelStyle: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -148,7 +157,7 @@ class HomePage extends HookConsumerWidget {
                 RouteNames.registerArticle.path,
               ),
             },
-            backgroundColor: ThemeColor.orange,
+            backgroundColor: colorState.textColor,
             child: const Icon(
               Icons.add,
               size: 40,

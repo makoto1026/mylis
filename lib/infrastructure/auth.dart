@@ -27,6 +27,9 @@ class IAuthRepository extends AuthRepository {
     await firestore.collection("users").add({
       "email": email,
       "password": auth.password,
+      "text_color": "orange",
+      "button_color": "orange",
+      "icon_color": "orange",
       "create_at": Timestamp.now(),
     });
 
@@ -72,6 +75,9 @@ class IAuthRepository extends AuthRepository {
                   {
                     "email": user.email,
                     "password": "",
+                    "text_color": "orange",
+                    "button_color": "orange",
+                    "icon_color": "orange",
                     "created_at": DateTime.now(),
                     "updated_at": DateTime.now(),
                   },

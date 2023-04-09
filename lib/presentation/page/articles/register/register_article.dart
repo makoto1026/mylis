@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/drop_down_box.dart';
@@ -14,7 +15,6 @@ import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
-import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/mixin.dart';
 
 class RegisterArticlePage extends HookConsumerWidget {
@@ -22,6 +22,7 @@ class RegisterArticlePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(customizeController);
     final registerArticleState = ref.watch(registerArticleController);
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
     final tagState = ref.watch(tagController);
@@ -66,9 +67,12 @@ class RegisterArticlePage extends HookConsumerWidget {
           )
         : Scaffold(
             appBar: AppBar(
-              title: const Text(
+              title: Text(
                 '記事登録',
-                style: orangeTextStyle,
+                style: TextStyle(
+                  color: colorState.textColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             body: SingleChildScrollView(
@@ -112,7 +116,8 @@ class RegisterArticlePage extends HookConsumerWidget {
                           onTap: () => {
                             showDialog(
                               context: context,
-                              barrierColor: ThemeColor.orange.withOpacity(0.5),
+                              barrierColor:
+                                  colorState.textColor.withOpacity(0.5),
                               builder: (context) => const RegisterTagDialog(),
                             ),
                           },
