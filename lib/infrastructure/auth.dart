@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/auth.dart';
 import 'package:mylis/domain/repository/auth.dart';
 import 'package:mylis/infrastructure/firestore/firestore.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class IAuthRepository extends AuthRepository {
   IAuthRepository();
@@ -86,12 +87,59 @@ class IAuthRepository extends AuthRepository {
           );
       return user.uid;
     }
-    return '';
+    return "";
   }
 
   @override
   Future<void> signOutGoogle() async {
     await googleSignIn.signOut();
+  }
+
+  @override
+  Future<String> signInWithApple() async {
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+
+    final oAuthCredential = OAuthProvider('apple.com').credential(
+      accessToken: appleCredential.authorizationCode,
+      idToken: appleCredential.identityToken,
+    );
+
+    final res =
+        await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
+
+    final User? user = res.user;
+    if (user != null) {
+      assert(!user.isAnonymous);
+      assert(await user.getIdToken() != "");
+
+      final User currentUser = firebaseAuth.currentUser!;
+      assert(user.uid == currentUser.uid);
+      final docRef = userDB.doc(user.uid);
+      docRef.get().then(
+            (value) => {
+              if (!value.exists)
+                docRef.set(
+                  {
+                    "email": user.email,
+                    "password": "",
+                    "text_color": "orange",
+                    "button_color": "orange",
+                    "icon_color": "orange",
+                    "created_at": DateTime.now(),
+                    "updated_at": DateTime.now(),
+                  },
+                )
+            },
+          );
+      return user.uid;
+    }
+
+    return "";
   }
 }
 

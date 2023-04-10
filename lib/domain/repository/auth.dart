@@ -5,4 +5,5 @@ abstract class AuthRepository {
   Future<String> signInWithEmail(Auth auth);
   Future<String> signInWithGoogle();
   Future<void> signOutGoogle();
+  Future<String> signInWithApple();
 }
