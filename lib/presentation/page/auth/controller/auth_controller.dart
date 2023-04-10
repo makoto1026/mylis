@@ -71,6 +71,16 @@ class AuthController extends StateNotifier<AuthState> {
           },
         );
   }
+
+  // Appleサインイン
+  Future<void> signInWithApple() async {
+    await authRepository.signInWithApple().then(
+          (value) => {
+            print("Appleサインイン成功 ${value}"),
+            _read(sessionProvider.notifier).signIn(value),
+          },
+        );
+  }
 }
 
 final authController = StateNotifierProvider<AuthController, AuthState>(

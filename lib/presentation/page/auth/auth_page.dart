@@ -38,18 +38,30 @@ class AuthPage extends HookConsumerWidget {
                 ),
               ),
               const SizedBox(height: 60),
+              // AuthButton(
+              //   onPressed: () => {
+              //     Navigator.pushNamed(context, RouteNames.emailSignIn.path),
+              //   },
+              //   iconPath: "assets/icons/twitter.svg",
+              //   text: "Twitterログイン・新規登録",
+              //   backgroundColor: ThemeColor.blue,
+              // ),
+              // const SizedBox(height: 20),
               AuthButton(
                 onPressed: () => {
-                  Navigator.pushNamed(context, RouteNames.emailSignIn.path),
-                },
-                iconPath: "assets/icons/twitter.svg",
-                text: "Twitterログイン・新規登録",
-                backgroundColor: ThemeColor.blue,
-              ),
-              const SizedBox(height: 20),
-              AuthButton(
-                onPressed: () => {
-                  Navigator.pushNamed(context, RouteNames.emailSignIn.path),
+                  ref
+                      .read(authController.notifier)
+                      .signInWithApple()
+                      .then(
+                        (value) => {
+                          Navigator.pushNamed(context, RouteNames.home.path),
+                        },
+                      )
+                      .catchError(
+                    (e) async {
+                      await showToast(message: "Apple認証に失敗しました");
+                    },
+                  ),
                 },
                 iconPath: "assets/icons/apple.svg",
                 text: "Appleログイン・新規登録",
