@@ -12,7 +12,6 @@ import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/snippets/url_launcher.dart';
-import 'package:mylis/theme/color.dart';
 import 'package:tuple/tuple.dart';
 
 class ArticleListView extends HookConsumerWidget {

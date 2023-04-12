@@ -35,31 +35,20 @@ class AuthController extends StateNotifier<AuthState> {
   // メールアドレスサインアップ
   Future<void> signUpWithEmail() async {
     var auth = Auth(email: state.email, password: state.password);
-    await authRepository
-        .signUpWithEmail(auth)
-        .then(
+    await authRepository.signUpWithEmail(auth).then(
           (value) async => {
-            await memberRepository.create(state.email, state.password),
             _read(sessionProvider.notifier).signIn(value),
           },
-        )
-        .catchError(
-          (e) {},
         );
   }
 
   // メールアドレスサインイン
   Future<void> signInWithEmail() async {
     var auth = Auth(email: state.email, password: state.password);
-    await authRepository
-        .signInWithEmail(auth)
-        .then(
+    await authRepository.signInWithEmail(auth).then(
           (value) => {
             _read(sessionProvider.notifier).signIn(value),
           },
-        )
-        .catchError(
-          (e) {},
         );
   }
 
@@ -76,7 +65,6 @@ class AuthController extends StateNotifier<AuthState> {
   Future<void> signInWithApple() async {
     await authRepository.signInWithApple().then(
           (value) => {
-            print("Appleサインイン成功 ${value}"),
             _read(sessionProvider.notifier).signIn(value),
           },
         );

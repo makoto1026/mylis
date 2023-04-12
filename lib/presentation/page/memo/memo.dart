@@ -8,7 +8,6 @@ import 'package:mylis/presentation/page/memo/widget/memo_detail_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
-import 'package:mylis/theme/mixin.dart';
 
 class MemoPage extends HookConsumerWidget {
   const MemoPage({Key? key}) : super(key: key);

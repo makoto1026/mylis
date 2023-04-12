@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,6 +14,8 @@ class AuthPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isIOS = Platform.isIOS;
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -38,6 +42,7 @@ class AuthPage extends HookConsumerWidget {
                 ),
               ),
               const SizedBox(height: 60),
+              // Twitterログインは一旦保留
               // AuthButton(
               //   onPressed: () => {
               //     Navigator.pushNamed(context, RouteNames.emailSignIn.path),
@@ -47,37 +52,29 @@ class AuthPage extends HookConsumerWidget {
               //   backgroundColor: ThemeColor.blue,
               // ),
               // const SizedBox(height: 20),
-              AuthButton(
-                onPressed: () => {
-                  ref
-                      .read(authController.notifier)
-                      .signInWithApple()
-                      .then(
-                        (value) => {
-                          Navigator.pushNamed(context, RouteNames.home.path),
-                        },
-                      )
-                      .catchError(
-                    (e) async {
-                      await showToast(message: "Apple認証に失敗しました");
-                    },
-                  ),
-                },
-                iconPath: "assets/icons/apple.svg",
-                text: "Appleログイン・新規登録",
-                backgroundColor: ThemeColor.black,
-              ),
+              isIOS
+                  ? AuthButton(
+                      onPressed: () => {
+                        ref
+                            .read(authController.notifier)
+                            .signInWithApple()
+                            .catchError(
+                          (e) async {
+                            await showToast(message: "Apple認証に失敗しました");
+                          },
+                        ),
+                      },
+                      iconPath: "assets/icons/apple.svg",
+                      text: "Appleログイン・新規登録",
+                      backgroundColor: ThemeColor.black,
+                    )
+                  : const SizedBox.shrink(),
               const SizedBox(height: 20),
               AuthButton(
-                onPressed: () => {
-                  ref
+                onPressed: () async => {
+                  await ref
                       .read(authController.notifier)
                       .signInWithGoogle()
-                      .then(
-                        (value) => {
-                          Navigator.pushNamed(context, RouteNames.home.path),
-                        },
-                      )
                       .catchError(
                     (e) async {
                       await showToast(message: "Google認証に失敗しました");
@@ -86,9 +83,9 @@ class AuthPage extends HookConsumerWidget {
                 },
                 iconPath: "assets/icons/google.svg",
                 text: "Googleログイン・新規登録",
-                backgroundColor: ThemeColor.white,
-                textColor: ThemeColor.darkGray,
-                iconColor: ThemeColor.darkGray,
+                backgroundColor: isIOS ? ThemeColor.white : ThemeColor.darkGray,
+                textColor: isIOS ? ThemeColor.darkGray : ThemeColor.white,
+                iconColor: isIOS ? ThemeColor.darkGray : ThemeColor.white,
               ),
               const SizedBox(height: 20),
               AuthButton(

@@ -8,7 +8,6 @@ import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
-import 'package:mylis/theme/mixin.dart';
 import 'package:tuple/tuple.dart';
 
 class EditArticlePage extends HookConsumerWidget {

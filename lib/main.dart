@@ -56,7 +56,6 @@ class MyApp extends HookConsumerWidget {
         await Future.wait({
           ref.read(sessionProvider.notifier).checkSignInState(),
           ref.read(receiveSharingIntentProvider.notifier).initialized(),
-          // ref.read(userController.notifier).initialized(),
           ref.read(currentTabProvider.notifier).initialized()
         });
 

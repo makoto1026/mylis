@@ -12,6 +12,7 @@ class Member {
     required this.iconColor,
     required this.createdAt,
     required this.updatedAt,
+    required this.deletedAt,
   });
   final String uuid;
   final String name;
@@ -25,4 +26,5 @@ class Member {
   final String iconColor;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final DateTime? deletedAt;
 }

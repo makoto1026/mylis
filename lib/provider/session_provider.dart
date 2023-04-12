@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/secure_storage_service.dart';
 import 'package:mylis/infrastructure/secure_storage_service.dart';
 import 'package:mylis/main.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/router/router.dart';
+import 'package:mylis/snippets/show_auth_error_dialog.dart';
 
 class SessionProvider extends StateNotifier<void> {
   SessionProvider({
@@ -42,9 +44,17 @@ class SessionProvider extends StateNotifier<void> {
 
     await _read(currentMemberProvider.notifier).set(memberId);
 
-    final currentUser = _read(currentMemberProvider);
+    final currentMember = _read(currentMemberProvider);
 
-    if (currentUser?.uuid == "" || currentUser?.uuid == null) {
+    if (currentMember?.deletedAt != null) {
+      await showAuthErrorDialog(
+        _read,
+        "退会済みのアカウントです。\n\n別の認証方法で新規登録を行うか、アカウントの復旧をご希望の場合は運営までお問い合わせください。",
+      );
+      return;
+    }
+
+    if (currentMember?.uuid == "" || currentMember?.uuid == null) {
       Navigator.of(_read(navKeyProvider).currentContext!, rootNavigator: true)
           .pushNamedAndRemoveUntil(
         RouteNames.auth.path,
@@ -60,7 +70,10 @@ class SessionProvider extends StateNotifier<void> {
   }
 
   Future<void> signOut() async {
-    await Future.wait([_secureStorageService.delete(key: 'is_signed_in')]);
+    await Future.wait([
+      _secureStorageService.delete(key: 'is_signed_in'),
+      _secureStorageService.delete(key: 'member_id'),
+    ]);
     _read(currentMemberProvider.notifier).signOut();
   }
 }

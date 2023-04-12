@@ -8,7 +8,6 @@ import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/snippets/url_launcher.dart';
 import 'package:mylis/theme/color.dart';
-import 'package:mylis/theme/mixin.dart';
 import 'package:mylis/presentation/page/main_page.dart' as main_page;
 
 class MyPage extends HookConsumerWidget {
@@ -16,7 +15,6 @@ class MyPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tabController = ref.read(currentTabProvider.notifier);
     final colorState = ref.watch(customizeController);
 
     return Scaffold(
@@ -33,7 +31,7 @@ class MyPage extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // TODO: リリースキャンペーン終了後に解放
+          // サブスクは一旦保留
           // MypageTextButton(
           //   onTap: () => {},
           //   text: "サブスクリプション",
@@ -96,7 +94,7 @@ class MyPage extends HookConsumerWidget {
                       TextButton(
                         child: const Text("はい"),
                         onPressed: () {
-                          // ref.read(sessionProvider.notifier).signOut();
+                          ref.read(sessionProvider.notifier).signOut();
                           ref.read(currentTabProvider.notifier).changeTab(
                                 main_page.Tab.home,
                               );

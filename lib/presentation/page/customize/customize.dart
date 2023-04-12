@@ -4,7 +4,6 @@ import 'package:mylis/presentation/page/customize/controller/customize_controlle
 import 'package:mylis/presentation/page/customize/widget/customize_text_color_dialog.dart';
 import 'package:mylis/presentation/page/my_page/widget/mypage_text_button.dart';
 import 'package:mylis/theme/color.dart';
-import 'package:mylis/theme/mixin.dart';
 
 class CustomizePage extends HookConsumerWidget {
   const CustomizePage({Key? key}) : super(key: key);

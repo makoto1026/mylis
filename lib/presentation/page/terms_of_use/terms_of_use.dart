@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/theme/color.dart';
-import 'package:mylis/theme/mixin.dart';
 
 class TermsOfUsePage extends HookConsumerWidget {
   const TermsOfUsePage({Key? key}) : super(key: key);

@@ -8,7 +8,6 @@ import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/provider/current_member_provider.dart';
-import 'package:mylis/theme/mixin.dart';
 
 class RegisterMemoPage extends HookConsumerWidget {
   const RegisterMemoPage({Key? key}) : super(key: key);

@@ -5,7 +5,6 @@ import 'package:mylis/domain/repository/member.dart';
 import 'package:mylis/infrastructure/member.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_state.dart';
 import 'package:mylis/snippets/color.dart';
-import 'package:mylis/theme/color.dart';
 
 class CustomizeController extends StateNotifier<CustomizeState> {
   CustomizeController({

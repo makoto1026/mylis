@@ -4,7 +4,6 @@ import 'package:mylis/domain/entities/tag.dart';
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
-import 'package:mylis/theme/color.dart';
 
 class DropDownBox extends HookConsumerWidget {
   const DropDownBox({Key? key}) : super(key: key);

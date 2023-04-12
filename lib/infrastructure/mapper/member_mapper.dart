@@ -5,6 +5,9 @@ class MemberMapper {
   static Member fromJSON(Map<String, dynamic> json, String uuid) {
     final createdAt = json["created_at"] as Timestamp;
     final updatedAt = json["updated_at"] as Timestamp;
+    final deletedAt =
+        json["deleted_at"] == null ? null : json["deleted_at"] as Timestamp;
+
     return Member(
       uuid: uuid,
       name: json["name"] as String? ?? "",
@@ -18,6 +21,7 @@ class MemberMapper {
       iconColor: json["icon_color"] as String? ?? "",
       createdAt: createdAt.toDate(),
       updatedAt: updatedAt.toDate(),
+      deletedAt: deletedAt?.toDate(),
     );
   }
 }

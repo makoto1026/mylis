@@ -15,7 +15,6 @@ import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
-import 'package:mylis/theme/mixin.dart';
 
 class RegisterArticlePage extends HookConsumerWidget {
   const RegisterArticlePage({Key? key}) : super(key: key);

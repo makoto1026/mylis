@@ -11,7 +11,6 @@ import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart'
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
-import 'package:mylis/theme/mixin.dart';
 
 class _MyTickerProvider implements TickerProvider {
   @override
@@ -44,20 +43,6 @@ class HomePage extends HookConsumerWidget {
 
     useEffect(() {
       () async {
-        // await ref.read(tagController.notifier).initialized();
-        // final tagState = ref.watch(tagController);
-        // ref.watch(articleController.notifier).initialized(tagState.tagList);
-        // await ref
-        //     .read(tagController.notifier)
-        //     .initialized(currentMemberId)
-        //     .then(
-        //       (value) async => {
-        //         await ref.watch(articleController.notifier).initialized(
-        //               currentMemberId,
-        //               ref.watch(tagController).tagList,
-        //             ),
-        //       },
-        //     );
         if (currentMemberId != "") {
           await ref
               .read(tagController.notifier)

@@ -44,7 +44,6 @@ class MylisTextField extends HookConsumerWidget {
         ),
         const SizedBox(height: 5),
         TextFormField(
-          // initialValue: initialValue,
           controller: controller,
           inputFormatters:
               isAFewLine ? [LengthLimitingTextInputFormatter(2000)] : null,
