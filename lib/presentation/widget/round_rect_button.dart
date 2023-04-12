@@ -10,6 +10,7 @@ class RoundRectButton extends HookConsumerWidget {
     this.textColor = Colors.white,
     this.disable = false,
     this.fontSize = 16,
+    this.isAuth = false,
     Key? key,
   }) : super(key: key);
   final VoidCallback onPressed;
@@ -17,6 +18,7 @@ class RoundRectButton extends HookConsumerWidget {
   final Color textColor;
   final bool disable;
   final double fontSize;
+  final bool isAuth;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +26,9 @@ class RoundRectButton extends HookConsumerWidget {
     return ElevatedButton(
       onPressed: disable ? null : onPressed,
       style: ElevatedButton.styleFrom(
-        primary: colorState.textColor.withOpacity(disable ? 0.5 : 1),
+        primary: isAuth
+            ? ThemeColor.orange
+            : colorState.textColor.withOpacity(disable ? 0.5 : 1),
         shape: const StadiumBorder(
           side: BorderSide(
             color: Colors.transparent,

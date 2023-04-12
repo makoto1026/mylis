@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
+import 'package:mylis/theme/color.dart';
 
 class OutlinedRoundRectButton extends HookConsumerWidget {
   const OutlinedRoundRectButton({
@@ -9,6 +10,7 @@ class OutlinedRoundRectButton extends HookConsumerWidget {
     this.disable = false,
     this.fontSize = 16,
     this.isIconButton = false,
+    this.isAuth = false,
     Key? key,
   }) : super(key: key);
   final VoidCallback onPressed;
@@ -16,6 +18,7 @@ class OutlinedRoundRectButton extends HookConsumerWidget {
   final bool disable;
   final double fontSize;
   final bool isIconButton;
+  final bool isAuth;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,7 +29,7 @@ class OutlinedRoundRectButton extends HookConsumerWidget {
         primary: Colors.transparent,
         shape: StadiumBorder(
           side: BorderSide(
-            color: colorState.textColor,
+            color: isAuth ? ThemeColor.orange : colorState.textColor,
             width: 2,
             style: BorderStyle.solid,
           ),
@@ -36,12 +39,12 @@ class OutlinedRoundRectButton extends HookConsumerWidget {
       child: text == ""
           ? Icon(
               Icons.turn_left,
-              color: colorState.textColor,
+              color: isAuth ? ThemeColor.orange : colorState.textColor,
             )
           : Text(
               text,
               style: TextStyle(
-                color: colorState.textColor,
+                color: isAuth ? ThemeColor.orange : colorState.textColor,
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
               ),

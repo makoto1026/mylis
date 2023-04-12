@@ -22,6 +22,7 @@ class UserController extends StateNotifier<MyPageState> {
               iconColor: '',
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
+              deletedAt: null,
             ),
           ),
         );

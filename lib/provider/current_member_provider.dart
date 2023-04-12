@@ -22,6 +22,15 @@ class CurrentMemberProvider extends StateNotifier<Member?> {
   void signOut() {
     state = null;
   }
+
+  Future<void> delete() async {
+    try {
+      await memberRepository.delete(currentMemberId: state?.uuid ?? "");
+      state = null;
+    } catch (e) {
+      return;
+    }
+  }
 }
 
 final currentMemberProvider =

@@ -22,28 +22,6 @@ class IMemberRepository extends MemberRepository {
   }
 
   @override
-  Future<String> create(String email, String password) async {
-    final postData = {
-      "email": email,
-      "password": password,
-      "created_at": DateTime.now(),
-      "updated_at": DateTime.now(),
-    };
-    var id = "";
-    await usersDB
-        .add(postData)
-        .then(
-          (value) => {
-            id = value.id,
-          },
-        )
-        .catchError(
-          (e) {},
-        );
-    return id;
-  }
-
-  @override
   Future<Member> update({
     required String currentMemberId,
     required String textColor,
@@ -60,6 +38,17 @@ class IMemberRepository extends MemberRepository {
     await usersDB.doc(currentMemberId).update(postData);
 
     return await get(currentMemberId);
+  }
+
+  @override
+  Future<void> delete({required String currentMemberId}) async {
+    final postData = {
+      "deleted_at": DateTime.now(),
+    };
+
+    await usersDB.doc(currentMemberId).update(postData);
+
+    await get(currentMemberId);
   }
 }
 

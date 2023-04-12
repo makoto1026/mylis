@@ -5,7 +5,6 @@ import 'package:mylis/presentation/page/customize/controller/customize_controlle
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
-import 'package:mylis/theme/mixin.dart';
 
 class EditTagListPage extends HookConsumerWidget {
   const EditTagListPage({Key? key}) : super(key: key);

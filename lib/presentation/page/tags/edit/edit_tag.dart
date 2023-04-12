@@ -10,7 +10,6 @@ import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
-import 'package:mylis/theme/mixin.dart';
 
 class EditTagPage extends HookConsumerWidget {
   const EditTagPage({Key? key}) : super(key: key);

@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/auth/controller/auth_controller.dart';
-import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
-import 'package:mylis/router/router.dart';
-import 'package:mylis/theme/mixin.dart';
+import 'package:mylis/snippets/show_auth_error_dialog.dart';
+import 'package:mylis/theme/color.dart';
 
 class EmailSignInPage extends HookConsumerWidget {
   const EmailSignInPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorState = ref.watch(customizeController);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'メールアドレスログイン',
           style: TextStyle(
-            color: colorState.textColor,
+            color: ThemeColor.orange,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -57,6 +54,7 @@ class EmailSignInPage extends HookConsumerWidget {
                         onPressed: () => {
                           Navigator.pop(context),
                         },
+                        isAuth: true,
                       ),
                     ),
                   ),
@@ -70,17 +68,17 @@ class EmailSignInPage extends HookConsumerWidget {
                           ref
                               .read(authController.notifier)
                               .signInWithEmail()
-                              .then(
-                                (value) => {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    RouteNames.main.path,
-                                    (route) => false,
-                                  )
+                              .catchError(
+                                (e) async => {
+                                  await showAuthErrorDialog(
+                                    ref.read,
+                                    "ログイン情報が正しくありません。メールアドレス、パスワードをご確認ください。",
+                                  ),
                                 },
-                              )
+                              ),
                         },
                         text: "ログイン",
+                        isAuth: true,
                       ),
                     ),
                   ),

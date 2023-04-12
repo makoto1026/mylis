@@ -48,7 +48,6 @@ class EditMemoController extends StateNotifier<EditMemoState> {
       createdAt: state.createdAt,
       updatedAt: DateTime.now(),
     );
-    print('------memo id = ${memo.uuid}');
     await memoRepository.update(memberId, memo, memoId);
   }
 

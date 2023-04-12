@@ -22,18 +22,6 @@ class ArticleBox extends HookConsumerWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
-          // border: Border.all(
-          //   color: ThemeColor.black,
-          //   width: 0.5,
-          // ),
-          // boxShadow: [
-          //   BoxShadow(
-          //     spreadRadius: 0,
-          //     blurRadius: 7,
-          //     offset: const Offset(0, 0),
-          //     color: Colors.grey.withOpacity(0.5),
-          //   ),
-          // ],
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),

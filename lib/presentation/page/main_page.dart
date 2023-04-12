@@ -22,7 +22,6 @@ class MainPage extends HookConsumerWidget {
     final currentTab = ref.watch(currentTabProvider);
     final tabController = useMemoized(() => CupertinoTabController(), []);
     final colorState = ref.watch(customizeController);
-    // final isSignedIn = ref.watch(isSignedInProvider);
 
     useEffect(() {
       tabController.addListener(() {
@@ -34,64 +33,6 @@ class MainPage extends HookConsumerWidget {
       });
       return () => tabController.dispose();
     }, []);
-
-    // useEffect(() {
-    //   SchedulerBinding.instance?.addPostFrameCallback(
-    //     (_) async {
-    //       if (isSignedIn) {
-    //         // メンバー情報のtokenが空の場合、再取得して保存する
-    //         final token =
-    //             await ref.watch(currentMemberProvider.notifier).getFcmToken();
-    //         final currentToken = ref.watch(currentMemberProvider)?.deviceToken;
-
-    //         ref
-    //             .watch(currentMemberProvider.notifier)
-    //             .setUserAgent(webViewUserAgent ?? "");
-
-    //         if (currentToken == null ||
-    //             currentToken == "" ||
-    //             currentToken != token) {
-    //           ref
-    //               .watch(currentMemberProvider.notifier)
-    //               .update(deviceToken: token);
-    //         }
-    //       } else {
-    //         ref.read(currentTabProvider.notifier).changeTab(
-    //               main_page.Tab.newsAndTips,
-    //             );
-    //       }
-    //       if (ref.watch(appConfigManagerProvider).value == true) {
-    //         showDialog(
-    //           context: context,
-    //           barrierDismissible: false,
-    //           builder: (BuildContext context) {
-    //             return AlertDialog(
-    //               title: Text(
-    //                 "update",
-    //                 style: const TextStyle(
-    //                   fontSize: 18,
-    //                   fontWeight: FontWeight.bold,
-    //                 ),
-    //               ),
-    //               content: Text("you need to update this app ."),
-    //               actions: <Widget>[
-    //                 TextButton(
-    //                   child: Text("Yes"),
-    //                   onPressed: () {
-    //                     // TODO: アプリURL（IOS,android）に差し替え
-    //                     openUrl(url: "");
-    //                     Navigator.pop(context);
-    //                   },
-    //                 ),
-    //               ],
-    //             );
-    //           },
-    //         );
-    //       }
-    //     },
-    //   );
-    //   return () {};
-    // }, [ref.watch(appConfigManagerProvider)]);
 
     useValueChanged(
         currentTab, (_, __) => tabController.index = currentTab.tab.index);

@@ -25,16 +25,19 @@ class IAuthRepository extends AuthRepository {
 
     final email = userInfo.user!.email;
 
-    await firestore.collection("users").add({
+    final userDoc = userDB.doc(userInfo.user!.uid);
+
+    await userDoc.set({
       "email": email,
       "password": auth.password,
       "text_color": "orange",
       "button_color": "orange",
       "icon_color": "orange",
-      "create_at": Timestamp.now(),
+      "created_at": Timestamp.now(),
+      "updated_at": Timestamp.now(),
     });
 
-    return userInfo.user!.uid;
+    return userDoc.id;
   }
 
   @override

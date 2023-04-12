@@ -14,7 +14,6 @@ class RegisterTagDialog extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(tagController);
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
 
     return MylisBaseDialog(
@@ -61,10 +60,8 @@ class RegisterTagDialog extends HookConsumerWidget {
                     await ref
                         .read(registerTagController.notifier)
                         .setIsLoading(false),
-
                     Navigator.pop(context),
                     await showToast(message: "タグを追加しました"),
-                    // TODO: 登録後に記事タイトルなどが消えてしまう事象の解消
                   },
                   text: "登録",
                 ),
