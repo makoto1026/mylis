@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
@@ -7,6 +8,7 @@ import 'package:mylis/presentation/page/articles/register/controller/register_ar
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
+import 'package:mylis/presentation/util/banner.dart';
 import 'package:mylis/presentation/widget/drop_down_box.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
@@ -15,6 +17,7 @@ import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
+import 'package:mylis/theme/color.dart';
 
 class RegisterArticlePage extends HookConsumerWidget {
   const RegisterArticlePage({Key? key}) : super(key: key);
@@ -74,131 +77,149 @@ class RegisterArticlePage extends HookConsumerWidget {
                 ),
               ),
             ),
-            body: SingleChildScrollView(
-              padding: const EdgeInsets.all(30),
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MylisTextField(
-                      title: "タイトル",
-                      initialValue: registerArticleState.title,
-                      onChanged: (value) => ref
-                          .read(registerArticleController.notifier)
-                          .setNewArticle(title: value),
-                    ),
-                    const SizedBox(height: 25),
-                    MylisTextField(
-                      title: "URL",
-                      maxLines: 20,
-                      isAFewLine: true,
-                      initialValue: receiveSharingState.url == ""
-                          ? registerArticleState.url
-                          : receiveSharingState.url,
-                      onChanged: (value) => ref
-                          .read(registerArticleController.notifier)
-                          .setNewArticle(url: value),
-                    ),
-                    const SizedBox(height: 25),
-                    const Text(
-                      "タグ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        const DropDownBox(),
-                        const SizedBox(width: 20),
-                        GestureDetector(
-                          onTap: () => {
-                            showDialog(
-                              context: context,
-                              barrierColor:
-                                  colorState.textColor.withOpacity(0.5),
-                              builder: (context) => const RegisterTagDialog(),
-                            ),
-                          },
-                          child: const Text(
-                            "追加",
+            body: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(30),
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          MylisTextField(
+                            title: "タイトル",
+                            initialValue: registerArticleState.title,
+                            onChanged: (value) => ref
+                                .read(registerArticleController.notifier)
+                                .setNewArticle(title: value),
+                          ),
+                          const SizedBox(height: 20),
+                          MylisTextField(
+                            title: "URL",
+                            maxLines: 20,
+                            isAFewLine: true,
+                            initialValue: receiveSharingState.url == ""
+                                ? registerArticleState.url
+                                : receiveSharingState.url,
+                            onChanged: (value) => ref
+                                .read(registerArticleController.notifier)
+                                .setNewArticle(url: value),
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            "タグ",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 25),
-                    MylisTextField(
-                      title: "メモ（任意）",
-                      maxLines: 20,
-                      minLines: 5,
-                      isAFewLine: true,
-                      initialValue: registerArticleState.memo ?? "",
-                      onChanged: (value) => ref
-                          .read(registerArticleController.notifier)
-                          .setNewArticle(memo: value),
-                    ),
-                    const SizedBox(height: 50),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: SizedBox(
-                            height: 52,
-                            width: 52,
-                            child: OutlinedRoundRectButton(
-                              onPressed: () => {
-                                Navigator.pop(context),
-                                ref
-                                    .read(receiveSharingIntentProvider.notifier)
-                                    .initialized(),
-                              },
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Center(
-                          child: SizedBox(
-                            height: 52,
-                            width: 160,
-                            child: RoundRectButton(
-                              disable: registerArticleState.title == "" ||
-                                  registerArticleState.url == "",
-                              onPressed: () async => {
-                                await ref
-                                    .read(loadingStateProvider.notifier)
-                                    .startLoading(),
-                                ref
-                                    .read(registerArticleController.notifier)
-                                    .create(currentMemberId),
-                                ref
-                                    .read(receiveSharingIntentProvider.notifier)
-                                    .initialized(),
-                                ref
-                                    .read(articleController.notifier)
-                                    .initialized(
-                                        currentMemberId, tagState.tagList),
-                                ref.read(articleController.notifier).setCount(),
-                                await Future.delayed(
-                                  const Duration(seconds: 3),
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              const DropDownBox(),
+                              const SizedBox(width: 20),
+                              GestureDetector(
+                                onTap: () => {
+                                  showDialog(
+                                    context: context,
+                                    barrierColor:
+                                        colorState.textColor.withOpacity(0.5),
+                                    builder: (context) =>
+                                        const RegisterTagDialog(),
+                                  ),
+                                },
+                                child: const Text(
+                                  "追加",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                await ref
-                                    .read(loadingStateProvider.notifier)
-                                    .stopLoading(),
-                                Navigator.pop(context),
-                                await showToast(message: "記事を登録しました"),
-                              },
-                              text: "登録",
-                            ),
+                              )
+                            ],
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 20),
+                          MylisTextField(
+                            title: "メモ（任意）",
+                            maxLines: 20,
+                            minLines: 3,
+                            isAFewLine: true,
+                            initialValue: registerArticleState.memo ?? "",
+                            onChanged: (value) => ref
+                                .read(registerArticleController.notifier)
+                                .setNewArticle(memo: value),
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: SizedBox(
+                                  height: 52,
+                                  width: 52,
+                                  child: OutlinedRoundRectButton(
+                                    onPressed: () => {
+                                      Navigator.pop(context),
+                                      ref
+                                          .read(receiveSharingIntentProvider
+                                              .notifier)
+                                          .initialized(),
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Center(
+                                child: SizedBox(
+                                  height: 52,
+                                  width: 160,
+                                  child: RoundRectButton(
+                                    disable: registerArticleState.title == "" ||
+                                        registerArticleState.url == "",
+                                    onPressed: () async => {
+                                      await ref
+                                          .read(loadingStateProvider.notifier)
+                                          .startLoading(),
+                                      ref
+                                          .read(registerArticleController
+                                              .notifier)
+                                          .create(currentMemberId),
+                                      ref
+                                          .read(receiveSharingIntentProvider
+                                              .notifier)
+                                          .initialized(),
+                                      ref
+                                          .read(articleController.notifier)
+                                          .initialized(currentMemberId,
+                                              tagState.tagList),
+                                      ref
+                                          .read(articleController.notifier)
+                                          .setCount(),
+                                      await Future.delayed(
+                                        const Duration(seconds: 3),
+                                      ),
+                                      await ref
+                                          .read(loadingStateProvider.notifier)
+                                          .stopLoading(),
+                                      Navigator.pop(context),
+                                      await showToast(message: "記事を登録しました"),
+                                    },
+                                    text: "登録",
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                Container(
+                  color: ThemeColor.white,
+                  height: 50,
+                  width: double.infinity,
+                  child: AdWidget(ad: setBanner()),
+                ),
+              ],
             ),
           );
   }

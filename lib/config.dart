@@ -7,7 +7,10 @@ class Config {
     const env = String.fromEnvironment("ENV");
     final data = await rootBundle.loadString('env/$env.yaml');
     final doc = loadYaml(data) as YamlMap;
-    _config = ConfigInfo(test: doc["test"]);
+    _config = ConfigInfo(
+      androidBannerID: doc["androidBannerID"],
+      iosBannerID: doc["iosBannerID"],
+    );
   }
 
   static ConfigInfo? _config;
@@ -22,7 +25,9 @@ class Config {
 
 class ConfigInfo {
   ConfigInfo({
-    required this.test,
+    required this.androidBannerID,
+    required this.iosBannerID,
   });
-  final String test;
+  final String androidBannerID;
+  final String iosBannerID;
 }

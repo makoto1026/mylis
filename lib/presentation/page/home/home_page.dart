@@ -131,25 +131,6 @@ class HomePage extends HookConsumerWidget {
                 .toList(),
           ),
         ),
-        floatingActionButton: SizedBox(
-          width: 70,
-          height: 70,
-          child: FloatingActionButton(
-            onPressed: () async => {
-              await ref.watch(registerArticleController.notifier).refresh(),
-              Navigator.pushNamed(
-                context,
-                RouteNames.registerArticle.path,
-              ),
-            },
-            backgroundColor: colorState.textColor,
-            child: const Icon(
-              Icons.add,
-              size: 40,
-              color: ThemeColor.white,
-            ),
-          ),
-        ),
         body: TabBarView(
           controller: tabController,
           children: tagList

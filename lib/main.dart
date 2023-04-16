@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/config.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
@@ -31,6 +34,8 @@ Future<void> main() async {
   } else {
     await Firebase.initializeApp(
         options: prod.DefaultFirebaseOptions.currentPlatform);
+
+    MobileAds.instance.initialize();
   }
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
