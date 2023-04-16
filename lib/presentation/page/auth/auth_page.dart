@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/auth/controller/auth_controller.dart';
 import 'package:mylis/presentation/page/auth/widget/auth_button.dart';
+import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
@@ -54,12 +55,18 @@ class AuthPage extends HookConsumerWidget {
               // const SizedBox(height: 20),
               isIOS
                   ? AuthButton(
-                      onPressed: () => {
-                        ref
+                      onPressed: () async => {
+                        await ref
+                            .read(loadingStateProvider.notifier)
+                            .startLoading(),
+                        await ref
                             .read(authController.notifier)
                             .signInWithApple()
                             .catchError(
                           (e) async {
+                            await ref
+                                .read(loadingStateProvider.notifier)
+                                .startLoading();
                             await showToast(message: "Apple認証に失敗しました");
                           },
                         ),
@@ -72,11 +79,15 @@ class AuthPage extends HookConsumerWidget {
               const SizedBox(height: 20),
               AuthButton(
                 onPressed: () async => {
+                  await ref.read(loadingStateProvider.notifier).startLoading(),
                   await ref
                       .read(authController.notifier)
                       .signInWithGoogle()
                       .catchError(
                     (e) async {
+                      await ref
+                          .read(loadingStateProvider.notifier)
+                          .startLoading();
                       await showToast(message: "Google認証に失敗しました");
                     },
                   ),

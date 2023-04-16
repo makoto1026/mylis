@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/auth/controller/auth_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
+import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/show_auth_error_dialog.dart';
 import 'package:mylis/theme/color.dart';
 
@@ -64,18 +66,37 @@ class EmailSignUpPage extends HookConsumerWidget {
                       height: 52,
                       width: 160,
                       child: RoundRectButton(
-                        onPressed: () => {
-                          ref
+                        onPressed: () async => {
+                          await ref
+                              .read(loadingStateProvider.notifier)
+                              .startLoading(),
+                          await ref
                               .read(authController.notifier)
                               .signUpWithEmail()
                               .catchError(
-                                (e) async => {
-                                  await showAuthErrorDialog(
-                                    ref.read,
-                                    "登録に失敗しました。\n再度お試しいただくか、別のメールアドレスを使用してください。",
-                                  ),
-                                },
-                              ),
+                            (e) async {
+                              await ref
+                                  .read(loadingStateProvider.notifier)
+                                  .stopLoading();
+                              String errorMessage =
+                                  "登録に失敗しました。\n再度お試しいただくか、別のメールアドレスを使用してください。";
+
+                              if (e is FirebaseException) {
+                                switch (e.code) {
+                                  case 'email-already-in-use':
+                                    errorMessage = 'このメールアドレスは既に使用されています。';
+                                    break;
+                                  case 'invalid-email':
+                                    errorMessage = 'メールアドレスの形式が正しくありません。';
+                                    break;
+                                  case 'weak-password':
+                                    errorMessage = 'パスワードは6文字以上で入力してください。';
+                                    break;
+                                }
+                              }
+                              await showAuthErrorDialog(ref.read, errorMessage);
+                            },
+                          ),
                         },
                         text: "登録",
                         isAuth: true,
