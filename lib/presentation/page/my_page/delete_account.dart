@@ -53,11 +53,11 @@ class DeleteAccountPage extends HookConsumerWidget {
                       TextButton(
                         child: const Text("はい"),
                         onPressed: () {
+                          ref.read(currentMemberProvider.notifier).delete();
+                          ref.read(sessionProvider.notifier).signOut();
                           ref.read(currentTabProvider.notifier).changeTab(
                                 main_page.Tab.home,
                               );
-                          ref.read(currentMemberProvider.notifier).delete();
-                          ref.read(sessionProvider.notifier).signOut();
                           Navigator.of(context, rootNavigator: false)
                               .pushNamedAndRemoveUntil(
                             RouteNames.auth.path,

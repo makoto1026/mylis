@@ -5,6 +5,7 @@ import 'package:mylis/domain/service/secure_storage_service.dart';
 import 'package:mylis/infrastructure/secure_storage_service.dart';
 import 'package:mylis/main.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/show_auth_error_dialog.dart';
 
@@ -37,6 +38,8 @@ class SessionProvider extends StateNotifier<void> {
   Future<void> checkSignInState() async {
     final isSignedIn = await _secureStorageService.read(key: 'is_signed_in');
     final memberId = await _secureStorageService.read(key: 'member_id');
+
+    await _read(loadingStateProvider.notifier).stopLoading();
 
     if (isSignedIn == null) {
       return;

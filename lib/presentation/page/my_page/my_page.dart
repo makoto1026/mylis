@@ -93,7 +93,7 @@ class MyPage extends HookConsumerWidget {
                       ),
                       TextButton(
                         child: const Text("はい"),
-                        onPressed: () {
+                        onPressed: () async {
                           ref.read(sessionProvider.notifier).signOut();
                           ref.read(currentTabProvider.notifier).changeTab(
                                 main_page.Tab.home,
