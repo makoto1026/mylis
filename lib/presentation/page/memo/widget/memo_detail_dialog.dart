@@ -8,6 +8,7 @@ import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
+import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/mixin.dart';
 
 class MemoDetailDialog extends HookConsumerWidget {
@@ -37,10 +38,12 @@ class MemoDetailDialog extends HookConsumerWidget {
         ref
             .read(editMemoController.notifier)
             .update(currentMemberId, memo.uuid ?? "");
+        showToast(message: "更新しました");
         if (state.title == "" && state.body == "") {
           ref
               .read(editMemoController.notifier)
               .delete(currentMemberId, memo.uuid ?? "");
+          showToast(message: "削除しました");
         }
         Navigator.of(context).pop(true);
         return Future.value(true);
@@ -66,6 +69,11 @@ class MemoDetailDialog extends HookConsumerWidget {
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
+                onChanged: (value) {
+                  ref
+                      .read(editMemoController.notifier)
+                      .setUpdateValue(title: value);
+                },
               ),
               TextFormField(
                 controller: textEditingController,
@@ -82,7 +90,7 @@ class MemoDetailDialog extends HookConsumerWidget {
               ),
               const Spacer(),
               Center(
-                child: RoundRectButton(
+                child: TextButton(
                   onPressed: () async => {
                     showDialog(
                       context: context,
@@ -123,7 +131,15 @@ class MemoDetailDialog extends HookConsumerWidget {
                       },
                     )
                   },
-                  text: '削除',
+                  style: TextButton.styleFrom(
+                    primary: ThemeColor.darkGray,
+                    alignment: Alignment.center,
+                    textStyle: const TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: 18,
+                    ),
+                  ),
+                  child: const Text('削除'),
                 ),
               ),
             ],

@@ -55,7 +55,7 @@ class EditTagListPage extends HookConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: ListView.builder(
-          itemCount: state.tagList.length,
+          itemCount: state.tagList.length - 1,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),

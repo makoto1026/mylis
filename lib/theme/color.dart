@@ -4,7 +4,7 @@ class ThemeColor {
   static const black = Color(0xFF43452E);
   static const white = Color(0xFFFFFFFF);
   static const red = Color(0xFFFF0000);
-  static const orange = Color(0xFFFF8C00);
+  static const orange = Color(0xFFFFAE50);
   static const pastelOrange = Color(0xFFFFE2C6);
   static const pink = Color(0xFFFF69B4);
   static const pastelPink = Color(0xFFFFC0CB);

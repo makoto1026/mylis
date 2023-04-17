@@ -7,6 +7,7 @@ import 'package:mylis/presentation/page/articles/edit/controller/edit_article_co
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/register/register_tag.dart';
+import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/select_action_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
@@ -31,6 +32,8 @@ class ArticleListView extends HookConsumerWidget {
 
     final articlesController = useScrollController();
     final isBack = useState(false);
+
+    final tagState = ref.watch(tagController);
 
     return tagId == ""
         ? const RegisterTagView()
@@ -89,7 +92,7 @@ class ArticleListView extends HookConsumerWidget {
                             context: context,
                             barrierColor: colorState.textColor.withOpacity(0.5),
                             builder: (context) => SelectActionDialog(
-                              onPressedWithEdit: () => {
+                              onPressedWithEdit: () async => {
                                 Navigator.pushNamed(
                                   context,
                                   RouteNames.editArticle.path,
@@ -100,6 +103,10 @@ class ArticleListView extends HookConsumerWidget {
                                         .articles[index],
                                     tagId,
                                   ),
+                                ).whenComplete(
+                                  () => {
+                                    Navigator.pop(context),
+                                  },
                                 ),
                               },
                               onPressedWithDelete: () => {
@@ -146,6 +153,15 @@ class ArticleListView extends HookConsumerWidget {
                                                       .notifier,
                                                 )
                                                 .refresh(),
+                                            await ref
+                                                .read(
+                                                    articleController.notifier)
+                                                .initialized(currentMemberId,
+                                                    tagState.tagList),
+                                            await ref
+                                                .read(
+                                                    articleController.notifier)
+                                                .setCount(),
                                             await ref
                                                 .read(
                                                   loadingStateProvider.notifier,

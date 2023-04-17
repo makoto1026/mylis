@@ -59,7 +59,11 @@ class TagController extends StateNotifier<TagState> {
       tag: tag,
     );
     await getList(memberId);
-    await setTag(state.tagList[state.tagList.length - 2]);
+    if (state.tagList.length > 1) {
+      await setTag(state.tagList[state.tagList.length - 2]);
+    } else {
+      await setTag(state.tagList[0]);
+    }
   }
 }
 

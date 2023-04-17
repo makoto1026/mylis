@@ -78,7 +78,7 @@ class EditTagPage extends HookConsumerWidget {
                 ),
               ),
               const SizedBox(height: 30),
-              RoundRectButton(
+              TextButton(
                 onPressed: () async => {
                   showDialog(
                     context: context,
@@ -103,6 +103,9 @@ class EditTagPage extends HookConsumerWidget {
                                   .read(editTagController.notifier)
                                   .refresh(),
                               await ref
+                                  .read(tagController.notifier)
+                                  .refresh(currentMemberId),
+                              await ref
                                   .read(loadingStateProvider.notifier)
                                   .stopLoading(),
                               Navigator.pop(context),
@@ -119,7 +122,15 @@ class EditTagPage extends HookConsumerWidget {
                     },
                   )
                 },
-                text: '削除',
+                style: TextButton.styleFrom(
+                  primary: ThemeColor.darkGray,
+                  alignment: Alignment.center,
+                  textStyle: const TextStyle(
+                    decoration: TextDecoration.underline,
+                    fontSize: 18,
+                  ),
+                ),
+                child: const Text('削除'),
               ),
             ],
           ),
