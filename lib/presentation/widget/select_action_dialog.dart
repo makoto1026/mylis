@@ -16,7 +16,7 @@ class SelectActionDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MylisBaseDialog(
-      height: 100,
+      height: 140,
       width: 326,
       widget: Center(
         child: Row(
@@ -24,6 +24,7 @@ class SelectActionDialog extends HookConsumerWidget {
           children: [
             SizedBox(
               width: 100,
+              height: 60,
               child: RoundRectButton(
                 onPressed: onPressedWithEdit,
                 text: "編集",
@@ -32,6 +33,7 @@ class SelectActionDialog extends HookConsumerWidget {
             const SizedBox(width: 20),
             SizedBox(
               width: 100,
+              height: 60,
               child: OutlinedRoundRectButton(
                 onPressed: onPressedWithDelete,
                 text: "削除",

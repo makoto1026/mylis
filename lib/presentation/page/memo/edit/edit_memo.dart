@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/memo.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
+import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
 import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controller.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/provider/current_member_provider.dart';
@@ -43,13 +44,14 @@ class EditMemoPage extends HookConsumerWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () async {
-              ref
+            onPressed: () async => {
+              await ref
                   .read(editMemoController.notifier)
-                  .update(currentMemberId, memo.uuid ?? "");
-              showToast(message: "メモを更新しました");
-              ref.read(editMemoController.notifier).refresh();
-              Navigator.pop(context);
+                  .update(currentMemberId, memo.uuid ?? ""),
+              await showToast(message: "メモを更新しました"),
+              await ref.read(editMemoController.notifier).refresh(),
+              await ref.read(memoController.notifier).refresh(currentMemberId),
+              Navigator.pop(context),
             },
             style: TextButton.styleFrom(
               primary: ThemeColor.darkGray,

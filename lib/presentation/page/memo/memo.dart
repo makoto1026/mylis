@@ -17,6 +17,7 @@ class MemoPage extends HookConsumerWidget {
     final colorState = ref.watch(customizeController);
     final memosController = useScrollController();
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+    final state = ref.watch(memoController);
 
     void _articleScrollListener() async {
       if (memosController.offset >= memosController.position.maxScrollExtent &&
@@ -41,9 +42,7 @@ class MemoPage extends HookConsumerWidget {
             );
       }();
       return () {};
-    }, []);
-
-    final state = ref.watch(memoController);
+    }, [state]);
 
     return Scaffold(
       appBar: AppBar(

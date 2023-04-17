@@ -10,6 +10,8 @@ import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/loading_state_provider.dart';
+import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
 
 class RegisterMemoPage extends HookConsumerWidget {
@@ -88,11 +90,21 @@ class RegisterMemoPage extends HookConsumerWidget {
                               height: 52,
                               width: 160,
                               child: RoundRectButton(
-                                onPressed: () => {
-                                  ref
+                                onPressed: () async => {
+                                  await ref
+                                      .read(loadingStateProvider.notifier)
+                                      .startLoading(),
+                                  await ref
                                       .read(registerMemoController.notifier)
                                       .create(currentMemberId),
-                                  ref.refresh(memoController),
+                                  await ref
+                                      .read(memoController.notifier)
+                                      .refresh(currentMemberId),
+                                  await ref
+                                      .read(loadingStateProvider.notifier)
+                                      .stopLoading(),
+                                  await showToast(message: "メモを追加しました"),
+                                  Navigator.pop(context),
                                 },
                                 text: "登録",
                               ),
