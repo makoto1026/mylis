@@ -6,7 +6,7 @@ Color changeStringToColor(String color) {
     case "black":
       return Colors.black;
     case "red":
-      return Colors.red;
+      return ThemeColor.red;
     case "orange":
       return ThemeColor.orange;
     case "pastelOrange":
@@ -36,7 +36,7 @@ Color changeStringToColor(String color) {
 String changeColorToString(Color color) {
   if (color == Colors.black) {
     return "black";
-  } else if (color == Colors.red) {
+  } else if (color == ThemeColor.red) {
     return "red";
   } else if (color == ThemeColor.orange) {
     return "orange";

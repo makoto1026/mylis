@@ -16,7 +16,7 @@ class SetArticleIcon {
     } else if (url.contains("facebook")) {
       iconPath = "assets/icons/facebook.svg";
     } else {
-      iconPath = "assets/icons/star.svg";
+      iconPath = "assets/icons/like.svg";
     }
 
     return SvgPicture.asset(

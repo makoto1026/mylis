@@ -19,55 +19,59 @@ class RegisterTagDialog extends HookConsumerWidget {
     return MylisBaseDialog(
       height: 326,
       width: 326,
-      widget: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            MylisTextField(
-              title: "タグ名",
-              onChanged: (value) => {
-                ref.read(registerTagController.notifier).setName(value),
-              },
-            ),
-            const SizedBox(height: 50),
-            Center(
-              child: SizedBox(
-                height: 52,
-                width: 160,
-                child: RoundRectButton(
-                  disable: ref.watch(registerTagController).name.isEmpty,
-                  onPressed: () async => {
-                    FocusScope.of(context).unfocus(),
-                    await ref
-                        .read(registerTagController.notifier)
-                        .setIsLoading(true),
-                    await ref
-                        .read(registerTagController.notifier)
-                        .create(currentMemberId)
-                        .then(
-                          (value) async => {
-                            await ref
-                                .read(registerArticleController.notifier)
-                                .setNewArticle(
-                                  tagId: value,
-                                ),
-                          },
-                        ),
-                    await ref.read(registerTagController.notifier).refresh(),
-                    await ref
-                        .read(tagController.notifier)
-                        .refresh(currentMemberId),
-                    await ref
-                        .read(registerTagController.notifier)
-                        .setIsLoading(false),
-                    Navigator.pop(context),
-                    await showToast(message: "タグを追加しました"),
-                  },
-                  text: "登録",
+      widget: Padding(
+        padding:
+            const EdgeInsets.only(top: 21, bottom: 25, left: 28, right: 28),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              MylisTextField(
+                title: "タグ名",
+                onChanged: (value) => {
+                  ref.read(registerTagController.notifier).setName(value),
+                },
+              ),
+              const SizedBox(height: 50),
+              Center(
+                child: SizedBox(
+                  height: 52,
+                  width: 160,
+                  child: RoundRectButton(
+                    disable: ref.watch(registerTagController).name.isEmpty,
+                    onPressed: () async => {
+                      FocusScope.of(context).unfocus(),
+                      await ref
+                          .read(registerTagController.notifier)
+                          .setIsLoading(true),
+                      await ref
+                          .read(registerTagController.notifier)
+                          .create(currentMemberId)
+                          .then(
+                            (value) async => {
+                              await ref
+                                  .read(registerArticleController.notifier)
+                                  .setNewArticle(
+                                    tagId: value,
+                                  ),
+                            },
+                          ),
+                      await ref.read(registerTagController.notifier).refresh(),
+                      await ref
+                          .read(tagController.notifier)
+                          .refresh(currentMemberId),
+                      await ref
+                          .read(registerTagController.notifier)
+                          .setIsLoading(false),
+                      Navigator.pop(context),
+                      await showToast(message: "タグを追加しました"),
+                    },
+                    text: "登録",
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

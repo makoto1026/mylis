@@ -8,7 +8,7 @@ import 'package:mylis/presentation/page/articles/register/controller/register_ar
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/register/register_tag.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
-import 'package:mylis/presentation/widget/select_action_dialog.dart';
+import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/router/router.dart';
@@ -90,9 +90,78 @@ class ArticleListView extends HookConsumerWidget {
                           },
                           onLongPress: () => showDialog(
                             context: context,
-                            barrierColor: colorState.textColor.withOpacity(0.5),
-                            builder: (context) => SelectActionDialog(
-                              onPressedWithEdit: () async => {
+                            barrierColor:
+                                colorState.textColor.withOpacity(0.25),
+                            builder: (context) => CustomDialog(
+                              title: "記事の編集、削除",
+                              noButtonText: "削除",
+                              okButtonText: "編集",
+                              onPressedWithNo: () => {
+                                showDialog(
+                                  context: context,
+                                  barrierColor:
+                                      colorState.textColor.withOpacity(0),
+                                  builder: (BuildContext context) {
+                                    return CustomDialog(
+                                      height: 160,
+                                      title: "本当に削除しますか？",
+                                      message: "データからも完全に削除されます",
+                                      onPressedWithNo: () =>
+                                          Navigator.pop(context),
+                                      onPressedWithOk: () async => {
+                                        isBack.value = true,
+                                        await ref
+                                            .read(
+                                              loadingStateProvider.notifier,
+                                            )
+                                            .startLoading(),
+                                        await ref
+                                            .read(
+                                              editArticleController.notifier,
+                                            )
+                                            .delete(
+                                              currentMemberId,
+                                              ref
+                                                  .watch(
+                                                    articleController.notifier,
+                                                  )
+                                                  .setArticlesWithTagUUID(
+                                                    tagId,
+                                                  )
+                                                  .articles[index],
+                                              tagId,
+                                            ),
+                                        await ref
+                                            .read(
+                                              editArticleController.notifier,
+                                            )
+                                            .refresh(),
+                                        await ref
+                                            .read(articleController.notifier)
+                                            .initialized(currentMemberId,
+                                                tagState.tagList),
+                                        await ref
+                                            .read(articleController.notifier)
+                                            .setCount(),
+                                        await ref
+                                            .read(
+                                              loadingStateProvider.notifier,
+                                            )
+                                            .stopLoading(),
+                                        Navigator.pop(context),
+                                        await showToast(message: "削除しました"),
+                                      },
+                                    );
+                                  },
+                                ).whenComplete(
+                                  () => {
+                                    isBack.value
+                                        ? Navigator.pop(context)
+                                        : null,
+                                  },
+                                ),
+                              },
+                              onPressedWithOk: () async => {
                                 Navigator.pushNamed(
                                   context,
                                   RouteNames.editArticle.path,
@@ -106,80 +175,6 @@ class ArticleListView extends HookConsumerWidget {
                                 ).whenComplete(
                                   () => {
                                     Navigator.pop(context),
-                                  },
-                                ),
-                              },
-                              onPressedWithDelete: () => {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text("本当に削除しますか？"),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: const Text("いいえ"),
-                                        ),
-                                        TextButton(
-                                          onPressed: () async => {
-                                            isBack.value = true,
-                                            await ref
-                                                .read(
-                                                  loadingStateProvider.notifier,
-                                                )
-                                                .startLoading(),
-                                            await ref
-                                                .read(
-                                                  editArticleController
-                                                      .notifier,
-                                                )
-                                                .delete(
-                                                  currentMemberId,
-                                                  ref
-                                                      .watch(
-                                                        articleController
-                                                            .notifier,
-                                                      )
-                                                      .setArticlesWithTagUUID(
-                                                        tagId,
-                                                      )
-                                                      .articles[index],
-                                                  tagId,
-                                                ),
-                                            await ref
-                                                .read(
-                                                  editArticleController
-                                                      .notifier,
-                                                )
-                                                .refresh(),
-                                            await ref
-                                                .read(
-                                                    articleController.notifier)
-                                                .initialized(currentMemberId,
-                                                    tagState.tagList),
-                                            await ref
-                                                .read(
-                                                    articleController.notifier)
-                                                .setCount(),
-                                            await ref
-                                                .read(
-                                                  loadingStateProvider.notifier,
-                                                )
-                                                .stopLoading(),
-                                            Navigator.pop(context),
-                                            await showToast(message: "削除しました"),
-                                          },
-                                          child: const Text("はい"),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ).whenComplete(
-                                  () => {
-                                    isBack.value
-                                        ? Navigator.pop(context)
-                                        : null,
                                   },
                                 ),
                               },

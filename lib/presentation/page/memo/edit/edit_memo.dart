@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/domain/entities/memo.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
 import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controller.dart';
-import 'package:mylis/presentation/widget/mylis_text_field.dart';
+import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
 
 class EditMemoPage extends HookConsumerWidget {
-  const EditMemoPage({Key? key}) : super(key: key);
+  const EditMemoPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final memo = ModalRoute.of(context)!.settings.arguments as Memo;
+    final textEditingController = useTextEditingController();
+    final state = ref.watch(editMemoController);
+    final isBack = useState(false);
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final colorState = ref.watch(customizeController);
 
     useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(editMemoController.notifier).setMemo(memo);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        textEditingController.text = state.body;
       });
       return () {};
     }, []);
@@ -47,7 +52,7 @@ class EditMemoPage extends HookConsumerWidget {
             onPressed: () async => {
               await ref
                   .read(editMemoController.notifier)
-                  .update(currentMemberId, memo.uuid ?? ""),
+                  .update(currentMemberId, state.uuid ?? ""),
               await showToast(message: "メモを更新しました"),
               await ref.read(editMemoController.notifier).refresh(),
               await ref.read(memoController.notifier).refresh(currentMemberId),
@@ -61,27 +66,94 @@ class EditMemoPage extends HookConsumerWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 30,
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
         ),
+        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MylisTextField(
-              title: "タイトル",
-              initialValue: memo.title,
-              onChanged: (value) => ref
-                  .read(editMemoController.notifier)
-                  .setUpdateValue(title: value),
+            TextFormField(
+              style: const TextStyle(
+                fontSize: 14,
+                color: ThemeColor.darkGray,
+                fontWeight: FontWeight.bold,
+              ),
+              initialValue: state.title,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+              ),
+              onChanged: (value) {
+                ref
+                    .read(editMemoController.notifier)
+                    .setUpdateValue(title: value);
+              },
             ),
-            const SizedBox(height: 10),
-            MylisTextField(
-              title: "内容",
-              initialValue: memo.body,
-              onChanged: (value) => ref
-                  .read(editMemoController.notifier)
-                  .setUpdateValue(body: value),
+            TextFormField(
+              style: const TextStyle(
+                fontSize: 14,
+                height: 1.5,
+              ),
+              controller: textEditingController,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+              ),
+              onChanged: (value) {
+                ref
+                    .read(editMemoController.notifier)
+                    .setUpdateValue(body: value);
+              },
+            ),
+            const Spacer(),
+            Center(
+              child: TextButton(
+                onPressed: () async => {
+                  showDialog(
+                    context: context,
+                    barrierColor: colorState.textColor.withOpacity(0.25),
+                    builder: (BuildContext context) {
+                      return CustomDialog(
+                        height: 160,
+                        title: "本当に削除しますか？",
+                        message: "データは完全に削除されます",
+                        onPressedWithNo: () => Navigator.pop(context),
+                        onPressedWithOk: () async => {
+                          isBack.value = true,
+                          await ref
+                              .read(loadingStateProvider.notifier)
+                              .startLoading(),
+                          await ref
+                              .read(editMemoController.notifier)
+                              .delete(currentMemberId, state.uuid ?? ""),
+                          await ref.read(editMemoController.notifier).refresh(),
+                          await ref
+                              .read(loadingStateProvider.notifier)
+                              .stopLoading(),
+                          Navigator.pop(context),
+                          await showToast(message: "削除しました"),
+                        },
+                      );
+                    },
+                  ).whenComplete(
+                    () => {
+                      isBack.value ? Navigator.pop(context) : null,
+                    },
+                  )
+                },
+                style: TextButton.styleFrom(
+                  primary: ThemeColor.darkGray,
+                  alignment: Alignment.center,
+                  textStyle: const TextStyle(
+                    decoration: TextDecoration.underline,
+                    fontSize: 16,
+                  ),
+                ),
+                child: const Text('削除'),
+              ),
             ),
           ],
         ),
