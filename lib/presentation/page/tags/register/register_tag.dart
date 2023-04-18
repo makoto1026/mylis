@@ -18,6 +18,7 @@ class RegisterTagView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+    final state = ref.watch(registerTagController);
 
     return Column(
       children: [
@@ -39,6 +40,7 @@ class RegisterTagView extends HookConsumerWidget {
                     height: 52,
                     width: 160,
                     child: RoundRectButton(
+                      disable: state.name == "",
                       onPressed: () async => {
                         await ref
                             .read(loadingStateProvider.notifier)

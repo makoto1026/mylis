@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/theme/mixin.dart';
 
 class MylisBaseDialog extends HookConsumerWidget {
   const MylisBaseDialog({
@@ -20,31 +19,15 @@ class MylisBaseDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Container(
         constraints: BoxConstraints(maxHeight: height, maxWidth: width),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
         ),
-        padding:
-            const EdgeInsets.only(top: 21, bottom: 25, left: 28, right: 28),
-        child: Center(
-          child: title == ""
-              ? widget
-              : Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      title!,
-                      style: grayTextStyle,
-                    ),
-                    const SizedBox(height: 30),
-                    widget,
-                  ],
-                ),
-        ),
+        child: Center(child: widget),
       ),
     );
   }

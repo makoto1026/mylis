@@ -122,7 +122,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                                   showDialog(
                                     context: context,
                                     barrierColor:
-                                        colorState.textColor.withOpacity(0.5),
+                                        colorState.textColor.withOpacity(0.25),
                                     builder: (context) =>
                                         const RegisterTagDialog(),
                                   ),

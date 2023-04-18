@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
+import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controller.dart';
 import 'package:mylis/presentation/page/memo/widget/memo_box.dart';
-import 'package:mylis/presentation/page/memo/widget/memo_detail_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
@@ -82,19 +82,19 @@ class MemoPage extends HookConsumerWidget {
                 mainAxisSpacing: 0,
                 crossAxisSpacing: 3,
                 physics: const ClampingScrollPhysics(),
-                childAspectRatio: 2,
+                childAspectRatio: 2.25,
                 children: List.generate(
                   state.memoList.length,
                   (index) => GestureDetector(
-                    //TODO: メモをタップした時の挙動を考える
                     onTap: () => {
-                      showDialog(
-                        context: context,
-                        barrierColor: colorState.textColor.withOpacity(0.5),
-                        builder: (context) => MemoDetailDialog(
-                          memo: state.memoList[index],
-                        ),
-                      ),
+                      // 一旦ダイアログではなくページ遷移で実装
+                      ref
+                          .read(editMemoController.notifier)
+                          .setMemo(state.memoList[index]),
+                      Navigator.pushNamed(
+                        context,
+                        RouteNames.editMemo.path,
+                      )
                     },
                     child: MemoBox(
                       item: state.memoList[index],

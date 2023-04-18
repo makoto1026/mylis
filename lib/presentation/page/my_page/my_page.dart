@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/my_page/widget/mypage_text_button.dart';
+import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/session_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
@@ -83,30 +84,23 @@ class MyPage extends HookConsumerWidget {
             onTap: () => {
               showDialog(
                 context: context,
+                barrierColor: colorState.textColor.withOpacity(0.25),
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("ログアウトしますか？"),
-                    actions: <Widget>[
-                      TextButton(
-                        child: const Text("いいえ"),
-                        onPressed: () => Navigator.pop(context),
+                  return CustomDialog(
+                    title: "ログアウトしますか？",
+                    onPressedWithNo: () => Navigator.pop(context),
+                    onPressedWithOk: () => {
+                      ref.read(sessionProvider.notifier).signOut(),
+                      ref.read(currentTabProvider.notifier).changeTab(
+                            main_page.Tab.home,
+                          ),
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        RouteNames.auth.path,
+                        (route) => false,
                       ),
-                      TextButton(
-                        child: const Text("はい"),
-                        onPressed: () async {
-                          ref.read(sessionProvider.notifier).signOut();
-                          ref.read(currentTabProvider.notifier).changeTab(
-                                main_page.Tab.home,
-                              );
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            RouteNames.auth.path,
-                            (route) => false,
-                          );
-                          showToast(message: "ログアウトしました");
-                        },
-                      ),
-                    ],
+                      showToast(message: "ログアウトしました"),
+                    },
                   );
                 },
               ),

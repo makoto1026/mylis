@@ -21,6 +21,7 @@ class RegisterMemoPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final colorState = ref.watch(customizeController);
+    final state = ref.watch(registerMemoController);
 
     useEffect(() {
       ref.refresh(registerMemoController);
@@ -90,6 +91,7 @@ class RegisterMemoPage extends HookConsumerWidget {
                               height: 52,
                               width: 160,
                               child: RoundRectButton(
+                                disable: state.title == "" && state.body == "",
                                 onPressed: () async => {
                                   await ref
                                       .read(loadingStateProvider.notifier)

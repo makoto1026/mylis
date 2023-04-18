@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_list_view.dart';
-import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/provider/current_member_provider.dart';

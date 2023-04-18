@@ -36,7 +36,6 @@ class CustomizePage extends HookConsumerWidget {
             onTap: () => {
               showDialog(
                 context: context,
-                barrierColor: ThemeColor.orange.withOpacity(0.5),
                 builder: (conetxt) => const CustomizeTextColorDialog(),
               )
             },
