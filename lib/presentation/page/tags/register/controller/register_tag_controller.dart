@@ -25,11 +25,11 @@ class RegisterTagController extends StateNotifier<RegisterTagState> {
     state = state.copyWith(name: name);
   }
 
-  Future<String> create(String memberId) async {
+  Future<String> create(String memberId, int tagListLength) async {
     final tag = Tag(
       uuid: "",
       name: state.name,
-      position: 0,
+      position: tagListLength + 1,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );

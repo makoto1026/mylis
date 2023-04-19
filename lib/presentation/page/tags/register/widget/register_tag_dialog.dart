@@ -15,6 +15,7 @@ class RegisterTagDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+    final tagList = ref.watch(tagController).tagList;
 
     return MylisBaseDialog(
       height: 326,
@@ -46,7 +47,7 @@ class RegisterTagDialog extends HookConsumerWidget {
                           .setIsLoading(true),
                       await ref
                           .read(registerTagController.notifier)
-                          .create(currentMemberId)
+                          .create(currentMemberId, tagList.length - 1)
                           .then(
                             (value) async => {
                               await ref
@@ -59,7 +60,7 @@ class RegisterTagDialog extends HookConsumerWidget {
                       await ref.read(registerTagController.notifier).refresh(),
                       await ref
                           .read(tagController.notifier)
-                          .refresh(currentMemberId, true),
+                          .refresh(currentMemberId, true, false),
                       await ref
                           .read(registerTagController.notifier)
                           .setIsLoading(false),

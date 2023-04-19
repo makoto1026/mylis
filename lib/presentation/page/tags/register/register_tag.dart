@@ -19,6 +19,7 @@ class RegisterTagView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final state = ref.watch(registerTagController);
+    final tagList = ref.watch(tagController).tagList;
 
     return Column(
       children: [
@@ -47,13 +48,13 @@ class RegisterTagView extends HookConsumerWidget {
                             .startLoading(),
                         await ref
                             .read(registerTagController.notifier)
-                            .create(currentMemberId),
+                            .create(currentMemberId, tagList.length - 1),
                         await ref
                             .read(registerTagController.notifier)
                             .refresh(),
                         await ref
                             .read(tagController.notifier)
-                            .refresh(currentMemberId, true),
+                            .refresh(currentMemberId, true, false),
                         await ref
                             .read(loadingStateProvider.notifier)
                             .stopLoading(),

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
+import 'package:mylis/presentation/page/tags/edit/edit_tag_list_item.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
-import 'package:mylis/router/router.dart';
+import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/theme/color.dart';
 
 class EditTagListPage extends HookConsumerWidget {
@@ -13,6 +14,7 @@ class EditTagListPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(tagController);
     final colorState = ref.watch(customizeController);
+    final currentMemberId = ref.watch(currentMemberProvider)?.uuid;
 
     final editTagController = useScrollController();
 
@@ -54,41 +56,30 @@ class EditTagListPage extends HookConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        child: ListView.builder(
-          itemCount: state.tagList.length - 1,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    RouteNames.editTag.path,
-                    arguments: state.tagList[index],
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        state.tagList[index].name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: ThemeColor.darkGray,
-                        ),
-                      ),
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: ThemeColor.darkGray,
-                      size: 16,
-                    ),
-                  ],
+        child: Column(
+          children: [
+            Expanded(
+              child: ReorderableListView.builder(
+                itemCount: state.tagList.length - 1,
+                itemBuilder: (context, index) => EditTagListItem(
+                  item: state.tagList[index],
+                  key: Key('$index'),
                 ),
+                onReorder: (int oldIndex, int newIndex) {
+                  ref.read(tagController.notifier).reorderTagListWithEdit(
+                      oldIndex, newIndex, currentMemberId ?? "");
+                },
+                proxyDecorator: (widget, _, __) {
+                  return Opacity(opacity: 0.5, child: widget);
+                },
               ),
-            );
-          },
+            ),
+            const Text(
+              "タグの並び替えは長押し&スライドで行えます",
+              style: TextStyle(fontSize: 12),
+            ),
+            const SizedBox(height: 10),
+          ],
         ),
       ),
     );
