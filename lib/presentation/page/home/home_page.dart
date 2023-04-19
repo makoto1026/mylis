@@ -134,7 +134,7 @@ class HomePage extends HookConsumerWidget {
           controller: tabController,
           children: tagList
               .map(
-                (e) => ArticleListView(tagId: e.uuid ?? ""),
+                (e) => ArticleListView(tag: e),
               )
               .toList(),
         ),

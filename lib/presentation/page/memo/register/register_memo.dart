@@ -50,7 +50,7 @@ class RegisterMemoPage extends HookConsumerWidget {
                 child: Center(
                   child: Column(
                     children: [
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 20),
                       MylisTextField(
                         title: "タイトル",
                         onChanged: (value) => ref
@@ -60,8 +60,9 @@ class RegisterMemoPage extends HookConsumerWidget {
                       const SizedBox(height: 30),
                       MylisTextField(
                         title: "内容",
-                        maxLines: 5,
-                        minLines: 5,
+                        maxLines: 12,
+                        minLines: 10,
+                        fontSize: 14,
                         isAFewLine: true,
                         onChanged: (value) => ref
                             .read(registerMemoController.notifier)

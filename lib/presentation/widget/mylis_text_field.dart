@@ -13,6 +13,7 @@ class MylisTextField extends HookConsumerWidget {
     this.minLines = 1,
     this.isAFewLine = false,
     this.initialValue = "",
+    this.height = 1.5,
     Key? key,
   }) : super(key: key);
   final String title;
@@ -23,6 +24,7 @@ class MylisTextField extends HookConsumerWidget {
   final int minLines;
   final bool isAFewLine;
   final String initialValue;
+  final double height;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,6 +46,10 @@ class MylisTextField extends HookConsumerWidget {
         ),
         const SizedBox(height: 5),
         TextFormField(
+          style: TextStyle(
+            fontSize: fontSize,
+            height: height,
+          ),
           controller: controller,
           inputFormatters:
               isAFewLine ? [LengthLimitingTextInputFormatter(2000)] : null,

@@ -55,7 +55,7 @@ class MemoBox extends HookConsumerWidget {
                           fontSize: 12,
                         ),
                         overflow: TextOverflow.ellipsis, // 長いテキストを省略記号で表示する
-                        maxLines: 5,
+                        maxLines: 1,
                       ),
                     ],
                   ),

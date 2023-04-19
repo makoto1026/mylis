@@ -80,9 +80,8 @@ class MemoPage extends HookConsumerWidget {
                 controller: memosController,
                 crossAxisCount: 1,
                 mainAxisSpacing: 0,
-                crossAxisSpacing: 3,
                 physics: const ClampingScrollPhysics(),
-                childAspectRatio: 2.25,
+                childAspectRatio: 4.5,
                 children: List.generate(
                   state.memoList.length,
                   (index) => GestureDetector(

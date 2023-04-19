@@ -100,7 +100,7 @@ class EditTagPage extends HookConsumerWidget {
                           await ref.read(editTagController.notifier).refresh(),
                           await ref
                               .read(tagController.notifier)
-                              .refresh(currentMemberId),
+                              .refresh(currentMemberId, false),
                           await ref
                               .read(loadingStateProvider.notifier)
                               .stopLoading(),

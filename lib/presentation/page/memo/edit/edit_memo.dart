@@ -66,96 +66,96 @@ class EditMemoPage extends HookConsumerWidget {
           ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextFormField(
-              style: const TextStyle(
-                fontSize: 14,
-                color: ThemeColor.darkGray,
-                fontWeight: FontWeight.bold,
-              ),
-              initialValue: state.title,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-              ),
-              onChanged: (value) {
-                ref
-                    .read(editMemoController.notifier)
-                    .setUpdateValue(title: value);
-              },
-            ),
-            TextFormField(
-              style: const TextStyle(
-                fontSize: 14,
-                height: 1.5,
-              ),
-              controller: textEditingController,
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-              ),
-              onChanged: (value) {
-                ref
-                    .read(editMemoController.notifier)
-                    .setUpdateValue(body: value);
-              },
-            ),
-            const Spacer(),
-            Center(
-              child: TextButton(
-                onPressed: () async => {
-                  showDialog(
-                    context: context,
-                    barrierColor: colorState.textColor.withOpacity(0.25),
-                    builder: (BuildContext context) {
-                      return CustomDialog(
-                        height: 160,
-                        title: "本当に削除しますか？",
-                        message: "データは完全に削除されます",
-                        onPressedWithNo: () => Navigator.pop(context),
-                        onPressedWithOk: () async => {
-                          isBack.value = true,
-                          await ref
-                              .read(loadingStateProvider.notifier)
-                              .startLoading(),
-                          await ref
-                              .read(editMemoController.notifier)
-                              .delete(currentMemberId, state.uuid ?? ""),
-                          await ref.read(editMemoController.notifier).refresh(),
-                          await ref
-                              .read(loadingStateProvider.notifier)
-                              .stopLoading(),
-                          Navigator.pop(context),
-                          await showToast(message: "削除しました"),
-                        },
-                      );
-                    },
-                  ).whenComplete(
-                    () => {
-                      isBack.value ? Navigator.pop(context) : null,
-                    },
-                  )
-                },
-                style: TextButton.styleFrom(
-                  primary: ThemeColor.darkGray,
-                  alignment: Alignment.center,
-                  textStyle: const TextStyle(
-                    decoration: TextDecoration.underline,
-                    fontSize: 16,
-                  ),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: ThemeColor.darkGray,
+                  fontWeight: FontWeight.bold,
                 ),
-                child: const Text('削除'),
+                initialValue: state.title,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+                onChanged: (value) {
+                  ref
+                      .read(editMemoController.notifier)
+                      .setUpdateValue(title: value);
+                },
               ),
-            ),
-          ],
+              TextFormField(
+                style: const TextStyle(
+                  fontSize: 14,
+                  height: 1.5,
+                ),
+                controller: textEditingController,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+                onChanged: (value) {
+                  ref
+                      .read(editMemoController.notifier)
+                      .setUpdateValue(body: value);
+                },
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: TextButton(
+                  onPressed: () async => {
+                    showDialog(
+                      context: context,
+                      barrierColor: colorState.textColor.withOpacity(0.25),
+                      builder: (BuildContext context) {
+                        return CustomDialog(
+                          height: 160,
+                          title: "本当に削除しますか？",
+                          message: "データは完全に削除されます",
+                          onPressedWithNo: () => Navigator.pop(context),
+                          onPressedWithOk: () async => {
+                            isBack.value = true,
+                            await ref
+                                .read(loadingStateProvider.notifier)
+                                .startLoading(),
+                            await ref
+                                .read(editMemoController.notifier)
+                                .delete(currentMemberId, state.uuid ?? ""),
+                            await ref
+                                .read(editMemoController.notifier)
+                                .refresh(),
+                            await ref
+                                .read(loadingStateProvider.notifier)
+                                .stopLoading(),
+                            Navigator.pop(context),
+                            await showToast(message: "削除しました"),
+                          },
+                        );
+                      },
+                    ).whenComplete(
+                      () => {
+                        isBack.value ? Navigator.pop(context) : null,
+                      },
+                    )
+                  },
+                  style: TextButton.styleFrom(
+                    primary: ThemeColor.darkGray,
+                    alignment: Alignment.center,
+                    textStyle: const TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: 16,
+                    ),
+                  ),
+                  child: const Text('削除'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -22,9 +22,9 @@
 	<string>1.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-    <key>AppGroupId</key>
-    <string>$(CUSTOM_GROUP_ID)</string>
-    <key>CFBundleURLTypes</key>
+	<key>AppGroupId</key>
+	<string>$(CUSTOM_GROUP_ID)</string>
+	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -33,7 +33,7 @@
 			<string>com.mylis.dev</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-                <string>ShareMedia-$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+				<string>ShareMedia-$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 				<string>com.googleusercontent.apps.911848675860-jd4e5hpah45c65aoo6qo6sljnrb1pjrl</string>
 			</array>
 		</dict>
@@ -44,15 +44,15 @@
 			<string>com.mylis</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-                <string>ShareMedia-$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+				<string>ShareMedia-$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 				<string>com.googleusercontent.apps.354565385108-924ham2gucchip58hck1342a0795q1u5</string>
 			</array>
 		</dict>
 	</array>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>To upload photos, please allow permission to access your photo library.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To upload photos, please allow permission to access your photo library.</string>
 	<key>CFBundleVersion</key>
-	<string>6</string>
+	<string>7</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-2003936641755086~9105098086</string>
 	<key>LSRequiresIPhoneOS</key>

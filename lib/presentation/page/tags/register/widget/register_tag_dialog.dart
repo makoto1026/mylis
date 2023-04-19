@@ -59,7 +59,7 @@ class RegisterTagDialog extends HookConsumerWidget {
                       await ref.read(registerTagController.notifier).refresh(),
                       await ref
                           .read(tagController.notifier)
-                          .refresh(currentMemberId),
+                          .refresh(currentMemberId, true),
                       await ref
                           .read(registerTagController.notifier)
                           .setIsLoading(false),

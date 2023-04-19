@@ -47,7 +47,7 @@ class TagController extends StateNotifier<TagState> {
     state = state.copyWith(tag: tag);
   }
 
-  Future<void> refresh(String memberId) async {
+  Future<void> refresh(String memberId, bool isSetTag) async {
     final tag = Tag(
       name: "",
       position: 0,
@@ -59,7 +59,7 @@ class TagController extends StateNotifier<TagState> {
       tag: tag,
     );
     await getList(memberId);
-    if (state.tagList.length > 1) {
+    if (state.tagList.length > 1 && isSetTag) {
       await setTag(state.tagList[state.tagList.length - 2]);
     } else {
       await setTag(state.tagList[0]);
