@@ -180,18 +180,22 @@ class RegisterArticlePage extends HookConsumerWidget {
                                       await ref
                                           .read(loadingStateProvider.notifier)
                                           .startLoading(),
-                                      ref
+                                      await ref
                                           .read(registerArticleController
                                               .notifier)
                                           .create(currentMemberId),
-                                      ref
+                                      await ref
                                           .read(receiveSharingIntentProvider
                                               .notifier)
                                           .initialized(),
-                                      ref
+                                      await ref
                                           .read(articleController.notifier)
                                           .initialized(currentMemberId,
                                               tagState.tagList),
+                                      await ref
+                                          .read(registerArticleController
+                                              .notifier)
+                                          .refresh(),
                                       await ref
                                           .read(loadingStateProvider.notifier)
                                           .stopLoading(),
