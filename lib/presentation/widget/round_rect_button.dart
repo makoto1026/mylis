@@ -36,6 +36,7 @@ class RoundRectButton extends HookConsumerWidget {
             style: BorderStyle.solid,
           ),
         ),
+        splashFactory: NoSplash.splashFactory,
         elevation: 0,
       ),
       child: Text(

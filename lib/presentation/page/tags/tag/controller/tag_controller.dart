@@ -31,10 +31,12 @@ class TagController extends StateNotifier<TagState> {
   Future<void> getList(String memberId) async {
     final tagList = await tagRepository.getList(memberId);
 
+    tagList.sort((a, b) => a.position.compareTo(b.position));
+
     tagList.add(
       Tag(
         uuid: "",
-        name: "タグ +",
+        name: " + ",
         position: tagList.length + 1,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -47,7 +49,7 @@ class TagController extends StateNotifier<TagState> {
     state = state.copyWith(tag: tag);
   }
 
-  Future<void> refresh(String memberId) async {
+  Future<void> refresh(String memberId, bool isSetTag, bool isDelete) async {
     final tag = Tag(
       name: "",
       position: 0,
@@ -59,10 +61,54 @@ class TagController extends StateNotifier<TagState> {
       tag: tag,
     );
     await getList(memberId);
-    if (state.tagList.length > 1) {
+
+    if (isDelete) {
+      await reorderTagListWithDelete(memberId);
+    }
+
+    if (state.tagList.length > 1 && isSetTag) {
       await setTag(state.tagList[state.tagList.length - 2]);
     } else {
       await setTag(state.tagList[0]);
+    }
+  }
+
+  Future<void> reorderTagListWithEdit(
+      int oldIndex, int newIndex, String memberId) async {
+    final items = [...state.tagList];
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+
+    items.insert(newIndex, items.removeAt(oldIndex));
+    state = state.copyWith(tagList: items);
+
+    for (int i = 0; i < state.tagList.length; i++) {
+      final tag = Tag(
+        uuid: state.tagList[i].uuid,
+        name: state.tagList[i].name,
+        position: i + 1,
+        createdAt: state.tagList[i].createdAt,
+        updatedAt: state.tagList[i].updatedAt,
+      );
+      if (state.tagList[i].uuid != "" && state.tagList[i].uuid != null) {
+        await tagRepository.update(memberId, tag);
+      }
+    }
+  }
+
+  Future<void> reorderTagListWithDelete(String memberId) async {
+    for (int i = 0; i < state.tagList.length; i++) {
+      final tag = Tag(
+        uuid: state.tagList[i].uuid,
+        name: state.tagList[i].name,
+        position: i + 1,
+        createdAt: state.tagList[i].createdAt,
+        updatedAt: state.tagList[i].updatedAt,
+      );
+      if (state.tagList[i].uuid != "" && state.tagList[i].uuid != null) {
+        await tagRepository.update(memberId, tag);
+      }
     }
   }
 }

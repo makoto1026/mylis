@@ -8,8 +8,10 @@ import 'package:mylis/presentation/page/articles/article/widget/article_list_vie
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/presentation/page/main_page.dart' as main_page;
 
 class _MyTickerProvider implements TickerProvider {
   @override
@@ -71,6 +73,7 @@ class HomePage extends HookConsumerWidget {
         }
         WidgetsBinding.instance.addPostFrameCallback(
           (_) async {
+            ref.read(currentTabProvider.notifier).changeTab(main_page.Tab.home);
             await Navigator.pushNamed(context, RouteNames.registerArticle.path);
           },
         );
@@ -121,6 +124,7 @@ class HomePage extends HookConsumerWidget {
               fontWeight: FontWeight.normal,
             ),
             unselectedLabelColor: ThemeColor.darkGray,
+            splashFactory: NoSplash.splashFactory,
             tabs: tagList
                 .map(
                   (e) => Tab(
@@ -134,7 +138,7 @@ class HomePage extends HookConsumerWidget {
           controller: tabController,
           children: tagList
               .map(
-                (e) => ArticleListView(tagId: e.uuid ?? ""),
+                (e) => ArticleListView(tag: e),
               )
               .toList(),
         ),

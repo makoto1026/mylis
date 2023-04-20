@@ -6,6 +6,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/config.dart';
+import 'package:mylis/domain/observer/widget_observer.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
@@ -54,12 +55,13 @@ class MyApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    WidgetsBinding.instance.addObserver(MyWidgetsBindingObserver());
     useEffect(() {
       () async {
         await Future.wait({
           ref.read(sessionProvider.notifier).checkSignInState(),
           ref.read(receiveSharingIntentProvider.notifier).initialized(),
-          ref.read(currentTabProvider.notifier).initialized()
+          ref.read(currentTabProvider.notifier).initialized(),
         });
 
         await Future.delayed(const Duration(seconds: 3));
@@ -70,6 +72,7 @@ class MyApp extends HookConsumerWidget {
     }, []);
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       routes: ref.read(routerProvider),
       initialRoute: ref.watch(currentMemberProvider) == null
           ? RouteNames.auth.path

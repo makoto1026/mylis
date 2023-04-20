@@ -31,7 +31,7 @@ class EditTagPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'タグ編集',
+          'リスト編集',
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
@@ -48,13 +48,21 @@ class EditTagPage extends HookConsumerWidget {
           TextButton(
             onPressed: () async {
               ref.read(editTagController.notifier).update(currentMemberId);
-              showToast(message: "タグを更新しました");
+              showToast(message: "リストを更新しました");
               ref.read(tagController.notifier).initialized(currentMemberId);
               Navigator.pop(context);
             },
-            style: TextButton.styleFrom(
-              primary: ThemeColor.darkGray,
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return ThemeColor.darkGray.withOpacity(0.25);
+                  }
+                  return ThemeColor.darkGray;
+                },
+              ),
               alignment: Alignment.center,
+              splashFactory: NoSplash.splashFactory,
             ),
             child: const Text('保存'),
           ),
@@ -100,7 +108,7 @@ class EditTagPage extends HookConsumerWidget {
                           await ref.read(editTagController.notifier).refresh(),
                           await ref
                               .read(tagController.notifier)
-                              .refresh(currentMemberId),
+                              .refresh(currentMemberId, false, true),
                           await ref
                               .read(loadingStateProvider.notifier)
                               .stopLoading(),
@@ -122,6 +130,7 @@ class EditTagPage extends HookConsumerWidget {
                     decoration: TextDecoration.underline,
                     fontSize: 16,
                   ),
+                  splashFactory: NoSplash.splashFactory,
                 ),
                 child: const Text('削除'),
               ),

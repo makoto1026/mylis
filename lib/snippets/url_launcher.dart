@@ -13,6 +13,6 @@ Future<void> openUrl({
 Future<void> openMailApp() async {
   final title = Uri.encodeComponent("mylisお問い合わせ");
   final body = Uri.encodeComponent("");
-  const mailAddress = 'trsmmkt@gmail.com';
+  const mailAddress = 'mylis.app.info@gmail.com';
   await launchUrlString('mailto:$mailAddress?subject=$title&body=$body');
 }

@@ -12,23 +12,17 @@ class MemoBox extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var screenSize = MediaQuery.of(context).size;
+    final convertedText = item.body.replaceAll("\\n", "\n");
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 5,
-        vertical: 10,
+        vertical: 7.5,
       ),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(10),
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              spreadRadius: 0,
-              blurRadius: 7,
-              offset: const Offset(0, 0),
-              color: Colors.grey.withOpacity(0.5),
-            ),
-          ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -37,25 +31,23 @@ class MemoBox extends HookConsumerWidget {
               SizedBox(width: screenSize.width * 0.02),
               Flexible(
                 child: SizedBox(
-                  // width: screenSize.width * 0.62,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item.title,
+                        convertedText.split('\n')[0],
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 5),
                       Text(
-                        item.body,
+                        convertedText.split('\n').skip(1).join('\n'),
                         style: const TextStyle(
                           fontSize: 12,
                         ),
-                        overflow: TextOverflow.ellipsis, // 長いテキストを省略記号で表示する
-                        maxLines: 5,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ],
                   ),

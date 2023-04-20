@@ -41,8 +41,10 @@ class MemoPage extends HookConsumerWidget {
               },
             );
       }();
-      return () {};
-    }, [state]);
+      return () {
+        memosController.removeListener(_articleScrollListener);
+      };
+    }, [state.memoList.length]);
 
     return Scaffold(
       appBar: AppBar(
@@ -73,19 +75,16 @@ class MemoPage extends HookConsumerWidget {
           ),
         ),
       ),
-      body: Padding(
+      body: Container(
+        color: const Color.fromARGB(255, 236, 236, 236),
         padding: const EdgeInsets.all(10),
         child: state.memoList.isNotEmpty
-            ? GridView.count(
+            ? ListView.builder(
                 controller: memosController,
-                crossAxisCount: 1,
-                mainAxisSpacing: 0,
-                crossAxisSpacing: 3,
                 physics: const ClampingScrollPhysics(),
-                childAspectRatio: 2.25,
-                children: List.generate(
-                  state.memoList.length,
-                  (index) => GestureDetector(
+                itemCount: state.memoList.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
                     onTap: () => {
                       // 一旦ダイアログではなくページ遷移で実装
                       ref
@@ -99,8 +98,8 @@ class MemoPage extends HookConsumerWidget {
                     child: MemoBox(
                       item: state.memoList[index],
                     ),
-                  ),
-                ).toList(),
+                  );
+                },
               )
             : const SizedBox.shrink(),
       ),

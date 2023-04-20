@@ -17,7 +17,7 @@ class EmailSignInPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'メールアドレスログイン',
+          'ログイン',
           style: TextStyle(
             color: ThemeColor.orange,
             fontWeight: FontWeight.bold,

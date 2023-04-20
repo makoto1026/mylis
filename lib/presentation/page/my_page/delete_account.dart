@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/my_page/widget/mypage_text_button.dart';
+import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/session_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
@@ -41,32 +42,26 @@ class DeleteAccountPage extends HookConsumerWidget {
             onTap: () => {
               showDialog(
                 context: context,
+                barrierColor: colorState.textColor.withOpacity(0.25),
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("本当に退会しますか？"),
-                    content: const Text("退会すると、すべてのデータが削除されます。"),
-                    actions: <Widget>[
-                      TextButton(
-                        child: const Text("いいえ"),
-                        onPressed: () => Navigator.pop(context),
+                  return CustomDialog(
+                    height: 180,
+                    title: "本当に退会しますか？",
+                    message: "退会すると、すべてのデータが削除されます。",
+                    onPressedWithNo: () => Navigator.pop(context),
+                    onPressedWithOk: () => {
+                      ref.read(currentMemberProvider.notifier).delete(),
+                      ref.read(sessionProvider.notifier).signOut(),
+                      ref.read(currentTabProvider.notifier).changeTab(
+                            main_page.Tab.home,
+                          ),
+                      Navigator.of(context, rootNavigator: false)
+                          .pushNamedAndRemoveUntil(
+                        RouteNames.auth.path,
+                        (_) => false,
                       ),
-                      TextButton(
-                        child: const Text("はい"),
-                        onPressed: () {
-                          ref.read(currentMemberProvider.notifier).delete();
-                          ref.read(sessionProvider.notifier).signOut();
-                          ref.read(currentTabProvider.notifier).changeTab(
-                                main_page.Tab.home,
-                              );
-                          Navigator.of(context, rootNavigator: false)
-                              .pushNamedAndRemoveUntil(
-                            RouteNames.auth.path,
-                            (_) => false,
-                          );
-                          showToast(message: "退会しました");
-                        },
-                      ),
-                    ],
+                      showToast(message: "退会しました"),
+                    },
                   );
                 },
               ),

@@ -33,6 +33,7 @@ class AuthButton extends StatelessWidget {
         ),
         backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
         foregroundColor: MaterialStateProperty.all<Color>(textColor),
+        splashFactory: NoSplash.splashFactory,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/auth/controller/auth_controller.dart';
 import 'package:mylis/presentation/page/auth/widget/auth_button.dart';
@@ -16,6 +17,8 @@ class AuthPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool isIOS = Platform.isIOS;
+
+    final isShowEmailAuthButtons = useState(false);
 
     return Scaffold(
       body: Padding(
@@ -66,7 +69,7 @@ class AuthPage extends HookConsumerWidget {
                           (e) async {
                             await ref
                                 .read(loadingStateProvider.notifier)
-                                .startLoading();
+                                .stopLoading();
                             await showToast(message: "Apple認証に失敗しました");
                           },
                         ),
@@ -87,7 +90,7 @@ class AuthPage extends HookConsumerWidget {
                     (e) async {
                       await ref
                           .read(loadingStateProvider.notifier)
-                          .startLoading();
+                          .stopLoading();
                       await showToast(message: "Google認証に失敗しました");
                     },
                   ),
@@ -99,26 +102,67 @@ class AuthPage extends HookConsumerWidget {
                 iconColor: isIOS ? ThemeColor.darkGray : ThemeColor.white,
               ),
               const SizedBox(height: 20),
-              AuthButton(
-                onPressed: () => {
-                  Navigator.pushNamed(context, RouteNames.emailSignIn.path),
+              isShowEmailAuthButtons.value
+                  ? const SizedBox.shrink()
+                  : Column(
+                      children: [
+                        AuthButton(
+                          onPressed: () => {
+                            isShowEmailAuthButtons.value =
+                                !isShowEmailAuthButtons.value,
+                          },
+                          iconPath: "assets/icons/mail.svg",
+                          text: "メールログイン・新規登録",
+                          backgroundColor: ThemeColor.orange,
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0, -0.5),
+                        end: const Offset(0, 0),
+                      ).animate(animation),
+                      child: child,
+                    ),
+                  );
                 },
-                iconPath: "assets/icons/mail.svg",
-                text: "メールアドレスログイン",
-                backgroundColor: ThemeColor.orange,
+                child: isShowEmailAuthButtons.value
+                    ? Column(
+                        children: [
+                          AuthButton(
+                            onPressed: () => {
+                              Navigator.pushNamed(
+                                  context, RouteNames.emailSignIn.path),
+                            },
+                            iconPath: "assets/icons/mail.svg",
+                            text: "メールログイン",
+                            backgroundColor: ThemeColor.white,
+                            textColor: ThemeColor.orange,
+                            iconColor: ThemeColor.orange,
+                          ),
+                          const SizedBox(height: 20),
+                          AuthButton(
+                            onPressed: () => {
+                              Navigator.pushNamed(
+                                  context, RouteNames.emailSignUp.path),
+                            },
+                            iconPath: "assets/icons/mail.svg",
+                            text: "メール新規登録",
+                            backgroundColor: ThemeColor.white,
+                            textColor: ThemeColor.orange,
+                            iconColor: ThemeColor.orange,
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
               ),
-              const SizedBox(height: 20),
-              AuthButton(
-                onPressed: () => {
-                  Navigator.pushNamed(context, RouteNames.emailSignUp.path),
-                },
-                iconPath: "assets/icons/mail.svg",
-                text: "メールアドレス新規登録",
-                backgroundColor: ThemeColor.white,
-                textColor: ThemeColor.orange,
-                iconColor: ThemeColor.orange,
-              ),
-              const SizedBox(height: 20),
               RichText(
                 text: TextSpan(
                   children: [

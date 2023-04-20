@@ -44,6 +44,9 @@ class IArticleRepository extends ArticleRepository {
         }
       },
     );
+
+    articleList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
     return articleList;
   }
 

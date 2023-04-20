@@ -34,8 +34,8 @@ class ITagRepository extends TagRepository {
       },
     );
 
-    // TODO: 自分の好きな順番に変えられるようにする
     tagList.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
     return tagList;
   }
 

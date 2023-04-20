@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/domain/entities/tag.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_box.dart';
 import 'package:mylis/presentation/page/articles/edit/controller/edit_article_controller.dart';
@@ -19,11 +20,11 @@ import 'package:tuple/tuple.dart';
 
 class ArticleListView extends HookConsumerWidget {
   const ArticleListView({
-    required this.tagId,
+    required this.tag,
     Key? key,
   }) : super(key: key);
 
-  final String tagId;
+  final Tag tag;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,7 +36,7 @@ class ArticleListView extends HookConsumerWidget {
 
     final tagState = ref.watch(tagController);
 
-    return tagId == ""
+    return tag.uuid == ""
         ? const RegisterTagView()
         : Scaffold(
             floatingActionButton: SizedBox(
@@ -64,26 +65,24 @@ class ArticleListView extends HookConsumerWidget {
               padding: const EdgeInsets.all(10),
               child: ref
                       .watch(articleController.notifier)
-                      .setArticlesWithTagUUID(tagId)
+                      .setArticlesWithTagUUID(tag.uuid ?? "")
                       .articles
                       .isNotEmpty
-                  ? GridView.count(
+                  ? ListView.builder(
                       controller: articlesController,
-                      crossAxisCount: 1,
                       physics: const ClampingScrollPhysics(),
-                      childAspectRatio: 4.0,
-                      children: List.generate(
-                        ref
-                            .watch(articleController.notifier)
-                            .setArticlesWithTagUUID(tagId)
-                            .articles
-                            .length,
-                        (index) => GestureDetector(
+                      itemCount: ref
+                          .watch(articleController.notifier)
+                          .setArticlesWithTagUUID(tag.uuid ?? "")
+                          .articles
+                          .length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
                           onTap: () {
                             openUrl(
                               url: ref
                                   .watch(articleController.notifier)
-                                  .setArticlesWithTagUUID(tagId)
+                                  .setArticlesWithTagUUID(tag.uuid ?? "")
                                   .articles[index]
                                   .url,
                             );
@@ -93,7 +92,8 @@ class ArticleListView extends HookConsumerWidget {
                             barrierColor:
                                 colorState.textColor.withOpacity(0.25),
                             builder: (context) => CustomDialog(
-                              title: "記事の編集、削除",
+                              title:
+                                  "「${ref.watch(articleController.notifier).setArticlesWithTagUUID(tag.uuid ?? "").articles[index].title}」の編集、削除",
                               noButtonText: "削除",
                               okButtonText: "編集",
                               onPressedWithNo: () => {
@@ -126,10 +126,10 @@ class ArticleListView extends HookConsumerWidget {
                                                     articleController.notifier,
                                                   )
                                                   .setArticlesWithTagUUID(
-                                                    tagId,
+                                                    tag.uuid ?? "",
                                                   )
                                                   .articles[index],
-                                              tagId,
+                                              tag.uuid ?? "",
                                             ),
                                         await ref
                                             .read(
@@ -137,19 +137,16 @@ class ArticleListView extends HookConsumerWidget {
                                             )
                                             .refresh(),
                                         await ref
-                                            .read(articleController.notifier)
-                                            .initialized(currentMemberId,
-                                                tagState.tagList),
-                                        await ref
-                                            .read(articleController.notifier)
-                                            .setCount(),
-                                        await ref
                                             .read(
                                               loadingStateProvider.notifier,
                                             )
                                             .stopLoading(),
                                         Navigator.pop(context),
                                         await showToast(message: "削除しました"),
+                                        await ref
+                                            .read(articleController.notifier)
+                                            .initialized(currentMemberId,
+                                                tagState.tagList),
                                       },
                                     );
                                   },
@@ -168,9 +165,9 @@ class ArticleListView extends HookConsumerWidget {
                                   arguments: Tuple2(
                                     ref
                                         .watch(articleController.notifier)
-                                        .setArticlesWithTagUUID(tagId)
+                                        .setArticlesWithTagUUID(tag.uuid ?? "")
                                         .articles[index],
-                                    tagId,
+                                    tag,
                                   ),
                                 ).whenComplete(
                                   () => {
@@ -183,11 +180,11 @@ class ArticleListView extends HookConsumerWidget {
                           child: ArticleBox(
                             item: ref
                                 .watch(articleController.notifier)
-                                .setArticlesWithTagUUID(tagId)
+                                .setArticlesWithTagUUID(tag.uuid ?? "")
                                 .articles[index],
                           ),
-                        ),
-                      ).toList(),
+                        );
+                      },
                     )
                   : const SizedBox.shrink(),
             ),

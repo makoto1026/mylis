@@ -36,6 +36,9 @@ class SessionProvider extends StateNotifier<void> {
   }
 
   Future<void> checkSignInState() async {
+    final isFirstOpen =
+        await _secureStorageService.read(key: "isFirstOpen") ?? "true";
+
     final isSignedIn = await _secureStorageService.read(key: 'is_signed_in');
     final memberId = await _secureStorageService.read(key: 'member_id');
 
@@ -66,7 +69,9 @@ class SessionProvider extends StateNotifier<void> {
     } else {
       Navigator.of(_read(navKeyProvider).currentContext!, rootNavigator: true)
           .pushNamedAndRemoveUntil(
-        RouteNames.main.path,
+        isFirstOpen == "true"
+            ? RouteNames.walkThrough.path
+            : RouteNames.main.path,
         (_) => false,
       );
     }
