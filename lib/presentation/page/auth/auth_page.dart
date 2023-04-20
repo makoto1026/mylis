@@ -69,7 +69,7 @@ class AuthPage extends HookConsumerWidget {
                           (e) async {
                             await ref
                                 .read(loadingStateProvider.notifier)
-                                .startLoading();
+                                .stopLoading();
                             await showToast(message: "Apple認証に失敗しました");
                           },
                         ),
@@ -90,7 +90,7 @@ class AuthPage extends HookConsumerWidget {
                     (e) async {
                       await ref
                           .read(loadingStateProvider.notifier)
-                          .startLoading();
+                          .stopLoading();
                       await showToast(message: "Google認証に失敗しました");
                     },
                   ),
