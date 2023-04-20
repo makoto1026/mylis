@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/article.dart';
 import 'package:mylis/domain/entities/tag.dart';
+import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/edit/controller/edit_article_controller.dart';
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
@@ -107,6 +108,9 @@ class EditArticlePage extends HookConsumerWidget {
                         .stopLoading(),
                     Navigator.pop(context),
                     await showToast(message: "記事を更新しました"),
+                    await ref
+                        .read(articleController.notifier)
+                        .initialized(currentMemberId, tagState.tagList),
                   },
                   style: TextButton.styleFrom(
                     primary: ThemeColor.darkGray,

@@ -138,16 +138,16 @@ class ArticleListView extends HookConsumerWidget {
                                             )
                                             .refresh(),
                                         await ref
-                                            .read(articleController.notifier)
-                                            .initialized(currentMemberId,
-                                                tagState.tagList),
-                                        await ref
                                             .read(
                                               loadingStateProvider.notifier,
                                             )
                                             .stopLoading(),
                                         Navigator.pop(context),
                                         await showToast(message: "削除しました"),
+                                        await ref
+                                            .read(articleController.notifier)
+                                            .initialized(currentMemberId,
+                                                tagState.tagList),
                                       },
                                     );
                                   },
