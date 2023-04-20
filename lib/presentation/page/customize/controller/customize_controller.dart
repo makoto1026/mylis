@@ -4,7 +4,6 @@ import 'package:mylis/domain/entities/member.dart';
 import 'package:mylis/domain/repository/member.dart';
 import 'package:mylis/infrastructure/member.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_state.dart';
-import 'package:mylis/snippets/color.dart';
 
 class CustomizeController extends StateNotifier<CustomizeState> {
   CustomizeController({
@@ -21,9 +20,9 @@ class CustomizeController extends StateNotifier<CustomizeState> {
 
   Future<void> initialized(Member member) async {
     state = state.copyWith(
-      textColor: changeStringToColor(member.textColor),
-      buttonColor: changeStringToColor(member.buttonColor),
-      iconColor: changeStringToColor(member.iconColor),
+      textColor: Color(int.parse(member.textColor)),
+      buttonColor: Color(int.parse(member.buttonColor)),
+      iconColor: Color(int.parse(member.iconColor)),
     );
   }
 
@@ -43,16 +42,16 @@ class CustomizeController extends StateNotifier<CustomizeState> {
     await memberRepository
         .update(
           currentMemberId: currentMemberId,
-          textColor: changeColorToString(state.textColor),
-          buttonColor: changeColorToString(state.buttonColor),
-          iconColor: changeColorToString(state.iconColor),
+          textColor: state.textColor.value.toString(),
+          buttonColor: state.buttonColor.value.toString(),
+          iconColor: state.iconColor.value.toString(),
         )
         .then(
           (value) => {
             state = state.copyWith(
-              textColor: changeStringToColor(value.textColor),
-              buttonColor: changeStringToColor(value.buttonColor),
-              iconColor: changeStringToColor(value.iconColor),
+              textColor: Color(int.parse(value.textColor)),
+              buttonColor: Color(int.parse(value.buttonColor)),
+              iconColor: Color(int.parse(value.iconColor)),
             ),
           },
         );
