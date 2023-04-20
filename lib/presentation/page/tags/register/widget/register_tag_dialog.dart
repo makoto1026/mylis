@@ -28,7 +28,7 @@ class RegisterTagDialog extends HookConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               MylisTextField(
-                title: "タグ名",
+                title: "リスト",
                 onChanged: (value) => {
                   ref.read(registerTagController.notifier).setName(value),
                 },
@@ -65,7 +65,7 @@ class RegisterTagDialog extends HookConsumerWidget {
                           .read(registerTagController.notifier)
                           .setIsLoading(false),
                       Navigator.pop(context),
-                      await showToast(message: "タグを追加しました"),
+                      await showToast(message: "リストを追加しました"),
                     },
                     text: "登録",
                   ),

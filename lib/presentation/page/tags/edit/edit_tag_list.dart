@@ -40,7 +40,7 @@ class EditTagListPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'タグ編集',
+          'リスト編集',
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class EditTagListPage extends HookConsumerWidget {
               ),
             ),
             const Text(
-              "タグの並び替えは長押し&スライドで行えます",
+              "リストの並び替えは長押し&スライドで行えます",
               style: TextStyle(fontSize: 12),
             ),
             const SizedBox(height: 10),

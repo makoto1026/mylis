@@ -26,7 +26,7 @@ class EditMemoPage extends HookConsumerWidget {
 
     useEffect(() {
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        textEditingController.text = state.body;
+        textEditingController.text = state.body.replaceAll("\\n", "\n");
       });
       return () {};
     }, []);
@@ -75,22 +75,6 @@ class EditMemoPage extends HookConsumerWidget {
               TextFormField(
                 style: const TextStyle(
                   fontSize: 14,
-                  color: ThemeColor.darkGray,
-                  fontWeight: FontWeight.bold,
-                ),
-                initialValue: state.title,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                ),
-                onChanged: (value) {
-                  ref
-                      .read(editMemoController.notifier)
-                      .setUpdateValue(title: value);
-                },
-              ),
-              TextFormField(
-                style: const TextStyle(
-                  fontSize: 14,
                   height: 1.5,
                 ),
                 controller: textEditingController,
@@ -102,7 +86,7 @@ class EditMemoPage extends HookConsumerWidget {
                 onChanged: (value) {
                   ref
                       .read(editMemoController.notifier)
-                      .setUpdateValue(body: value);
+                      .setUpdateValue(body: value.replaceAll('\n', '\\n'));
                 },
               ),
               const SizedBox(height: 20),
@@ -129,6 +113,9 @@ class EditMemoPage extends HookConsumerWidget {
                             await ref
                                 .read(editMemoController.notifier)
                                 .refresh(),
+                            await ref
+                                .read(memoController.notifier)
+                                .refresh(currentMemberId),
                             await ref
                                 .read(loadingStateProvider.notifier)
                                 .stopLoading(),

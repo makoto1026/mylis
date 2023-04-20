@@ -30,6 +30,7 @@ class IMemoRepository extends MemoRepository {
         }
       },
     );
+    memoList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     return memoList;
   }
 

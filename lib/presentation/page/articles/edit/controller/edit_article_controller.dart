@@ -84,6 +84,10 @@ class EditArticleController extends StateNotifier<EditArticleState> {
     );
     state = state.copyWith(title: "", url: "", memo: "", tag: tag);
   }
+
+  Future<void> setCount() async {
+    state = state.copyWith(setCount: state.setCount + 1);
+  }
 }
 
 final editArticleController =

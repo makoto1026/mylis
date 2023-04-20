@@ -36,7 +36,7 @@ class TagController extends StateNotifier<TagState> {
     tagList.add(
       Tag(
         uuid: "",
-        name: "タグ +",
+        name: " + ",
         position: tagList.length + 1,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),

@@ -44,7 +44,7 @@ class MyPage extends HookConsumerWidget {
                 RouteNames.editTagList.path,
               )
             },
-            text: "タグ編集",
+            text: "リスト編集",
           ),
           MypageTextButton(
             onTap: () => {

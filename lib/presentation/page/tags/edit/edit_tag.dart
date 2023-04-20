@@ -31,7 +31,7 @@ class EditTagPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'タグ編集',
+          'リスト編集',
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
@@ -48,7 +48,7 @@ class EditTagPage extends HookConsumerWidget {
           TextButton(
             onPressed: () async {
               ref.read(editTagController.notifier).update(currentMemberId);
-              showToast(message: "タグを更新しました");
+              showToast(message: "リストを更新しました");
               ref.read(tagController.notifier).initialized(currentMemberId);
               Navigator.pop(context);
             },

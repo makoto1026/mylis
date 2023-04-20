@@ -33,7 +33,6 @@ class ArticleController extends StateNotifier<ArticleState> {
       );
       state = state.copyWith(articlesWithTag: array);
     }
-    await setCount();
   }
 
   Future<List<Article>> getList(String memberId, String tagId) async {
@@ -71,9 +70,16 @@ class ArticleController extends StateNotifier<ArticleState> {
     return articleRepository.get(memberId, tagId, tagId);
   }
 
-  Future<void> setCount() async {
-    final count = state.setCount;
-    state = state.copyWith(setCount: count + 1);
+  ArticlesWithTagUUID setArticles(String tagId) {
+    final res = state.articlesWithTag.firstWhere(
+      (e) => e.tagId == tagId,
+      orElse: () => ArticlesWithTagUUID(
+        tagId: "",
+        articles: [],
+      ),
+    );
+
+    return res;
   }
 }
 

@@ -22,30 +22,18 @@ class ReceiveSharingIntentProvider
     _intentDataStreamSubscription =
         ReceiveSharingIntent.getMediaStream().listen(
       (event) {
-        // NavigationService.navigatorKey.currentState?.pushNamed(
-        //   RouteNames.registerArticle.path,
-        //   arguments: event,
-        // );
         state = state.copyWith(images: event);
       },
     );
 
     ReceiveSharingIntent.getInitialMedia().then(
       (event) {
-        // NavigationService.navigatorKey.currentState?.pushNamed(
-        //   RouteNames.registerArticle.path,
-        //   arguments: event,
-        // );
         state = state.copyWith(images: event);
       },
     );
 
     _intentDataStreamSubscription = ReceiveSharingIntent.getTextStream().listen(
       (event) {
-        // NavigationService.navigatorKey.currentState?.pushNamed(
-        //   RouteNames.registerArticle.path,
-        //   arguments: event,
-        // );
         state = state.copyWith(url: event);
       },
     );

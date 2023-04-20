@@ -142,9 +142,6 @@ class ArticleListView extends HookConsumerWidget {
                                             .initialized(currentMemberId,
                                                 tagState.tagList),
                                         await ref
-                                            .read(articleController.notifier)
-                                            .setCount(),
-                                        await ref
                                             .read(
                                               loadingStateProvider.notifier,
                                             )

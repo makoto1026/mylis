@@ -41,8 +41,10 @@ class MemoPage extends HookConsumerWidget {
               },
             );
       }();
-      return () {};
-    }, [state]);
+      return () {
+        memosController.removeListener(_articleScrollListener);
+      };
+    }, [state.memoList.length]);
 
     return Scaffold(
       appBar: AppBar(

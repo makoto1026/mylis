@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/util/banner.dart';
@@ -20,6 +21,7 @@ class RegisterTagView extends HookConsumerWidget {
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final state = ref.watch(registerTagController);
     final tagList = ref.watch(tagController).tagList;
+    final admobState = ref.watch(admobProvider);
 
     return Column(
       children: [
@@ -31,7 +33,7 @@ class RegisterTagView extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MylisTextField(
-                  title: "タグ名",
+                  title: "新規リスト",
                   onChanged: (value) =>
                       ref.read(registerTagController.notifier).setName(value),
                 ),
@@ -58,7 +60,7 @@ class RegisterTagView extends HookConsumerWidget {
                         await ref
                             .read(loadingStateProvider.notifier)
                             .stopLoading(),
-                        await showToast(message: "タグを追加しました"),
+                        await showToast(message: "リストを追加しました"),
                       },
                       text: "登録",
                     ),
@@ -68,12 +70,14 @@ class RegisterTagView extends HookConsumerWidget {
             ),
           ),
         ),
-        Container(
-          color: ThemeColor.white,
-          height: 50,
-          width: double.infinity,
-          child: AdWidget(ad: setBanner()),
-        ),
+        admobState
+            ? Container(
+                color: ThemeColor.white,
+                height: 50,
+                width: double.infinity,
+                child: AdWidget(ad: setBanner()),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }

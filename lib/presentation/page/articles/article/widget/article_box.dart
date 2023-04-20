@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/article.dart';
-import 'package:mylis/presentation/util/set_article_icon.dart';
 
 class ArticleBox extends HookConsumerWidget {
   const ArticleBox({
@@ -33,8 +32,8 @@ class ArticleBox extends HookConsumerWidget {
                   width: screenSize.width * 0.62,
                   child: Row(
                     children: [
-                      SetArticleIcon.set(item.url),
-                      const SizedBox(width: 10),
+                      // SetArticleIcon.set(item.url),
+                      // const SizedBox(width: 10),
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
