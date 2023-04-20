@@ -23,7 +23,6 @@ class RoundRectButton extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorState = ref.watch(customizeController);
-    print("colorState.textColor: ${colorState.textColor}");
     return ElevatedButton(
       onPressed: disable ? null : onPressed,
       style: ElevatedButton.styleFrom(

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/secure_storage_service.dart';
 import 'package:mylis/infrastructure/secure_storage_service.dart';
@@ -40,7 +39,6 @@ class SessionProvider extends StateNotifier<void> {
     final isFirstOpen =
         await _secureStorageService.read(key: "isFirstOpen") ?? "true";
 
-    print("---------isFirstOpen = ${isFirstOpen}-----------");
     final isSignedIn = await _secureStorageService.read(key: 'is_signed_in');
     final memberId = await _secureStorageService.read(key: 'member_id');
 
@@ -71,7 +69,7 @@ class SessionProvider extends StateNotifier<void> {
     } else {
       Navigator.of(_read(navKeyProvider).currentContext!, rootNavigator: true)
           .pushNamedAndRemoveUntil(
-        isFirstOpen == "false"
+        isFirstOpen == "true"
             ? RouteNames.walkThrough.path
             : RouteNames.main.path,
         (_) => false,
