@@ -53,7 +53,7 @@ class MyPage extends HookConsumerWidget {
                 RouteNames.customize.path,
               )
             },
-            text: "カスタマイズ",
+            text: "テーマカラー変更",
           ),
           MypageTextButton(
             onTap: () => {

@@ -18,9 +18,12 @@ import 'package:mylis/presentation/page/splash.dart';
 import 'package:mylis/presentation/page/tags/edit/edit_tag.dart';
 import 'package:mylis/presentation/page/tags/edit/edit_tag_list.dart';
 import 'package:mylis/presentation/page/terms_of_use/terms_of_use.dart';
+import 'package:mylis/presentation/page/walk_through.dart';
 
 final routerProvider = Provider((ref) => <String, WidgetBuilder>{
       RouteNames.splash.path: (BuildContext context) => const SplashPage(),
+      RouteNames.walkThrough.path: (BuildContext context) =>
+          const WalkThroughPage(),
       RouteNames.main.path: (BuildContext context) => const MainPage(),
       RouteNames.auth.path: (BuildContext context) => const AuthPage(),
       RouteNames.emailSignUp.path: (BuildContext context) =>
@@ -52,6 +55,7 @@ final routerProvider = Provider((ref) => <String, WidgetBuilder>{
 
 enum RouteNames {
   splash,
+  walkThrough,
   main,
   auth,
   emailSignUp,

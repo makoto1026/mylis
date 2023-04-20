@@ -9,7 +9,6 @@ class AuthButton extends StatelessWidget {
     required this.text,
     required this.backgroundColor,
     this.textColor = Colors.white,
-    this.isShowIcon = true,
     Key? key,
   }) : super(key: key);
   final VoidCallback onPressed;
@@ -18,7 +17,6 @@ class AuthButton extends StatelessWidget {
   final String text;
   final Color backgroundColor;
   final Color textColor;
-  final bool isShowIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +33,18 @@ class AuthButton extends StatelessWidget {
         ),
         backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
         foregroundColor: MaterialStateProperty.all<Color>(textColor),
+        splashFactory: NoSplash.splashFactory,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (isShowIcon)
-            Row(
-              children: [
-                SvgPicture.asset(
-                  iconPath,
-                  width: 26,
-                  height: 26,
-                  color: iconColor,
-                ),
-                const SizedBox(width: 15),
-              ],
-            ),
+          SvgPicture.asset(
+            iconPath,
+            width: 26,
+            height: 26,
+            color: iconColor,
+          ),
+          const SizedBox(width: 15),
           Text(
             text,
             style: const TextStyle(

@@ -58,9 +58,17 @@ class RegisterMemoPage extends HookConsumerWidget {
               await showToast(message: "メモを追加しました"),
               Navigator.pop(context),
             },
-            style: TextButton.styleFrom(
-              primary: ThemeColor.darkGray,
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return ThemeColor.darkGray.withOpacity(0.25);
+                  }
+                  return ThemeColor.darkGray;
+                },
+              ),
               alignment: Alignment.center,
+              splashFactory: NoSplash.splashFactory,
             ),
             child: const Text('保存'),
           ),

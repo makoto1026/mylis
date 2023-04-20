@@ -124,6 +124,7 @@ class HomePage extends HookConsumerWidget {
               fontWeight: FontWeight.normal,
             ),
             unselectedLabelColor: ThemeColor.darkGray,
+            splashFactory: NoSplash.splashFactory,
             tabs: tagList
                 .map(
                   (e) => Tab(

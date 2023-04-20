@@ -68,18 +68,16 @@ class ArticleListView extends HookConsumerWidget {
                       .setArticlesWithTagUUID(tag.uuid ?? "")
                       .articles
                       .isNotEmpty
-                  ? GridView.count(
+                  ? ListView.builder(
                       controller: articlesController,
-                      crossAxisCount: 1,
                       physics: const ClampingScrollPhysics(),
-                      childAspectRatio: 4.75,
-                      children: List.generate(
-                        ref
-                            .watch(articleController.notifier)
-                            .setArticlesWithTagUUID(tag.uuid ?? "")
-                            .articles
-                            .length,
-                        (index) => GestureDetector(
+                      itemCount: ref
+                          .watch(articleController.notifier)
+                          .setArticlesWithTagUUID(tag.uuid ?? "")
+                          .articles
+                          .length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
                           onTap: () {
                             openUrl(
                               url: ref
@@ -94,7 +92,8 @@ class ArticleListView extends HookConsumerWidget {
                             barrierColor:
                                 colorState.textColor.withOpacity(0.25),
                             builder: (context) => CustomDialog(
-                              title: "記事の編集、削除",
+                              title:
+                                  "「${ref.watch(articleController.notifier).setArticlesWithTagUUID(tag.uuid ?? "").articles[index].title}」の編集、削除",
                               noButtonText: "削除",
                               okButtonText: "編集",
                               onPressedWithNo: () => {
@@ -184,8 +183,8 @@ class ArticleListView extends HookConsumerWidget {
                                 .setArticlesWithTagUUID(tag.uuid ?? "")
                                 .articles[index],
                           ),
-                        ),
-                      ).toList(),
+                        );
+                      },
                     )
                   : const SizedBox.shrink(),
             ),

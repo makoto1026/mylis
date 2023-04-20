@@ -17,20 +17,12 @@ class MemoBox extends HookConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 5,
-        vertical: 10,
+        vertical: 7.5,
       ),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(10),
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              spreadRadius: 0,
-              blurRadius: 7,
-              offset: const Offset(0, 0),
-              color: Colors.grey.withOpacity(0.5),
-            ),
-          ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(10),

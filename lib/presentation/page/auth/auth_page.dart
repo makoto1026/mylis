@@ -102,46 +102,67 @@ class AuthPage extends HookConsumerWidget {
                 iconColor: isIOS ? ThemeColor.darkGray : ThemeColor.white,
               ),
               const SizedBox(height: 20),
-              AuthButton(
-                onPressed: () => {
-                  isShowEmailAuthButtons.value = !isShowEmailAuthButtons.value,
+              isShowEmailAuthButtons.value
+                  ? const SizedBox.shrink()
+                  : Column(
+                      children: [
+                        AuthButton(
+                          onPressed: () => {
+                            isShowEmailAuthButtons.value =
+                                !isShowEmailAuthButtons.value,
+                          },
+                          iconPath: "assets/icons/mail.svg",
+                          text: "メールログイン・新規登録",
+                          backgroundColor: ThemeColor.orange,
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0, -0.5),
+                        end: const Offset(0, 0),
+                      ).animate(animation),
+                      child: child,
+                    ),
+                  );
                 },
-                iconPath: "assets/icons/mail.svg",
-                text: "メールログイン・新規登録",
-                backgroundColor: ThemeColor.orange,
+                child: isShowEmailAuthButtons.value
+                    ? Column(
+                        children: [
+                          AuthButton(
+                            onPressed: () => {
+                              Navigator.pushNamed(
+                                  context, RouteNames.emailSignIn.path),
+                            },
+                            iconPath: "assets/icons/mail.svg",
+                            text: "メールログイン",
+                            backgroundColor: ThemeColor.white,
+                            textColor: ThemeColor.orange,
+                            iconColor: ThemeColor.orange,
+                          ),
+                          const SizedBox(height: 20),
+                          AuthButton(
+                            onPressed: () => {
+                              Navigator.pushNamed(
+                                  context, RouteNames.emailSignUp.path),
+                            },
+                            iconPath: "assets/icons/mail.svg",
+                            text: "メール新規登録",
+                            backgroundColor: ThemeColor.white,
+                            textColor: ThemeColor.orange,
+                            iconColor: ThemeColor.orange,
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
               ),
-              const SizedBox(height: 20),
-              if (isShowEmailAuthButtons.value)
-                Column(
-                  children: [
-                    AuthButton(
-                      onPressed: () => {
-                        Navigator.pushNamed(
-                            context, RouteNames.emailSignIn.path),
-                      },
-                      iconPath: "",
-                      text: "ログイン",
-                      backgroundColor: ThemeColor.white,
-                      textColor: ThemeColor.orange,
-                      iconColor: ThemeColor.orange,
-                      isShowIcon: false,
-                    ),
-                    const SizedBox(height: 20),
-                    AuthButton(
-                      onPressed: () => {
-                        Navigator.pushNamed(
-                            context, RouteNames.emailSignUp.path),
-                      },
-                      iconPath: "",
-                      text: "新規登録",
-                      backgroundColor: ThemeColor.white,
-                      textColor: ThemeColor.orange,
-                      iconColor: ThemeColor.orange,
-                      isShowIcon: false,
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                ),
               RichText(
                 text: TextSpan(
                   children: [

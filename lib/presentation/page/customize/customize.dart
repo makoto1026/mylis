@@ -22,7 +22,7 @@ class CustomizePage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "カスタマイズ",
+          "テーマカラー変更",
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
@@ -49,9 +49,17 @@ class CustomizePage extends HookConsumerWidget {
               Navigator.pop(context),
               await showToast(message: "テーマカラーを変更しました"),
             },
-            style: TextButton.styleFrom(
-              primary: ThemeColor.darkGray,
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return ThemeColor.darkGray.withOpacity(0.25);
+                  }
+                  return ThemeColor.darkGray;
+                },
+              ),
               alignment: Alignment.center,
+              splashFactory: NoSplash.splashFactory,
             ),
             child: const Text('保存'),
           ),
@@ -62,7 +70,7 @@ class CustomizePage extends HookConsumerWidget {
         child: Column(
           children: [
             Text(
-              "アプリ内で表示しているテーマカラーを変更できます",
+              "文字色やボタンの色を変更できます",
               style: TextStyle(
                 color: colorState.textColor,
                 fontWeight: FontWeight.bold,

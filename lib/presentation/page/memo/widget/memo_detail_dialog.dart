@@ -141,6 +141,7 @@ class MemoDetailDialog extends HookConsumerWidget {
                       decoration: TextDecoration.underline,
                       fontSize: 16,
                     ),
+                    splashFactory: NoSplash.splashFactory,
                   ),
                   child: const Text('削除'),
                 ),

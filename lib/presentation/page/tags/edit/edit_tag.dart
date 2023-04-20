@@ -52,9 +52,17 @@ class EditTagPage extends HookConsumerWidget {
               ref.read(tagController.notifier).initialized(currentMemberId);
               Navigator.pop(context);
             },
-            style: TextButton.styleFrom(
-              primary: ThemeColor.darkGray,
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return ThemeColor.darkGray.withOpacity(0.25);
+                  }
+                  return ThemeColor.darkGray;
+                },
+              ),
               alignment: Alignment.center,
+              splashFactory: NoSplash.splashFactory,
             ),
             child: const Text('保存'),
           ),
@@ -122,6 +130,7 @@ class EditTagPage extends HookConsumerWidget {
                     decoration: TextDecoration.underline,
                     fontSize: 16,
                   ),
+                  splashFactory: NoSplash.splashFactory,
                 ),
                 child: const Text('削除'),
               ),

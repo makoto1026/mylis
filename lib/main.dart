@@ -61,7 +61,7 @@ class MyApp extends HookConsumerWidget {
         await Future.wait({
           ref.read(sessionProvider.notifier).checkSignInState(),
           ref.read(receiveSharingIntentProvider.notifier).initialized(),
-          ref.read(currentTabProvider.notifier).initialized()
+          ref.read(currentTabProvider.notifier).initialized(),
         });
 
         await Future.delayed(const Duration(seconds: 3));
@@ -72,6 +72,7 @@ class MyApp extends HookConsumerWidget {
     }, []);
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       routes: ref.read(routerProvider),
       initialRoute: ref.watch(currentMemberProvider) == null
           ? RouteNames.auth.path

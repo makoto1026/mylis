@@ -19,7 +19,7 @@ Future<void> showToast({
     fontSize: 16,
   );
   if (Platform.isIOS) {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 1), () {
       Fluttertoast.cancel();
     });
   }

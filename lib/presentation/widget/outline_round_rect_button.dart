@@ -34,6 +34,7 @@ class OutlinedRoundRectButton extends HookConsumerWidget {
             style: BorderStyle.solid,
           ),
         ),
+        splashFactory: NoSplash.splashFactory,
         elevation: 0,
       ),
       child: text == ""
