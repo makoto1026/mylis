@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/tag.dart';
+import 'package:mylis/infrastructure/secure_storage_service.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_box.dart';
 import 'package:mylis/presentation/page/articles/edit/controller/edit_article_controller.dart';
@@ -44,6 +45,9 @@ class ArticleListView extends HookConsumerWidget {
               height: 70,
               child: FloatingActionButton(
                 onPressed: () async => {
+                  await ref
+                      .read(secureStorageServiceProvider)
+                      .delete(key: "share_url"),
                   await ref.watch(registerArticleController.notifier).refresh(),
                   Navigator.pushNamed(
                     context,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/infrastructure/secure_storage_service.dart';
 import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
@@ -158,12 +159,15 @@ class RegisterArticlePage extends HookConsumerWidget {
                                   height: 52,
                                   width: 52,
                                   child: OutlinedRoundRectButton(
-                                    onPressed: () => {
-                                      Navigator.pop(context),
-                                      ref
+                                    onPressed: () async => {
+                                      await ref
+                                          .read(secureStorageServiceProvider)
+                                          .write(key: "share_url", value: ""),
+                                      await ref
                                           .read(receiveSharingIntentProvider
                                               .notifier)
-                                          .initialized(),
+                                          .refresh(),
+                                      Navigator.pop(context),
                                     },
                                   ),
                                 ),
@@ -187,7 +191,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                                       await ref
                                           .read(receiveSharingIntentProvider
                                               .notifier)
-                                          .initialized(),
+                                          .refresh(),
                                       await ref
                                           .read(articleController.notifier)
                                           .initialized(currentMemberId,
@@ -196,6 +200,9 @@ class RegisterArticlePage extends HookConsumerWidget {
                                           .read(registerArticleController
                                               .notifier)
                                           .refresh(),
+                                      await ref
+                                          .read(secureStorageServiceProvider)
+                                          .write(key: "share_url", value: ""),
                                       await ref
                                           .read(loadingStateProvider.notifier)
                                           .stopLoading(),

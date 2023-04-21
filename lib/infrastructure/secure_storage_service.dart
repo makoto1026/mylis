@@ -20,6 +20,11 @@ class ISecureStorageService extends SecureStorageService {
   Future<void> write({required String key, required String value}) {
     return storage.write(key: key, value: value);
   }
+
+  @override
+  Future<void> saveShareData({required String key, required String value}) {
+    return storage.write(key: key, value: value);
+  }
 }
 
 final secureStorageServiceProvider =
