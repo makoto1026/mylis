@@ -45,7 +45,7 @@ class WalkThroughPage extends HookConsumerWidget {
                 _WalkThroughContent(
                   assetName: "walk_through_three.jpg",
                   title: "シェア受け取り機能を使って簡単登録！",
-                  body: "webページやインスタ、Twitter\nなどのSNSから記事をシェアして、簡単登録！",
+                  body: "webページやInstagram、Twitter\nなどのSNSから記事をシェアして、簡単登録！",
                 ),
                 _WalkThroughContent(
                   assetName: "walk_through_four.jpg",

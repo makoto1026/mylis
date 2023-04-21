@@ -64,7 +64,7 @@ class MyApp extends HookConsumerWidget {
           ref.read(currentTabProvider.notifier).initialized(),
         });
 
-        await Future.delayed(const Duration(seconds: 3));
+        await Future.delayed(const Duration(seconds: 1));
 
         FlutterNativeSplash.remove();
       }();

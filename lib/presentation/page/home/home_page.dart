@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
+import 'package:mylis/infrastructure/secure_storage_service.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_list_view.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
@@ -36,6 +37,7 @@ class HomePage extends HookConsumerWidget {
       initialIndex: 0,
     );
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? "";
+    final shareUrl = useState("");
 
     TabController _createNewTabController() => TabController(
           vsync: _MyTickerProvider(),
@@ -57,6 +59,18 @@ class HomePage extends HookConsumerWidget {
                   await ref
                       .watch(customizeController.notifier)
                       .initialized(member!),
+                  shareUrl.value = await ref
+                          .read(secureStorageServiceProvider)
+                          .read(key: "share_url") ??
+                      "",
+                  if (shareUrl.value != "")
+                    {
+                      shareUrl.value = "",
+                      Navigator.pushNamed(
+                        context,
+                        RouteNames.registerArticle.path,
+                      ),
+                    }
                 },
               );
         }

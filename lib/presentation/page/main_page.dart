@@ -25,11 +25,11 @@ class MainPage extends HookConsumerWidget {
 
     useEffect(() {
       tabController.addListener(() {
-        SchedulerBinding.instance.addPostFrameCallback((_) async {
-          ref.read(currentTabProvider.notifier).changeTab(
-                Tab.values[tabController.index],
-              );
-        });
+        SchedulerBinding.instance.addPostFrameCallback((_) async => {
+              ref.read(currentTabProvider.notifier).changeTab(
+                    Tab.values[tabController.index],
+                  ),
+            });
       });
       return () => tabController.dispose();
     }, []);
