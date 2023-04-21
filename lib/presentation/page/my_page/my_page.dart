@@ -57,6 +57,21 @@ class MyPage extends HookConsumerWidget {
           ),
           MypageTextButton(
             onTap: () => {
+              Navigator.pushNamed(
+                context,
+                RouteNames.usage.path,
+              )
+            },
+            text: "使い方",
+          ),
+          MypageTextButton(
+            onTap: () => {
+              openUrl(url: "https://trsmmkt.editorx.io/mylis/blank-2"),
+            },
+            text: "よくある質問",
+          ),
+          MypageTextButton(
+            onTap: () => {
               openMailApp(),
             },
             text: "お問い合わせ",
