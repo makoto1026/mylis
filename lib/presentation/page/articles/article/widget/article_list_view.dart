@@ -97,7 +97,7 @@ class ArticleListView extends HookConsumerWidget {
                                 colorState.textColor.withOpacity(0.25),
                             builder: (context) => CustomDialog(
                               title:
-                                  "「${ref.watch(articleController.notifier).setArticlesWithTagUUID(tag.uuid ?? "").articles[index].title}」の編集、削除",
+                                  "「${ref.watch(articleController.notifier).setArticlesWithTagUUID(tag.uuid ?? "").articles[index].title}」",
                               noButtonText: "削除",
                               okButtonText: "編集",
                               onPressedWithNo: () => {
@@ -107,7 +107,6 @@ class ArticleListView extends HookConsumerWidget {
                                       colorState.textColor.withOpacity(0),
                                   builder: (BuildContext context) {
                                     return CustomDialog(
-                                      height: 160,
                                       title: "本当に削除しますか？",
                                       message: "データからも完全に削除されます",
                                       onPressedWithNo: () =>

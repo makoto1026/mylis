@@ -4,15 +4,16 @@ import 'package:mylis/domain/entities/member.dart';
 import 'package:mylis/domain/repository/member.dart';
 import 'package:mylis/infrastructure/member.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_state.dart';
+import 'package:mylis/theme/color.dart';
 
 class CustomizeController extends StateNotifier<CustomizeState> {
   CustomizeController({
     required this.memberRepository,
   }) : super(
           const CustomizeState(
-            textColor: Colors.white,
-            buttonColor: Colors.white,
-            iconColor: Colors.white,
+            textColor: ThemeColor.orange,
+            buttonColor: ThemeColor.orange,
+            iconColor: ThemeColor.orange,
           ),
         );
 
@@ -20,9 +21,9 @@ class CustomizeController extends StateNotifier<CustomizeState> {
 
   Future<void> initialized(Member member) async {
     state = state.copyWith(
-      textColor: Color(int.parse(member.textColor)),
-      buttonColor: Color(int.parse(member.buttonColor)),
-      iconColor: Color(int.parse(member.iconColor)),
+      textColor: Color(member.textColor),
+      buttonColor: Color(member.buttonColor),
+      iconColor: Color(member.iconColor),
     );
   }
 
@@ -42,16 +43,16 @@ class CustomizeController extends StateNotifier<CustomizeState> {
     await memberRepository
         .update(
           currentMemberId: currentMemberId,
-          textColor: state.textColor.value.toString(),
-          buttonColor: state.buttonColor.value.toString(),
-          iconColor: state.iconColor.value.toString(),
+          textColor: state.textColor.value,
+          buttonColor: state.buttonColor.value,
+          iconColor: state.iconColor.value,
         )
         .then(
           (value) => {
             state = state.copyWith(
-              textColor: Color(int.parse(value.textColor)),
-              buttonColor: Color(int.parse(value.buttonColor)),
-              iconColor: Color(int.parse(value.iconColor)),
+              textColor: Color(value.textColor),
+              buttonColor: Color(value.buttonColor),
+              iconColor: Color(value.iconColor),
             ),
           },
         );

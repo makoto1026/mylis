@@ -23,7 +23,7 @@ class UsageItem extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
               color: ThemeColor.orange,
               height: 1.3,

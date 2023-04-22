@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/auth.dart';
 import 'package:mylis/domain/repository/auth.dart';
 import 'package:mylis/infrastructure/firestore/firestore.dart';
+import 'package:mylis/theme/color.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class IAuthRepository extends AuthRepository {
@@ -30,12 +31,21 @@ class IAuthRepository extends AuthRepository {
     await userDoc.set({
       "email": email,
       "password": auth.password,
-      "text_color": "orange",
-      "button_color": "orange",
-      "icon_color": "orange",
+      "text_color": ThemeColor.orange.value,
+      "button_color": ThemeColor.orange.value,
+      "icon_color": ThemeColor.orange.value,
       "created_at": Timestamp.now(),
       "updated_at": Timestamp.now(),
     });
+
+    await userDB.doc(userDoc.id).collection("tags").add(
+      {
+        "name": "お気に入り",
+        "position": 1,
+        "created_at": DateTime.now(),
+        "updated_at": DateTime.now(),
+      },
+    );
 
     return userDoc.id;
   }
@@ -73,19 +83,29 @@ class IAuthRepository extends AuthRepository {
       assert(user.uid == currentUser.uid);
       final docRef = userDB.doc(user.uid);
       docRef.get().then(
-            (value) => {
+            (value) async => {
               if (!value.exists)
-                docRef.set(
-                  {
-                    "email": user.email,
-                    "password": "",
-                    "text_color": "orange",
-                    "button_color": "orange",
-                    "icon_color": "orange",
-                    "created_at": DateTime.now(),
-                    "updated_at": DateTime.now(),
-                  },
-                )
+                {
+                  await docRef.set(
+                    {
+                      "email": user.email,
+                      "password": "",
+                      "text_color": ThemeColor.orange.value,
+                      "button_color": ThemeColor.orange.value,
+                      "icon_color": ThemeColor.orange.value,
+                      "created_at": DateTime.now(),
+                      "updated_at": DateTime.now(),
+                    },
+                  ),
+                  await userDB.doc(user.uid).collection("tags").add(
+                    {
+                      "name": "お気に入り",
+                      "position": 1,
+                      "created_at": DateTime.now(),
+                      "updated_at": DateTime.now(),
+                    },
+                  ),
+                },
             },
           );
       return user.uid;
@@ -124,19 +144,29 @@ class IAuthRepository extends AuthRepository {
       assert(user.uid == currentUser.uid);
       final docRef = userDB.doc(user.uid);
       docRef.get().then(
-            (value) => {
+            (value) async => {
               if (!value.exists)
-                docRef.set(
-                  {
-                    "email": user.email,
-                    "password": "",
-                    "text_color": "orange",
-                    "button_color": "orange",
-                    "icon_color": "orange",
-                    "created_at": DateTime.now(),
-                    "updated_at": DateTime.now(),
-                  },
-                )
+                {
+                  await docRef.set(
+                    {
+                      "email": user.email,
+                      "password": "",
+                      "text_color": ThemeColor.orange.value,
+                      "button_color": ThemeColor.orange.value,
+                      "icon_color": ThemeColor.orange.value,
+                      "created_at": DateTime.now(),
+                      "updated_at": DateTime.now(),
+                    },
+                  ),
+                  await userDB.doc(user.uid).collection("tags").add(
+                    {
+                      "name": "お気に入り",
+                      "position": 1,
+                      "created_at": DateTime.now(),
+                      "updated_at": DateTime.now(),
+                    },
+                  ),
+                },
             },
           );
       return user.uid;

@@ -21,9 +21,9 @@ class Member {
   final String email;
   final String phoneNumber;
   final String fcmToken;
-  final String textColor;
-  final String buttonColor;
-  final String iconColor;
+  final int textColor;
+  final int buttonColor;
+  final int iconColor;
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? deletedAt;

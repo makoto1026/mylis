@@ -54,6 +54,19 @@ flutter:
     - assets/images/
     - assets/icons/
     - env/
+    
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+        - asset: assets/fonts/OpenSans-Bold.ttf
+          weight: 700
+    - family: NotoSansJP
+      fonts:
+        - asset: assets/fonts/NotoSansJP-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/NotoSansJP-Bold.ttf
+          weight: 700
 
 flutter_native_splash:
   color: "#ffae50"
@@ -65,3 +78,5 @@ flutter_icons:
   android: true 
   ios: true
   image_path: "assets/icons/app_icon.png"
+  adaptive_icon_background: "#FFAE50
+"

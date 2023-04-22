@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
@@ -18,20 +19,21 @@ class CustomizePage extends HookConsumerWidget {
     final colorState = ref.watch(customizeController);
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final admobState = ref.watch(admobProvider);
+    final newColor = useState(colorState.textColor);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "テーマカラー変更",
           style: TextStyle(
-            color: colorState.textColor,
+            color: newColor.value,
             fontWeight: FontWeight.bold,
           ),
         ),
         leading: IconButton(
           icon: const Icon(Icons.close),
-          onPressed: () {
-            Navigator.pop(context);
+          onPressed: () async => {
+            Navigator.pop(context),
           },
           color: ThemeColor.darkGray,
         ),
@@ -40,6 +42,15 @@ class CustomizePage extends HookConsumerWidget {
             onPressed: () async => {
               FocusScope.of(context).unfocus(),
               await ref.read(registerTagController.notifier).setIsLoading(true),
+              await ref
+                  .read(customizeController.notifier)
+                  .setTextColor(newColor.value),
+              await ref
+                  .read(customizeController.notifier)
+                  .setIconColor(newColor.value),
+              await ref
+                  .read(customizeController.notifier)
+                  .setButtonColor(newColor.value),
               await ref
                   .read(customizeController.notifier)
                   .update(currentMemberId),
@@ -72,15 +83,16 @@ class CustomizePage extends HookConsumerWidget {
             Text(
               "文字色やボタンの色を変更できます",
               style: TextStyle(
-                color: colorState.textColor,
+                color: newColor.value,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 40),
             ColorPicker(
-              pickerColor: colorState.textColor,
-              onColorChanged: (value) =>
-                  ref.read(customizeController.notifier).setTextColor(value),
+              pickerColor: newColor.value,
+              onColorChanged: (value) async => {
+                newColor.value = value,
+              },
               colorPickerWidth: 300,
               pickerAreaHeightPercent: 0.7,
               enableAlpha: true,

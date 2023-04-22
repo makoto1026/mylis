@@ -45,7 +45,6 @@ class DeleteAccountPage extends HookConsumerWidget {
                 barrierColor: colorState.textColor.withOpacity(0.25),
                 builder: (BuildContext context) {
                   return CustomDialog(
-                    height: 180,
                     title: "本当に退会しますか？",
                     message: "退会すると、すべてのデータが削除されます。",
                     onPressedWithNo: () => Navigator.pop(context),

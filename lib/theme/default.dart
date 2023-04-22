@@ -4,7 +4,7 @@ import 'package:mylis/theme/color.dart';
 
 final themeProvider = Provider.family<ThemeData, BuildContext>(
   (ref, context) => ThemeData(
-    fontFamily: "MPLUS1p",
+    fontFamily: 'OpenSans',
     scaffoldBackgroundColor: Colors.white,
     textTheme: Theme.of(context).textTheme.apply(bodyColor: ThemeColor.black),
     dividerTheme: Theme.of(context).dividerTheme.copyWith(
