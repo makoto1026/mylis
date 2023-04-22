@@ -22,6 +22,7 @@ class MemberMapper {
       createdAt: createdAt.toDate(),
       updatedAt: updatedAt.toDate(),
       deletedAt: deletedAt?.toDate(),
+      isRemovedAds: json["is_removed_ads"] as bool? ?? false,
     );
   }
 }

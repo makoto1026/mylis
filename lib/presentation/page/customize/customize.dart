@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/util/banner.dart';
-import 'package:mylis/provider/admob_provider.dart';
+// import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
@@ -17,8 +17,8 @@ class CustomizePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorState = ref.watch(customizeController);
-    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
-    final admobState = ref.watch(admobProvider);
+    final currentMember = ref.watch(currentMemberProvider);
+    // final admobState = ref.watch(admobProvider);
     final newColor = useState(colorState.textColor);
 
     return Scaffold(
@@ -53,7 +53,7 @@ class CustomizePage extends HookConsumerWidget {
                   .setButtonColor(newColor.value),
               await ref
                   .read(customizeController.notifier)
-                  .update(currentMemberId),
+                  .update(currentMember?.uuid ?? ""),
               await ref
                   .read(registerTagController.notifier)
                   .setIsLoading(false),
@@ -104,14 +104,22 @@ class CustomizePage extends HookConsumerWidget {
               ),
             ),
             const Spacer(),
-            admobState
-                ? Container(
+            currentMember?.isRemovedAds == true
+                ? const SizedBox.shrink()
+                : Container(
                     color: ThemeColor.white,
                     height: 50,
                     width: double.infinity,
                     child: AdWidget(ad: setBanner()),
                   )
-                : const SizedBox.shrink(),
+            // admobState
+            //     ? Container(
+            //         color: ThemeColor.white,
+            //         height: 50,
+            //         width: double.infinity,
+            //         child: AdWidget(ad: setBanner()),
+            //       )
+            //     : const SizedBox.shrink(),
           ],
         ),
       ),

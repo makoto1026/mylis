@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/provider/admob_provider.dart';
+// import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
 import 'package:mylis/presentation/page/memo/register/controller/register_memo_controller.dart';
@@ -18,9 +18,9 @@ class RegisterMemoPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+    final currentMember = ref.watch(currentMemberProvider);
     final colorState = ref.watch(customizeController);
-    final admobState = ref.watch(admobProvider);
+    // final admobState = ref.watch(admobProvider);
     final controller = useTextEditingController();
     final focusNode = FocusNode();
 
@@ -52,8 +52,10 @@ class RegisterMemoPage extends HookConsumerWidget {
               await ref.read(loadingStateProvider.notifier).startLoading(),
               await ref
                   .read(registerMemoController.notifier)
-                  .create(currentMemberId),
-              await ref.read(memoController.notifier).refresh(currentMemberId),
+                  .create(currentMember?.uuid ?? ""),
+              await ref
+                  .read(memoController.notifier)
+                  .refresh(currentMember?.uuid ?? ""),
               await ref.read(loadingStateProvider.notifier).stopLoading(),
               await showToast(message: "メモを追加しました"),
               Navigator.pop(context),
@@ -114,14 +116,22 @@ class RegisterMemoPage extends HookConsumerWidget {
               ),
             ),
           ),
-          admobState
-              ? Container(
+          currentMember?.isRemovedAds == true
+              ? const SizedBox.shrink()
+              : Container(
                   color: ThemeColor.white,
                   height: 50,
                   width: double.infinity,
                   child: AdWidget(ad: setBanner()),
                 )
-              : const SizedBox.shrink(),
+          // admobState
+          //     ? Container(
+          //         color: ThemeColor.white,
+          //         height: 50,
+          //         width: double.infinity,
+          //         child: AdWidget(ad: setBanner()),
+          //       )
+          //     : const SizedBox.shrink(),
         ],
       ),
     );

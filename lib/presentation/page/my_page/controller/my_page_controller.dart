@@ -23,6 +23,7 @@ class UserController extends StateNotifier<MyPageState> {
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
               deletedAt: null,
+              isRemovedAds: false,
             ),
           ),
         );
