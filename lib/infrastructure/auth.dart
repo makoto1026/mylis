@@ -34,6 +34,7 @@ class IAuthRepository extends AuthRepository {
       "text_color": ThemeColor.orange.value,
       "button_color": ThemeColor.orange.value,
       "icon_color": ThemeColor.orange.value,
+      "is_removed_ads": false,
       "created_at": Timestamp.now(),
       "updated_at": Timestamp.now(),
     });
@@ -93,6 +94,7 @@ class IAuthRepository extends AuthRepository {
                       "text_color": ThemeColor.orange.value,
                       "button_color": ThemeColor.orange.value,
                       "icon_color": ThemeColor.orange.value,
+                      "is_removed_ads": false,
                       "created_at": DateTime.now(),
                       "updated_at": DateTime.now(),
                     },
@@ -154,6 +156,7 @@ class IAuthRepository extends AuthRepository {
                       "text_color": ThemeColor.orange.value,
                       "button_color": ThemeColor.orange.value,
                       "icon_color": ThemeColor.orange.value,
+                      "is_removed_ads": false,
                       "created_at": DateTime.now(),
                       "updated_at": DateTime.now(),
                     },

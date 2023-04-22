@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylis/provider/admob_provider.dart';
+// import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/util/banner.dart';
@@ -18,10 +18,10 @@ class RegisterTagView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+    final currentMember = ref.watch(currentMemberProvider);
     final state = ref.watch(registerTagController);
     final tagList = ref.watch(tagController).tagList;
-    final admobState = ref.watch(admobProvider);
+    // final admobState = ref.watch(admobProvider);
 
     return Column(
       children: [
@@ -48,15 +48,14 @@ class RegisterTagView extends HookConsumerWidget {
                         await ref
                             .read(loadingStateProvider.notifier)
                             .startLoading(),
-                        await ref
-                            .read(registerTagController.notifier)
-                            .create(currentMemberId, tagList.length - 1),
+                        await ref.read(registerTagController.notifier).create(
+                            currentMember?.uuid ?? "", tagList.length - 1),
                         await ref
                             .read(registerTagController.notifier)
                             .refresh(),
                         await ref
                             .read(tagController.notifier)
-                            .refresh(currentMemberId, true, false),
+                            .refresh(currentMember?.uuid ?? "", true, false),
                         await ref
                             .read(loadingStateProvider.notifier)
                             .stopLoading(),
@@ -70,14 +69,22 @@ class RegisterTagView extends HookConsumerWidget {
             ),
           ),
         ),
-        admobState
-            ? Container(
+        currentMember?.isRemovedAds == true
+            ? const SizedBox.shrink()
+            : Container(
                 color: ThemeColor.white,
                 height: 50,
                 width: double.infinity,
                 child: AdWidget(ad: setBanner()),
               )
-            : const SizedBox.shrink(),
+        // admobState
+        //     ? Container(
+        //         color: ThemeColor.white,
+        //         height: 50,
+        //         width: double.infinity,
+        //         child: AdWidget(ad: setBanner()),
+        //       )
+        //     : const SizedBox.shrink(),
       ],
     );
   }

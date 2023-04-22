@@ -13,6 +13,7 @@ class Member {
     required this.createdAt,
     required this.updatedAt,
     required this.deletedAt,
+    required this.isRemovedAds,
   });
   final String uuid;
   final String name;
@@ -27,4 +28,5 @@ class Member {
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? deletedAt;
+  final bool isRemovedAds;
 }

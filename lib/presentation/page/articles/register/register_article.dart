@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/infrastructure/secure_storage_service.dart';
-import 'package:mylis/provider/admob_provider.dart';
+// import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
@@ -31,8 +31,8 @@ class RegisterArticlePage extends HookConsumerWidget {
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
     final tagState = ref.watch(tagController);
     final isLoading = ref.watch(registerTagController).isLoading;
-    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
-    final admobState = ref.watch(admobProvider);
+    final currentMember = ref.watch(currentMemberProvider);
+    // final admobState = ref.watch(admobProvider);
 
     useEffect(() {
       () async {
@@ -187,14 +187,15 @@ class RegisterArticlePage extends HookConsumerWidget {
                                       await ref
                                           .read(registerArticleController
                                               .notifier)
-                                          .create(currentMemberId),
+                                          .create(currentMember?.uuid ?? ""),
                                       await ref
                                           .read(receiveSharingIntentProvider
                                               .notifier)
                                           .refresh(),
                                       await ref
                                           .read(articleController.notifier)
-                                          .initialized(currentMemberId,
+                                          .initialized(
+                                              currentMember?.uuid ?? "",
                                               tagState.tagList),
                                       await ref
                                           .read(registerArticleController
@@ -220,14 +221,22 @@ class RegisterArticlePage extends HookConsumerWidget {
                     ),
                   ),
                 ),
-                admobState
-                    ? Container(
+                currentMember?.isRemovedAds == true
+                    ? const SizedBox.shrink()
+                    : Container(
                         color: ThemeColor.white,
                         height: 50,
                         width: double.infinity,
                         child: AdWidget(ad: setBanner()),
                       )
-                    : const SizedBox.shrink(),
+                // admobState
+                //     ? Container(
+                //         color: ThemeColor.white,
+                //         height: 50,
+                //         width: double.infinity,
+                //         child: AdWidget(ad: setBanner()),
+                //       )
+                //     : const SizedBox.shrink(),
               ],
             ),
           );
