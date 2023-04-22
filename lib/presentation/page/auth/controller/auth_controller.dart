@@ -37,7 +37,7 @@ class AuthController extends StateNotifier<AuthState> {
     var auth = Auth(email: state.email, password: state.password);
     await authRepository.signUpWithEmail(auth).then(
           (value) async => {
-            _read(sessionProvider.notifier).signIn(value),
+            await _read(sessionProvider.notifier).signIn(value),
           },
         );
   }

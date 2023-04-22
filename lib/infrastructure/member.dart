@@ -24,9 +24,9 @@ class IMemberRepository extends MemberRepository {
   @override
   Future<Member> update({
     required String currentMemberId,
-    required String textColor,
-    required String buttonColor,
-    required String iconColor,
+    required int textColor,
+    required int buttonColor,
+    required int iconColor,
   }) async {
     final postData = {
       "text_color": textColor,

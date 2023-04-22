@@ -6,8 +6,6 @@ import 'package:mylis/presentation/widget/round_rect_button.dart';
 
 class CustomDialog extends HookConsumerWidget {
   const CustomDialog({
-    this.width = 326,
-    this.height = 130,
     required this.title,
     this.message = "",
     this.noButtonText = "いいえ",
@@ -16,8 +14,6 @@ class CustomDialog extends HookConsumerWidget {
     required this.onPressedWithOk,
     Key? key,
   }) : super(key: key);
-  final double width;
-  final double height;
   final String title;
   final String message;
   final String noButtonText;
@@ -28,58 +24,51 @@ class CustomDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MylisBaseDialog(
-      width: width,
-      height: height,
-      widget: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Center(
-          child: Column(
+      widget: Column(
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: message != "" ? 10 : 20),
+          if (message != "")
+            Column(
+              children: [
+                Text(
+                  message,
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+              SizedBox(
+                width: 100,
+                height: 40,
+                child: OutlinedRoundRectButton(
+                  onPressed: onPressedWithNo,
+                  text: noButtonText,
                 ),
               ),
-              SizedBox(height: message != "" ? 10 : 20),
-              if (message != "")
-                Column(
-                  children: [
-                    Text(
-                      message,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
+              const SizedBox(width: 20),
+              SizedBox(
+                width: 100,
+                height: 40,
+                child: RoundRectButton(
+                  onPressed: onPressedWithOk,
+                  text: okButtonText,
                 ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    height: 40,
-                    child: OutlinedRoundRectButton(
-                      onPressed: onPressedWithNo,
-                      text: noButtonText,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  SizedBox(
-                    width: 100,
-                    height: 40,
-                    child: RoundRectButton(
-                      onPressed: onPressedWithOk,
-                      text: okButtonText,
-                    ),
-                  ),
-                ],
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }

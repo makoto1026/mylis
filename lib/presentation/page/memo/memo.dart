@@ -76,6 +76,8 @@ class MemoPage extends HookConsumerWidget {
         ),
       ),
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         color: const Color.fromARGB(255, 236, 236, 236),
         padding: const EdgeInsets.all(10),
         child: state.memoList.isNotEmpty

@@ -21,7 +21,7 @@ class RegisterTagController extends StateNotifier<RegisterTagState> {
 
   Future<void> initialized() async {}
 
-  void setName(String name) {
+  Future<void> setName(String name) async {
     state = state.copyWith(name: name);
   }
 

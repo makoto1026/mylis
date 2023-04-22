@@ -105,7 +105,6 @@ class MemoDetailDialog extends HookConsumerWidget {
                       barrierColor: colorState.textColor.withOpacity(0.25),
                       builder: (BuildContext context) {
                         return CustomDialog(
-                          height: 160,
                           title: "本当に削除しますか？",
                           message: "データは完全に削除されます",
                           onPressedWithNo: () => Navigator.pop(context),

@@ -3,16 +3,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MylisBaseDialog extends HookConsumerWidget {
   const MylisBaseDialog({
-    required this.height,
-    required this.width,
-    this.title = "",
     required this.widget,
     Key? key,
   }) : super(key: key);
 
-  final double height;
-  final double width;
-  final String? title;
   final Widget widget;
 
   @override
@@ -21,13 +15,20 @@ class MylisBaseDialog extends HookConsumerWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Container(
-        constraints: BoxConstraints(maxHeight: height, maxWidth: width),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(child: widget),
+            ),
+          ],
         ),
-        child: Center(child: widget),
       ),
     );
   }

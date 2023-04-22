@@ -19,185 +19,177 @@ class CustomizeTextColorDialog extends HookConsumerWidget {
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
 
     return MylisBaseDialog(
-      height: 326,
-      width: 326,
-      widget: Padding(
-        padding:
-            const EdgeInsets.only(top: 21, bottom: 25, left: 28, right: 28),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+      widget: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "アプリ内で表示しているテーマカラーを変更できます",
+            style: TextStyle(
+              color: textColor.value,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Spacer(),
+          Column(
             children: [
-              Text(
-                "アプリ内で表示しているテーマカラーを変更できます",
-                style: TextStyle(
-                  color: textColor.value,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Spacer(),
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      CostomizeColorComponent(
-                        color: Colors.black,
-                        onTap: () => {
-                          textColor.value = Colors.black,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: Colors.black == textColor.value,
-                      ),
-                      CostomizeColorComponent(
-                        color: ThemeColor.red,
-                        onTap: () => {
-                          textColor.value = ThemeColor.red,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: ThemeColor.red == textColor.value,
-                      ),
-                      CostomizeColorComponent(
-                        color: ThemeColor.pink,
-                        onTap: () => {
-                          textColor.value = ThemeColor.pink,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: ThemeColor.pink == textColor.value,
-                      ),
-                      CostomizeColorComponent(
-                        color: ThemeColor.pastelPink,
-                        onTap: () => {
-                          textColor.value = ThemeColor.pastelPink,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: ThemeColor.pastelPink == textColor.value,
-                      ),
-                      CostomizeColorComponent(
-                        color: ThemeColor.orange,
-                        onTap: () => {
-                          textColor.value = ThemeColor.orange,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: ThemeColor.orange == textColor.value,
-                      ),
-                      CostomizeColorComponent(
-                        color: ThemeColor.pastelOrange,
-                        onTap: () => {
-                          textColor.value = ThemeColor.pastelOrange,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: ThemeColor.pastelOrange == textColor.value,
-                      ),
-                    ],
+                  CostomizeColorComponent(
+                    color: Colors.black,
+                    onTap: () => {
+                      textColor.value = Colors.black,
+                      ref
+                          .read(customizeController.notifier)
+                          .setTextColor(textColor.value),
+                    },
+                    isSelected: Colors.black == textColor.value,
                   ),
-                  const SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      CostomizeColorComponent(
-                        color: ThemeColor.blue,
-                        onTap: () => {
-                          textColor.value = ThemeColor.blue,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: ThemeColor.blue == textColor.value,
-                      ),
-                      CostomizeColorComponent(
-                        color: ThemeColor.pastelBlue,
-                        onTap: () => {
-                          textColor.value = ThemeColor.pastelBlue,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: ThemeColor.pastelBlue == textColor.value,
-                      ),
-                      CostomizeColorComponent(
-                        color: ThemeColor.green,
-                        onTap: () => {
-                          textColor.value = ThemeColor.green,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: ThemeColor.green == textColor.value,
-                      ),
-                      CostomizeColorComponent(
-                        color: ThemeColor.pastelGreen,
-                        onTap: () => {
-                          textColor.value = ThemeColor.pastelGreen,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: ThemeColor.pastelGreen == textColor.value,
-                      ),
-                      CostomizeColorComponent(
-                        color: ThemeColor.yellow,
-                        onTap: () => {
-                          textColor.value = ThemeColor.yellow,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: ThemeColor.yellow == textColor.value,
-                      ),
-                      CostomizeColorComponent(
-                        color: ThemeColor.pastelPurple,
-                        onTap: () => {
-                          textColor.value = ThemeColor.pastelPurple,
-                          ref
-                              .read(customizeController.notifier)
-                              .setTextColor(textColor.value),
-                        },
-                        isSelected: ThemeColor.pastelPurple == textColor.value,
-                      ),
-                    ],
-                  )
+                  CostomizeColorComponent(
+                    color: ThemeColor.red,
+                    onTap: () => {
+                      textColor.value = ThemeColor.red,
+                      ref
+                          .read(customizeController.notifier)
+                          .setTextColor(textColor.value),
+                    },
+                    isSelected: ThemeColor.red == textColor.value,
+                  ),
+                  CostomizeColorComponent(
+                    color: ThemeColor.pink,
+                    onTap: () => {
+                      textColor.value = ThemeColor.pink,
+                      ref
+                          .read(customizeController.notifier)
+                          .setTextColor(textColor.value),
+                    },
+                    isSelected: ThemeColor.pink == textColor.value,
+                  ),
+                  CostomizeColorComponent(
+                    color: ThemeColor.pastelPink,
+                    onTap: () => {
+                      textColor.value = ThemeColor.pastelPink,
+                      ref
+                          .read(customizeController.notifier)
+                          .setTextColor(textColor.value),
+                    },
+                    isSelected: ThemeColor.pastelPink == textColor.value,
+                  ),
+                  CostomizeColorComponent(
+                    color: ThemeColor.orange,
+                    onTap: () => {
+                      textColor.value = ThemeColor.orange,
+                      ref
+                          .read(customizeController.notifier)
+                          .setTextColor(textColor.value),
+                    },
+                    isSelected: ThemeColor.orange == textColor.value,
+                  ),
+                  CostomizeColorComponent(
+                    color: ThemeColor.pastelOrange,
+                    onTap: () => {
+                      textColor.value = ThemeColor.pastelOrange,
+                      ref
+                          .read(customizeController.notifier)
+                          .setTextColor(textColor.value),
+                    },
+                    isSelected: ThemeColor.pastelOrange == textColor.value,
+                  ),
                 ],
               ),
-              const SizedBox(height: 60),
-              Center(
-                child: SizedBox(
-                  height: 52,
-                  width: 160,
-                  child: RoundRectButton(
-                    onPressed: () async => {
-                      FocusScope.of(context).unfocus(),
-                      await ref
-                          .read(registerTagController.notifier)
-                          .setIsLoading(true),
-                      await ref
+              const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  CostomizeColorComponent(
+                    color: ThemeColor.blue,
+                    onTap: () => {
+                      textColor.value = ThemeColor.blue,
+                      ref
                           .read(customizeController.notifier)
-                          .update(currentMemberId),
-                      await ref
-                          .read(registerTagController.notifier)
-                          .setIsLoading(false),
-                      Navigator.pop(context),
-                      await showToast(message: "テーマカラーを変更しました"),
+                          .setTextColor(textColor.value),
                     },
-                    text: "変更",
+                    isSelected: ThemeColor.blue == textColor.value,
                   ),
-                ),
-              ),
+                  CostomizeColorComponent(
+                    color: ThemeColor.pastelBlue,
+                    onTap: () => {
+                      textColor.value = ThemeColor.pastelBlue,
+                      ref
+                          .read(customizeController.notifier)
+                          .setTextColor(textColor.value),
+                    },
+                    isSelected: ThemeColor.pastelBlue == textColor.value,
+                  ),
+                  CostomizeColorComponent(
+                    color: ThemeColor.green,
+                    onTap: () => {
+                      textColor.value = ThemeColor.green,
+                      ref
+                          .read(customizeController.notifier)
+                          .setTextColor(textColor.value),
+                    },
+                    isSelected: ThemeColor.green == textColor.value,
+                  ),
+                  CostomizeColorComponent(
+                    color: ThemeColor.pastelGreen,
+                    onTap: () => {
+                      textColor.value = ThemeColor.pastelGreen,
+                      ref
+                          .read(customizeController.notifier)
+                          .setTextColor(textColor.value),
+                    },
+                    isSelected: ThemeColor.pastelGreen == textColor.value,
+                  ),
+                  CostomizeColorComponent(
+                    color: ThemeColor.yellow,
+                    onTap: () => {
+                      textColor.value = ThemeColor.yellow,
+                      ref
+                          .read(customizeController.notifier)
+                          .setTextColor(textColor.value),
+                    },
+                    isSelected: ThemeColor.yellow == textColor.value,
+                  ),
+                  CostomizeColorComponent(
+                    color: ThemeColor.pastelPurple,
+                    onTap: () => {
+                      textColor.value = ThemeColor.pastelPurple,
+                      ref
+                          .read(customizeController.notifier)
+                          .setTextColor(textColor.value),
+                    },
+                    isSelected: ThemeColor.pastelPurple == textColor.value,
+                  ),
+                ],
+              )
             ],
           ),
-        ),
+          const SizedBox(height: 60),
+          Center(
+            child: SizedBox(
+              height: 52,
+              width: 160,
+              child: RoundRectButton(
+                onPressed: () async => {
+                  FocusScope.of(context).unfocus(),
+                  await ref
+                      .read(registerTagController.notifier)
+                      .setIsLoading(true),
+                  await ref
+                      .read(customizeController.notifier)
+                      .update(currentMemberId),
+                  await ref
+                      .read(registerTagController.notifier)
+                      .setIsLoading(false),
+                  Navigator.pop(context),
+                  await showToast(message: "テーマカラーを変更しました"),
+                },
+                text: "変更",
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

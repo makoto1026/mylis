@@ -14,6 +14,12 @@ class MemoBox extends HookConsumerWidget {
     var screenSize = MediaQuery.of(context).size;
     final convertedText = item.body.replaceAll("\\n", "\n");
 
+    final convertedSecondText = convertedText
+        .split('\n')
+        .skip(1)
+        .where((line) => line.isNotEmpty)
+        .join('\n');
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 5,
@@ -25,32 +31,38 @@ class MemoBox extends HookConsumerWidget {
           color: Colors.white,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           child: Row(
             children: [
-              SizedBox(width: screenSize.width * 0.02),
+              Padding(
+                padding: EdgeInsets.only(right: screenSize.width * 0.02),
+              ),
               Flexible(
-                child: SizedBox(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        convertedText.split('\n')[0],
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      convertedText.split('\n')[0],
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Text(
-                        convertedText.split('\n').skip(1).join('\n'),
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                    ),
+                    if (convertedSecondText != "")
+                      Column(
+                        children: [
+                          const SizedBox(height: 5),
+                          Text(
+                            convertedSecondText,
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
             ],
