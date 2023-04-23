@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
+import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/util/banner.dart';
 // import 'package:mylis/provider/admob_provider.dart';
@@ -33,7 +34,25 @@ class CustomizePage extends HookConsumerWidget {
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () async => {
-            Navigator.pop(context),
+            if (newColor.value == colorState.textColor)
+              {
+                Navigator.pop(context),
+              }
+            else
+              {
+                showDialog<bool>(
+                  context: context,
+                  barrierColor: colorState.textColor.withOpacity(0.25),
+                  builder: (context) => const BackNoticeDialog(),
+                ).then(
+                  (value) => {
+                    if (value == true)
+                      {
+                        Navigator.pop(context),
+                      }
+                  },
+                ),
+              }
           },
           color: ThemeColor.darkGray,
         ),
@@ -53,7 +72,7 @@ class CustomizePage extends HookConsumerWidget {
                   .setButtonColor(newColor.value),
               await ref
                   .read(customizeController.notifier)
-                  .update(currentMember?.uuid ?? ""),
+                  .update(currentMember!),
               await ref
                   .read(registerTagController.notifier)
                   .setIsLoading(false),
@@ -72,7 +91,10 @@ class CustomizePage extends HookConsumerWidget {
               alignment: Alignment.center,
               splashFactory: NoSplash.splashFactory,
             ),
-            child: const Text('保存'),
+            child: const Text(
+              '保存',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),

@@ -39,15 +39,22 @@ class CustomizeController extends StateNotifier<CustomizeState> {
     state = state.copyWith(iconColor: color);
   }
 
-  Future<void> update(String currentMemberId) async {
-    await memberRepository
-        .update(
-          currentMemberId: currentMemberId,
-          textColor: state.textColor.value,
-          buttonColor: state.buttonColor.value,
-          iconColor: state.iconColor.value,
-        )
-        .then(
+  Future<void> update(Member member) async {
+    final postData = Member(
+      uuid: member.uuid,
+      email: member.email,
+      password: member.password,
+      textColor: state.textColor.value,
+      buttonColor: state.buttonColor.value,
+      iconColor: state.iconColor.value,
+      isRemovedAds: member.isRemovedAds,
+      isHiddenSaveMemoNoticeDialog: member.isHiddenSaveMemoNoticeDialog,
+      registeredArticleCount: member.registeredArticleCount,
+      createdAt: member.createdAt,
+      updatedAt: member.updatedAt,
+      deletedAt: member.deletedAt,
+    );
+    await memberRepository.update(postData).then(
           (value) => {
             state = state.copyWith(
               textColor: Color(value.textColor),

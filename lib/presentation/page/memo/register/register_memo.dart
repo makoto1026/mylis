@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -7,7 +8,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
 import 'package:mylis/presentation/page/memo/register/controller/register_memo_controller.dart';
+import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
 import 'package:mylis/presentation/util/banner.dart';
+import 'package:mylis/presentation/widget/save_memo_notice_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
@@ -23,10 +26,25 @@ class RegisterMemoPage extends HookConsumerWidget {
     // final admobState = ref.watch(admobProvider);
     final controller = useTextEditingController();
     final focusNode = FocusNode();
+    final setMemo = ref.watch(registerMemoController).body;
 
     useEffect(() {
       ref.refresh(registerMemoController);
       focusNode.requestFocus();
+
+      SchedulerBinding.instance.addPostFrameCallback(
+        (_) async => {
+          if (currentMember?.isHiddenSaveMemoNoticeDialog == false)
+            {
+              showDialog(
+                context: context,
+                barrierColor: colorState.textColor.withOpacity(0.25),
+                builder: (context) => const SaveMemoNoticeDialog(),
+              ),
+            }
+        },
+      );
+
       return () {};
     }, []);
 
@@ -42,7 +60,24 @@ class RegisterMemoPage extends HookConsumerWidget {
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
-            Navigator.pop(context);
+            if (setMemo == "") {
+              focusNode.unfocus();
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+            } else {
+              showDialog<bool>(
+                context: context,
+                barrierColor: colorState.textColor.withOpacity(0.25),
+                builder: (context) => const BackNoticeDialog(),
+              ).then(
+                (value) => {
+                  if (value == true)
+                    {
+                      Navigator.pop(context),
+                    }
+                },
+              );
+            }
           },
           color: ThemeColor.darkGray,
         ),
@@ -72,7 +107,10 @@ class RegisterMemoPage extends HookConsumerWidget {
               alignment: Alignment.center,
               splashFactory: NoSplash.splashFactory,
             ),
-            child: const Text('保存'),
+            child: const Text(
+              '保存',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),

@@ -15,14 +15,12 @@ import 'package:mylis/presentation/page/home/home_page.dart';
 import 'package:mylis/presentation/page/main_page.dart';
 import 'package:mylis/presentation/page/my_page/usage.dart';
 import 'package:mylis/presentation/page/privacy_policy/privacy_policy.dart';
-import 'package:mylis/presentation/page/splash.dart';
 import 'package:mylis/presentation/page/tags/edit/edit_tag.dart';
 import 'package:mylis/presentation/page/tags/edit/edit_tag_list.dart';
 import 'package:mylis/presentation/page/terms_of_use/terms_of_use.dart';
 import 'package:mylis/presentation/page/walk_through.dart';
 
 final routerProvider = Provider((ref) => <String, WidgetBuilder>{
-      RouteNames.splash.path: (BuildContext context) => const SplashPage(),
       RouteNames.walkThrough.path: (BuildContext context) =>
           const WalkThroughPage(),
       RouteNames.main.path: (BuildContext context) => const MainPage(),

@@ -1,32 +1,28 @@
 class Member {
   Member({
     required this.uuid,
-    required this.name,
-    required this.sex,
-    required this.lineUuid,
     required this.email,
-    required this.phoneNumber,
-    required this.fcmToken,
+    required this.password,
     required this.textColor,
     required this.buttonColor,
     required this.iconColor,
+    required this.isRemovedAds,
+    required this.isHiddenSaveMemoNoticeDialog,
+    required this.registeredArticleCount,
     required this.createdAt,
     required this.updatedAt,
     required this.deletedAt,
-    required this.isRemovedAds,
   });
   final String uuid;
-  final String name;
-  final int sex;
-  final String lineUuid;
   final String email;
-  final String phoneNumber;
-  final String fcmToken;
+  final String password;
   final int textColor;
   final int buttonColor;
   final int iconColor;
+  final bool isRemovedAds;
+  final bool isHiddenSaveMemoNoticeDialog;
+  final int registeredArticleCount;
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? deletedAt;
-  final bool isRemovedAds;
 }

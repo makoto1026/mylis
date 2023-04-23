@@ -22,22 +22,23 @@ class IMemberRepository extends MemberRepository {
   }
 
   @override
-  Future<Member> update({
-    required String currentMemberId,
-    required int textColor,
-    required int buttonColor,
-    required int iconColor,
-  }) async {
+  Future<Member> update(Member member) async {
     final postData = {
-      "text_color": textColor,
-      "button_color": buttonColor,
-      "icon_color": iconColor,
+      "email": member.email,
+      "password": member.password,
+      "text_color": member.textColor,
+      "button_color": member.buttonColor,
+      "icon_color": member.iconColor,
+      "is_removed_ads": member.isRemovedAds,
+      "is_hidden_save_memo_notice_dialog": member.isHiddenSaveMemoNoticeDialog,
+      "registered_article_count": member.registeredArticleCount,
+      "created_at": member.createdAt,
       "updated_at": DateTime.now(),
     };
 
-    await usersDB.doc(currentMemberId).update(postData);
+    await usersDB.doc(member.uuid).update(postData);
 
-    return await get(currentMemberId);
+    return await get(member.uuid);
   }
 
   @override

@@ -81,6 +81,7 @@ class MyPage extends HookConsumerWidget {
               Navigator.pushNamed(
                 context,
                 RouteNames.termsOfUse.path,
+                arguments: false,
               )
             },
             text: "利用規約",
@@ -90,6 +91,7 @@ class MyPage extends HookConsumerWidget {
               Navigator.pushNamed(
                 context,
                 RouteNames.privacyPolicy.path,
+                arguments: false,
               )
             },
             text: "プライバシーポリシー",

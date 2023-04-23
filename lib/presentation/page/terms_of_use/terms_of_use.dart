@@ -9,12 +9,13 @@ class TermsOfUsePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorState = ref.watch(customizeController);
+    final isFromAuthPage = ModalRoute.of(context)?.settings.arguments as bool;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "利用規約",
           style: TextStyle(
-            color: colorState.textColor,
+            color: isFromAuthPage ? ThemeColor.orange : colorState.textColor,
             fontWeight: FontWeight.bold,
           ),
         ),

@@ -16,7 +16,7 @@ class CustomizeTextColorDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textColor = useState(ThemeColor.darkGray);
-    final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
+    final currentMember = ref.watch(currentMemberProvider)!;
 
     return MylisBaseDialog(
       widget: Column(
@@ -178,7 +178,7 @@ class CustomizeTextColorDialog extends HookConsumerWidget {
                       .setIsLoading(true),
                   await ref
                       .read(customizeController.notifier)
-                      .update(currentMemberId),
+                      .update(currentMember),
                   await ref
                       .read(registerTagController.notifier)
                       .setIsLoading(false),

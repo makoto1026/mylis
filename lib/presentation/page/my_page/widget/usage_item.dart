@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/theme/color.dart';
 
-class UsageItem extends StatelessWidget {
+class UsageItem extends HookConsumerWidget {
   const UsageItem({
     required this.title,
     required this.body,
@@ -16,16 +18,17 @@ class UsageItem extends StatelessWidget {
   final double height;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(customizeController);
     return Center(
       child: Column(
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: ThemeColor.orange,
+              color: colorState.textColor,
               height: 1.3,
             ),
             textAlign: TextAlign.center,

@@ -185,6 +185,7 @@ class AuthPage extends HookConsumerWidget {
                           Navigator.pushNamed(
                             context,
                             RouteNames.termsOfUse.path,
+                            arguments: true,
                           );
                         },
                     ),
@@ -207,6 +208,7 @@ class AuthPage extends HookConsumerWidget {
                           Navigator.pushNamed(
                             context,
                             RouteNames.privacyPolicy.path,
+                            arguments: true,
                           );
                         },
                     ),

@@ -51,7 +51,7 @@ class CustomDialog extends HookConsumerWidget {
             children: [
               SizedBox(
                 width: 100,
-                height: 40,
+                height: 50,
                 child: OutlinedRoundRectButton(
                   onPressed: onPressedWithNo,
                   text: noButtonText,
@@ -60,7 +60,7 @@ class CustomDialog extends HookConsumerWidget {
               const SizedBox(width: 20),
               SizedBox(
                 width: 100,
-                height: 40,
+                height: 50,
                 child: RoundRectButton(
                   onPressed: onPressedWithOk,
                   text: okButtonText,
