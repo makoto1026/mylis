@@ -172,10 +172,6 @@ class ArticleListView extends HookConsumerWidget {
                                         .articles[index],
                                     tag,
                                   ),
-                                ).whenComplete(
-                                  () => {
-                                    Navigator.pop(context),
-                                  },
                                 ),
                               },
                             ),

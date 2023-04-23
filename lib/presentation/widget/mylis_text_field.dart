@@ -8,7 +8,7 @@ class MylisTextField extends HookConsumerWidget {
     required this.title,
     required this.onChanged,
     this.textColor = Colors.white,
-    this.fontSize = 16,
+    this.fontSize = 14,
     this.maxLines = 1,
     this.minLines = 1,
     this.isAFewLine = false,

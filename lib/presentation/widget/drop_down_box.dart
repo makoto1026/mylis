@@ -44,7 +44,7 @@ class DropDownBox extends HookConsumerWidget {
                         child: Text(
                           e.name,
                           style: const TextStyle(
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
                       ),

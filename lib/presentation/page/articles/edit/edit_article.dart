@@ -7,6 +7,7 @@ import 'package:mylis/presentation/page/articles/article/controller/article_cont
 import 'package:mylis/presentation/page/articles/edit/controller/edit_article_controller.dart';
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
+import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/page/tags/register/widget/register_tag_dialog.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
@@ -31,6 +32,7 @@ class EditArticlePage extends HookConsumerWidget {
     final colorState = ref.watch(customizeController);
     final tagState = ref.watch(tagController);
     final isLoading = ref.watch(registerTagController).isLoading;
+    final editArticleState = ref.watch(editArticleController);
 
     final oldTag = useState(tag);
 
@@ -71,7 +73,26 @@ class EditArticlePage extends HookConsumerWidget {
               leading: IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () {
-                  Navigator.pop(context);
+                  final isSameTitle = article.title == editArticleState.title;
+                  final isSameUrl = article.url == editArticleState.url;
+                  final isSameMemo = article.memo == editArticleState.memo;
+                  final isSameTag = oldTag.value.uuid == tagState.tag.uuid;
+                  if (isSameTitle && isSameUrl && isSameMemo && isSameTag) {
+                    Navigator.pop(context);
+                  } else {
+                    showDialog<bool>(
+                      context: context,
+                      barrierColor: colorState.textColor.withOpacity(0.25),
+                      builder: (context) => const BackNoticeDialog(),
+                    ).then(
+                      (value) => {
+                        if (value == true)
+                          {
+                            Navigator.pop(context),
+                          }
+                      },
+                    );
+                  }
                 },
                 color: ThemeColor.darkGray,
               ),
@@ -124,7 +145,10 @@ class EditArticlePage extends HookConsumerWidget {
                     alignment: Alignment.center,
                     splashFactory: NoSplash.splashFactory,
                   ),
-                  child: const Text('保存'),
+                  child: const Text(
+                    '保存',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),

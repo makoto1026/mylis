@@ -64,7 +64,10 @@ class EditTagPage extends HookConsumerWidget {
               alignment: Alignment.center,
               splashFactory: NoSplash.splashFactory,
             ),
-            child: const Text('保存'),
+            child: const Text(
+              '保存',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),

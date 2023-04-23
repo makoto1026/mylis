@@ -1,17 +1,22 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/domain/repository/member.dart';
 import 'package:mylis/domain/repository/memo.dart';
+import 'package:mylis/infrastructure/member.dart';
 import 'package:mylis/infrastructure/memo.dart';
 import 'package:mylis/presentation/page/memo/controller/memo_state.dart';
 
 class MemoController extends StateNotifier<MemoState> {
-  MemoController({required this.memoRepository})
-      : super(
+  MemoController({
+    required this.memoRepository,
+    required this.memberRepository,
+  }) : super(
           const MemoState(
             memoList: [],
           ),
         );
 
   MemoRepository memoRepository;
+  MemberRepository memberRepository;
 
   Future<void> initialized(String memberId) async {
     await getList(memberId);
@@ -30,5 +35,8 @@ class MemoController extends StateNotifier<MemoState> {
 }
 
 final memoController = StateNotifierProvider<MemoController, MemoState>(
-  (ref) => MemoController(memoRepository: ref.watch(memoRepositoryProvider)),
+  (ref) => MemoController(
+    memoRepository: ref.watch(memoRepositoryProvider),
+    memberRepository: ref.watch(memberRepositoryProvider),
+  ),
 );

@@ -11,19 +11,17 @@ class UserController extends StateNotifier<MyPageState> {
           MyPageState(
             member: Member(
               uuid: '',
-              name: '',
-              sex: 0,
-              lineUuid: '',
+              password: '',
               email: '',
-              phoneNumber: '',
-              fcmToken: '',
               textColor: 0,
               buttonColor: 0,
               iconColor: 0,
+              isRemovedAds: false,
+              isHiddenSaveMemoNoticeDialog: false,
+              registeredArticleCount: 0,
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
               deletedAt: null,
-              isRemovedAds: false,
             ),
           ),
         );

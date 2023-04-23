@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
 import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controller.dart';
+import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
@@ -23,6 +24,7 @@ class EditMemoPage extends HookConsumerWidget {
     final isBack = useState(false);
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final colorState = ref.watch(customizeController);
+    final oldMemo = useState(state.body);
 
     useEffect(() {
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -43,7 +45,22 @@ class EditMemoPage extends HookConsumerWidget {
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
-            Navigator.pop(context);
+            if (oldMemo.value == state.body) {
+              Navigator.pop(context);
+            } else {
+              showDialog<bool>(
+                context: context,
+                barrierColor: colorState.textColor.withOpacity(0.25),
+                builder: (context) => const BackNoticeDialog(),
+              ).then(
+                (value) => {
+                  if (value == true)
+                    {
+                      Navigator.pop(context),
+                    }
+                },
+              );
+            }
           },
           color: ThemeColor.darkGray,
         ),
@@ -70,7 +87,10 @@ class EditMemoPage extends HookConsumerWidget {
               alignment: Alignment.center,
               splashFactory: NoSplash.splashFactory,
             ),
-            child: const Text('保存'),
+            child: const Text(
+              '保存',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),

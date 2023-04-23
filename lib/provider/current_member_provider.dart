@@ -31,6 +31,51 @@ class CurrentMemberProvider extends StateNotifier<Member?> {
       return;
     }
   }
+
+  Future<void> updateIsHiddenSaveMemoNoticeDialog(bool isHidden) async {
+    await memberRepository.get(state?.uuid ?? "").then(
+          (value) async => {
+            state = Member(
+              uuid: value.uuid,
+              email: value.email,
+              password: value.password,
+              textColor: value.textColor,
+              buttonColor: value.buttonColor,
+              iconColor: value.iconColor,
+              isRemovedAds: value.isRemovedAds,
+              isHiddenSaveMemoNoticeDialog: isHidden,
+              registeredArticleCount: value.registeredArticleCount,
+              createdAt: value.createdAt,
+              updatedAt: value.updatedAt,
+              deletedAt: value.deletedAt,
+            ),
+            await memberRepository.update(state!),
+          },
+        );
+  }
+
+  Future<void> updateRegisteredArticleCount() async {
+    final registeredArticleCount = state?.registeredArticleCount ?? 0;
+    await memberRepository.get(state?.uuid ?? "").then(
+          (value) async => {
+            state = Member(
+              uuid: value.uuid,
+              email: value.email,
+              password: value.password,
+              textColor: value.textColor,
+              buttonColor: value.buttonColor,
+              iconColor: value.iconColor,
+              isRemovedAds: value.isRemovedAds,
+              isHiddenSaveMemoNoticeDialog: value.isHiddenSaveMemoNoticeDialog,
+              registeredArticleCount: registeredArticleCount + 1,
+              createdAt: value.createdAt,
+              updatedAt: value.updatedAt,
+              deletedAt: value.deletedAt,
+            ),
+            await memberRepository.update(state!),
+          },
+        );
+  }
 }
 
 final currentMemberProvider =
