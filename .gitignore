@@ -49,11 +49,18 @@ app.*.map.json
 /android/app/src/prod
 /android/app/google-services.json
 
-/ios/Flutter/DartDefines.xcconfig
+/ios/Flutter/DartDefine.xcconfig
 /ios/Runner/GoogleService-Info.plist
+/ios/Runner/configurations
 /ios/GoogleService-Info.plist
 /ios/dev
 /ios/prod
+/ios/firebase_app_id_file.json
 
 .vscode
+
+/env
 .env
+
+/lib/firebase_options_dev.dart
+/lib/firebase_options_prod.dart
