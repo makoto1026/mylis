@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/tag.dart';
-import 'package:mylis/infrastructure/secure_storage_service.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_box.dart';
 import 'package:mylis/presentation/page/articles/edit/controller/edit_article_controller.dart';
-import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/register/register_tag.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
@@ -16,7 +14,6 @@ import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/snippets/url_launcher.dart';
-import 'package:mylis/theme/color.dart';
 import 'package:tuple/tuple.dart';
 
 class ArticleListView extends HookConsumerWidget {
@@ -40,28 +37,6 @@ class ArticleListView extends HookConsumerWidget {
     return tag.uuid == ""
         ? const RegisterTagView()
         : Scaffold(
-            floatingActionButton: SizedBox(
-              width: 70,
-              height: 70,
-              child: FloatingActionButton(
-                onPressed: () async => {
-                  await ref
-                      .read(secureStorageServiceProvider)
-                      .delete(key: "share_url"),
-                  await ref.watch(registerArticleController.notifier).refresh(),
-                  Navigator.pushNamed(
-                    context,
-                    RouteNames.registerArticle.path,
-                  ),
-                },
-                backgroundColor: colorState.textColor,
-                child: const Icon(
-                  Icons.add,
-                  size: 40,
-                  color: ThemeColor.white,
-                ),
-              ),
-            ),
             body: Container(
               color: const Color.fromARGB(255, 236, 236, 236),
               height: double.infinity,

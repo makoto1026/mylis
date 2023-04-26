@@ -23,9 +23,8 @@ class RegisterTagDialog extends HookConsumerWidget {
         children: [
           MylisTextField(
             title: "リスト",
-            onChanged: (value) => {
-              ref.read(registerTagController.notifier).setName(value),
-            },
+            onChanged: (value) async =>
+                await ref.read(registerTagController.notifier).setName(value),
           ),
           const SizedBox(height: 30),
           Center(
