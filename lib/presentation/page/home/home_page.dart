@@ -6,7 +6,9 @@ import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/infrastructure/secure_storage_service.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_list_view.dart';
+import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
+import 'package:mylis/presentation/page/home/controller/home_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
@@ -44,6 +46,10 @@ class HomePage extends HookConsumerWidget {
           length: tagList.length,
         );
 
+    tabController.addListener(() async {
+      await ref.read(homeProvider.notifier).set(tabController.index);
+    });
+
     useEffect(() {
       () async {
         if (currentMemberId != "") {
@@ -73,6 +79,8 @@ class HomePage extends HookConsumerWidget {
                     }
                 },
               );
+
+          await ref.read(homeProvider.notifier).set(tabController.index);
         }
         tabController = _createNewTabController();
       }();
@@ -147,6 +155,36 @@ class HomePage extends HookConsumerWidget {
                 )
                 .toList(),
           ),
+        ),
+        floatingActionButton: Consumer(
+          builder: (context, ref, _) {
+            return ref.watch(homeProvider) != tagList.length - 1
+                ? SizedBox(
+                    width: 70,
+                    height: 70,
+                    child: FloatingActionButton(
+                      onPressed: () async => {
+                        await ref
+                            .read(secureStorageServiceProvider)
+                            .delete(key: "share_url"),
+                        await ref
+                            .watch(registerArticleController.notifier)
+                            .refresh(),
+                        Navigator.pushNamed(
+                          context,
+                          RouteNames.registerArticle.path,
+                        ),
+                      },
+                      backgroundColor: colorState.textColor,
+                      child: const Icon(
+                        Icons.add,
+                        size: 40,
+                        color: ThemeColor.white,
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink();
+          },
         ),
         body: TabBarView(
           controller: tabController,

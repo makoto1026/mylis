@@ -30,8 +30,9 @@ class RegisterMemoPage extends HookConsumerWidget {
 
     useEffect(() {
       ref.refresh(registerMemoController);
-      focusNode.requestFocus();
-
+      if (currentMember?.isHiddenSaveMemoNoticeDialog == true) {
+        focusNode.requestFocus();
+      }
       SchedulerBinding.instance.addPostFrameCallback(
         (_) async => {
           if (currentMember?.isHiddenSaveMemoNoticeDialog == false)

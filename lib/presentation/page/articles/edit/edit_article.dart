@@ -164,7 +164,7 @@ class EditArticlePage extends HookConsumerWidget {
                     MylisTextField(
                       title: "タイトル",
                       initialValue: article.title,
-                      onChanged: (value) => ref
+                      onChanged: (value) async => await ref
                           .read(editArticleController.notifier)
                           .setUpdateValue(title: value),
                     ),
@@ -172,7 +172,7 @@ class EditArticlePage extends HookConsumerWidget {
                     MylisTextField(
                       title: "URL",
                       initialValue: article.url,
-                      onChanged: (value) => ref
+                      onChanged: (value) async => await ref
                           .read(editArticleController.notifier)
                           .setUpdateValue(url: value),
                     ),
@@ -214,7 +214,7 @@ class EditArticlePage extends HookConsumerWidget {
                       fontSize: 14,
                       isAFewLine: true,
                       initialValue: article.memo,
-                      onChanged: (value) => ref
+                      onChanged: (value) async => await ref
                           .read(editArticleController.notifier)
                           .setUpdateValue(memo: value),
                     ),
