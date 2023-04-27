@@ -43,6 +43,11 @@ class RegisterArticlePage extends HookConsumerWidget {
               ref.read(registerArticleController.notifier).setNewArticle(
                     tagId: tagState.tagList[0].uuid ?? "",
                   );
+              if (receiveSharingState.url != "") {
+                ref
+                    .read(registerArticleController.notifier)
+                    .setNewArticle(url: receiveSharingState.url);
+              }
             }
           },
         );
@@ -50,16 +55,6 @@ class RegisterArticlePage extends HookConsumerWidget {
 
       return () {};
     }, []);
-
-    if (receiveSharingState.url != "") {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) async {
-          ref
-              .read(registerArticleController.notifier)
-              .setNewArticle(url: receiveSharingState.url);
-        },
-      );
-    }
 
     return isLoading
         ? Container(
@@ -129,6 +124,7 @@ class RegisterArticlePage extends HookConsumerWidget {
                     await ref
                         .read(currentMemberProvider.notifier)
                         .set(currentMember?.uuid ?? ""),
+                    await ref.read(articleController.notifier).setCount(),
                     await ref.read(loadingStateProvider.notifier).stopLoading(),
                     Navigator.pop(context),
                     await showToast(message: "記事を登録しました"),

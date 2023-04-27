@@ -81,6 +81,10 @@ class ArticleController extends StateNotifier<ArticleState> {
 
     return res;
   }
+
+  Future<void> setCount() async {
+    state = state.copyWith(setCount: state.setCount + 1);
+  }
 }
 
 final articleController =

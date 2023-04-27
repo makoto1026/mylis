@@ -32,7 +32,8 @@ class HomePage extends HookConsumerWidget {
     final member = ref.watch(currentMemberProvider);
     final receiveSharingState = ref.watch(receiveSharingIntentProvider);
     final tagList = ref.watch(tagController).tagList;
-    final articleState = ref.watch(articleController);
+    final registerTagCount = ref.watch(tagController).count;
+    final registerArticleCount = ref.watch(articleController).setCount;
     var tabController = TabController(
       vsync: _MyTickerProvider(),
       length: tagList.length,
@@ -40,11 +41,6 @@ class HomePage extends HookConsumerWidget {
     );
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? "";
     final shareUrl = useState("");
-
-    TabController _createNewTabController() => TabController(
-          vsync: _MyTickerProvider(),
-          length: tagList.length,
-        );
 
     tabController.addListener(() async {
       await ref.read(homeProvider.notifier).set(tabController.index);
@@ -79,10 +75,8 @@ class HomePage extends HookConsumerWidget {
                     }
                 },
               );
-
           await ref.read(homeProvider.notifier).set(tabController.index);
         }
-        tabController = _createNewTabController();
       }();
       return () {};
     }, []);
@@ -103,20 +97,47 @@ class HomePage extends HookConsumerWidget {
     );
 
     useValueChanged(
-      articleState,
+      registerArticleCount,
       (a, b) async {
-        final setTag = ref.watch(tagController).tag;
-        final filteredTagIndex =
-            tagList.indexWhere((e) => e.uuid == setTag.uuid);
-        tabController.index = filteredTagIndex;
+        final filteredTagIndex = tagList.indexWhere(
+          (e) => e.uuid == ref.watch(tagController).tag.uuid,
+        );
+
+        Future.microtask(() async {
+          // filteredTagIndexが０の場合、一度アニメーションしてから動かさないと０まで戻れないため
+          if (filteredTagIndex == 0) {
+            tabController.animateTo(
+              1,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+            tabController.animateTo(
+              0,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            tabController.animateTo(
+              filteredTagIndex,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+        });
       },
     );
 
     useValueChanged(
-      tagList,
+      registerTagCount,
       (a, b) async {
-        tabController = _createNewTabController();
-        tabController.index = tagList.length == 1 ? 0 : tagList.length - 2;
+        Future.microtask(
+          () async {
+            tabController.animateTo(
+                tagList.length <= 1 ? 0 : tagList.length - 2,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut);
+          },
+        );
       },
     );
 

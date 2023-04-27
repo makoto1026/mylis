@@ -57,6 +57,7 @@ class RegisterTagView extends HookConsumerWidget {
                         await ref
                             .read(tagController.notifier)
                             .refresh(currentMember?.uuid ?? "", true, false),
+                        await ref.read(tagController.notifier).setCount(),
                         await ref
                             .read(loadingStateProvider.notifier)
                             .stopLoading(),
