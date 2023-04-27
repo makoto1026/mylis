@@ -52,7 +52,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To upload photos, please allow permission to access your photo library.</string>
 	<key>CFBundleVersion</key>
-	<string>15</string>
+	<string>17</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-2003936641755086~9105098086</string>
 	<key>LSRequiresIPhoneOS</key>
