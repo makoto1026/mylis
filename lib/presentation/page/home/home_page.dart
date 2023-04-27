@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -11,8 +13,10 @@ import 'package:mylis/presentation/page/customize/controller/customize_controlle
 import 'package:mylis/presentation/page/home/controller/home_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/meta_provider/meta_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
+import 'package:mylis/snippets/url_launcher.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/presentation/page/main_page.dart' as main_page;
 
@@ -76,6 +80,37 @@ class HomePage extends HookConsumerWidget {
                 },
               );
           await ref.read(homeProvider.notifier).set(tabController.index);
+
+          if (await ref.read(metaProvider.notifier).getIsForceUpdate()) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text(
+                    "アップデートが公開されました",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  content: const Text("ストアでアップデートをお願いいたします"),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text("ストアへ"),
+                      onPressed: () {
+                        openUrl(
+                            url: Platform.isAndroid
+                                ? "https://play.google.com/store/apps/details?id=com.mylis.app"
+                                : "https://apps.apple.com/us/app/com-mylis/id6447293191");
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          }
         }
       }();
       return () {};
