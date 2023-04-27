@@ -18,6 +18,7 @@ class TagController extends StateNotifier<TagState> {
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
             ),
+            count: 0,
           ),
         );
 
@@ -110,6 +111,10 @@ class TagController extends StateNotifier<TagState> {
         await tagRepository.update(memberId, tag);
       }
     }
+  }
+
+  Future<void> setCount() async {
+    state = state.copyWith(count: state.count + 1);
   }
 }
 
