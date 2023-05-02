@@ -43,7 +43,7 @@ class TermsOfUsePage extends HookConsumerWidget {
               TermsOfUseComponent(
                 title: "1. 収集する情報",
                 content:
-                    "当アプリケーションは、お気に入りの記事を登録するための情報を収集します。この情報には、記事のタイトル、URL、メモ、および登録日時が含まれます。また、利用者がログインした際に収集されるログイン情報には、Twitter、Google、Apple、メールアドレスがあります。",
+                    "当アプリケーションは、お気に入りの記事を登録するための情報を収集します。この情報には、記事のタイトル、URL、メモ、および登録日時が含まれます。また、利用者がログインした際に収集されるログイン情報にはGoogle、Apple、メールアドレスがあります。",
               ),
               SizedBox(height: 20),
               TermsOfUseComponent(

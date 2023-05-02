@@ -131,13 +131,13 @@ class UsagePage extends HookConsumerWidget {
                 key: fourthKey,
                 title: "記事編集、削除",
                 body:
-                    "登録した記事を長押しすると、\n記事の編集や削除ができます。\n\n編集では、登録しているリストの変更が可能です。\n\n「削除」をタップすることで削除が可能です。",
+                    "登録した記事を長押しすると、\n記事の編集や削除ができます。\n\n編集では、タイトル変更や登録しているリストの変更が可能です。\n\n「削除」をタップすることで削除が可能です。",
                 imagePath: "assets/images/walk_through_four.jpg",
               ),
               UsageItem(
                 key: fifthKey,
                 title: "メモ登録",
-                body: "メモタブを開き「＋」ボタンをタップすると、\nメモ登録を行えるページに移動します。",
+                body: "メモタブを開き「＋」ボタンをタップすると、\nメモ登録が行えます。",
                 imagePath: "assets/images/register_memo.jpg",
               ),
               UsageItem(

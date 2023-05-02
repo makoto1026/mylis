@@ -13,6 +13,7 @@ import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/util/banner.dart';
+import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/presentation/widget/drop_down_box.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/page/tags/register/widget/register_tag_dialog.dart';
@@ -101,37 +102,60 @@ class RegisterArticlePage extends HookConsumerWidget {
               actions: [
                 TextButton(
                   onPressed: () async => {
-                    await ref
-                        .read(loadingStateProvider.notifier)
-                        .startLoading(),
-                    await ref
-                        .read(registerArticleController.notifier)
-                        .create(currentMember?.uuid ?? ""),
-                    await ref
-                        .read(receiveSharingIntentProvider.notifier)
-                        .refresh(),
-                    await ref.read(articleController.notifier).initialized(
-                        currentMember?.uuid ?? "", tagState.tagList),
-                    await ref
-                        .read(registerArticleController.notifier)
-                        .refresh(),
-                    await ref
-                        .read(secureStorageServiceProvider)
-                        .write(key: "share_url", value: ""),
-                    await ref
-                        .read(currentMemberProvider.notifier)
-                        .updateRegisteredArticleCount(),
-                    await ref
-                        .read(currentMemberProvider.notifier)
-                        .set(currentMember?.uuid ?? ""),
-                    await ref.read(articleController.notifier).setCount(),
-                    await ref.read(loadingStateProvider.notifier).stopLoading(),
-                    Navigator.pop(context),
-                    await showToast(message: "記事を登録しました"),
-                    if ((currentMember?.registeredArticleCount ?? 0) % 5 == 0)
+                    if (ref.read(registerArticleController).title == "" ||
+                        ref.read(registerArticleController).url == "")
                       {
-                        AppReview.requestReview,
+                        showDialog(
+                          context: context,
+                          barrierColor: colorState.textColor.withOpacity(0.25),
+                          builder: (BuildContext context) {
+                            return CustomDialog(
+                              title: "タイトルまたはURLが入力されていません",
+                              onPressedWithNo: () => Navigator.pop(context),
+                              onPressedWithOk: () => Navigator.pop(context),
+                              okButtonText: "戻る",
+                              isDoubleButton: false,
+                            );
+                          },
+                        ),
                       }
+                    else
+                      {
+                        await ref
+                            .read(loadingStateProvider.notifier)
+                            .startLoading(),
+                        await ref
+                            .read(registerArticleController.notifier)
+                            .create(currentMember?.uuid ?? ""),
+                        await ref
+                            .read(receiveSharingIntentProvider.notifier)
+                            .refresh(),
+                        await ref.read(articleController.notifier).initialized(
+                            currentMember?.uuid ?? "", tagState.tagList),
+                        await ref
+                            .read(registerArticleController.notifier)
+                            .refresh(),
+                        await ref
+                            .read(secureStorageServiceProvider)
+                            .write(key: "share_url", value: ""),
+                        await ref
+                            .read(currentMemberProvider.notifier)
+                            .updateRegisteredArticleCount(),
+                        await ref
+                            .read(currentMemberProvider.notifier)
+                            .set(currentMember?.uuid ?? ""),
+                        await ref.read(articleController.notifier).setCount(),
+                        await ref
+                            .read(loadingStateProvider.notifier)
+                            .stopLoading(),
+                        Navigator.pop(context),
+                        await showToast(message: "記事を登録しました"),
+                        if ((currentMember?.registeredArticleCount ?? 0) % 5 ==
+                            0)
+                          {
+                            AppReview.requestReview,
+                          }
+                      },
                   },
                   style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.resolveWith<Color>(

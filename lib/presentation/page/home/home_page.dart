@@ -12,6 +12,7 @@ import 'package:mylis/presentation/page/articles/register/controller/register_ar
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/home/controller/home_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
+import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/meta_provider/meta_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
@@ -84,29 +85,23 @@ class HomePage extends HookConsumerWidget {
           if (await ref.read(metaProvider.notifier).getIsForceUpdate()) {
             showDialog(
               context: context,
+              barrierColor: colorState.textColor.withOpacity(0.25),
               barrierDismissible: false,
               builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text(
-                    "アップデートが公開されました",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                return CustomDialog(
+                  title: "アップデートが公開されました",
+                  message: "アプリストアにて、アップデートをお願いいたします。",
+                  isDoubleButton: false,
+                  okButtonText: "ストアへ",
+                  onPressedWithNo: () => Navigator.pop(context),
+                  onPressedWithOk: () => {
+                    openUrl(
+                      url: Platform.isAndroid
+                          ? "https://play.google.com/store/apps/details?id=com.mylis.app"
+                          : "itms-apps://itunes.apple.com/app/6447293191",
                     ),
-                  ),
-                  content: const Text("ストアでアップデートをお願いいたします"),
-                  actions: <Widget>[
-                    TextButton(
-                      child: const Text("ストアへ"),
-                      onPressed: () {
-                        openUrl(
-                            url: Platform.isAndroid
-                                ? "https://play.google.com/store/apps/details?id=com.mylis.app"
-                                : "https://apps.apple.com/us/app/com-mylis/id6447293191");
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
+                    Navigator.pop(context),
+                  },
                 );
               },
             );

@@ -10,6 +10,7 @@ import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
 import 'package:mylis/presentation/page/memo/register/controller/register_memo_controller.dart';
 import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
 import 'package:mylis/presentation/util/banner.dart';
+import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/presentation/widget/save_memo_notice_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
@@ -85,16 +86,35 @@ class RegisterMemoPage extends HookConsumerWidget {
         actions: [
           TextButton(
             onPressed: () async => {
-              await ref.read(loadingStateProvider.notifier).startLoading(),
-              await ref
-                  .read(registerMemoController.notifier)
-                  .create(currentMember?.uuid ?? ""),
-              await ref
-                  .read(memoController.notifier)
-                  .refresh(currentMember?.uuid ?? ""),
-              await ref.read(loadingStateProvider.notifier).stopLoading(),
-              await showToast(message: "メモを追加しました"),
-              Navigator.pop(context),
+              if (ref.read(registerMemoController).body == "")
+                {
+                  showDialog(
+                    context: context,
+                    barrierColor: colorState.textColor.withOpacity(0.25),
+                    builder: (BuildContext context) {
+                      return CustomDialog(
+                        title: "本文が入力されていません",
+                        onPressedWithNo: () => Navigator.pop(context),
+                        onPressedWithOk: () => Navigator.pop(context),
+                        okButtonText: "戻る",
+                        isDoubleButton: false,
+                      );
+                    },
+                  ),
+                }
+              else
+                {
+                  await ref.read(loadingStateProvider.notifier).startLoading(),
+                  await ref
+                      .read(registerMemoController.notifier)
+                      .create(currentMember?.uuid ?? ""),
+                  await ref
+                      .read(memoController.notifier)
+                      .refresh(currentMember?.uuid ?? ""),
+                  await ref.read(loadingStateProvider.notifier).stopLoading(),
+                  await showToast(message: "メモを追加しました"),
+                  Navigator.pop(context),
+                },
             },
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.resolveWith<Color>(

@@ -43,7 +43,7 @@ class PrivacyPolicyPage extends HookConsumerWidget {
               PrivacyPolicyComponent(
                 title: "2. アカウント登録について",
                 content:
-                    "本アプリの機能を利用するためには、Twitter、Google、apple認証、メールアドレスでのアカウント登録が必要です。アカウント登録にあたっては、正確かつ最新の情報を提供していただくようお願いします。また、アカウントの管理は、利用者自身の責任となります。",
+                    "本アプリの機能を利用するためには、Google、Apple、メールアドレスのうち、いずれかのアカウント登録が必要です。アカウント登録にあたっては、正確かつ最新の情報を提供していただくようお願いします。また、アカウントの管理は、利用者自身の責任となります。",
               ),
               SizedBox(height: 20),
               PrivacyPolicyComponent(

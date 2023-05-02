@@ -12,6 +12,7 @@ class CustomDialog extends HookConsumerWidget {
     this.okButtonText = "はい",
     required this.onPressedWithNo,
     required this.onPressedWithOk,
+    this.isDoubleButton = true,
     Key? key,
   }) : super(key: key);
   final String title;
@@ -20,6 +21,7 @@ class CustomDialog extends HookConsumerWidget {
   final String okButtonText;
   final void Function() onPressedWithNo;
   final void Function() onPressedWithOk;
+  final bool isDoubleButton;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,28 +48,37 @@ class CustomDialog extends HookConsumerWidget {
                 const SizedBox(height: 20),
               ],
             ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 100,
-                height: 50,
-                child: OutlinedRoundRectButton(
-                  onPressed: onPressedWithNo,
-                  text: noButtonText,
+          isDoubleButton
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      height: 50,
+                      child: OutlinedRoundRectButton(
+                        onPressed: onPressedWithNo,
+                        text: noButtonText,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    SizedBox(
+                      width: 100,
+                      height: 50,
+                      child: RoundRectButton(
+                        onPressed: onPressedWithOk,
+                        text: okButtonText,
+                      ),
+                    ),
+                  ],
+                )
+              : SizedBox(
+                  width: 100,
+                  height: 50,
+                  child: RoundRectButton(
+                    onPressed: onPressedWithOk,
+                    text: okButtonText,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 20),
-              SizedBox(
-                width: 100,
-                height: 50,
-                child: RoundRectButton(
-                  onPressed: onPressedWithOk,
-                  text: okButtonText,
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );

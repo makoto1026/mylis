@@ -31,7 +31,7 @@ class AuthPage extends HookConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'myLis',
+                'mylis',
                 style: TextStyle(
                   color: ThemeColor.orange,
                   fontSize: 24,
@@ -39,7 +39,7 @@ class AuthPage extends HookConsumerWidget {
               ),
               const SizedBox(height: 10),
               const Text(
-                '自分だけのブックマークを作ろう！',
+                '最適なブックマーク体験を',
                 style: TextStyle(
                   color: ThemeColor.darkGray,
                   fontSize: 12,
