@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/receive_sharing_intent_service.dart';
 import 'package:mylis/infrastructure/secure_storage_service.dart';
@@ -13,6 +14,7 @@ import 'package:mylis/presentation/page/customize/controller/customize_controlle
 import 'package:mylis/presentation/page/home/controller/home_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
+import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/meta_provider/meta_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
@@ -39,6 +41,9 @@ class HomePage extends HookConsumerWidget {
     final tagList = ref.watch(tagController).tagList;
     final registerTagCount = ref.watch(tagController).count;
     final registerArticleCount = ref.watch(articleController).setCount;
+    final currentMember = ref.watch(currentMemberProvider);
+    final banner = ref.watch(homeBannerAdProvider);
+
     var tabController = TabController(
       vsync: _MyTickerProvider(),
       length: tagList.length,
@@ -207,43 +212,61 @@ class HomePage extends HookConsumerWidget {
                 .toList(),
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: Consumer(
           builder: (context, ref, _) {
             return ref.watch(homeProvider) != tagList.length - 1
-                ? SizedBox(
-                    width: 70,
-                    height: 70,
-                    child: FloatingActionButton(
-                      onPressed: () async => {
-                        await ref
-                            .read(secureStorageServiceProvider)
-                            .delete(key: "share_url"),
-                        await ref
-                            .watch(registerArticleController.notifier)
-                            .refresh(),
-                        Navigator.pushNamed(
-                          context,
-                          RouteNames.registerArticle.path,
+                ? Padding(
+                    padding: const EdgeInsets.only(bottom: 60),
+                    child: SizedBox(
+                      width: 70,
+                      height: 70,
+                      child: FloatingActionButton(
+                        onPressed: () async => {
+                          await ref
+                              .read(secureStorageServiceProvider)
+                              .delete(key: "share_url"),
+                          await ref
+                              .watch(registerArticleController.notifier)
+                              .refresh(),
+                          Navigator.pushNamed(
+                            context,
+                            RouteNames.registerArticle.path,
+                          ),
+                        },
+                        backgroundColor: colorState.textColor,
+                        child: const Icon(
+                          Icons.add,
+                          size: 40,
+                          color: ThemeColor.white,
                         ),
-                      },
-                      backgroundColor: colorState.textColor,
-                      child: const Icon(
-                        Icons.add,
-                        size: 40,
-                        color: ThemeColor.white,
                       ),
                     ),
                   )
                 : const SizedBox.shrink();
           },
         ),
-        body: TabBarView(
-          controller: tabController,
-          children: tagList
-              .map(
-                (e) => ArticleListView(tag: e),
-              )
-              .toList(),
+        body: Column(
+          children: [
+            Expanded(
+              child: TabBarView(
+                controller: tabController,
+                children: tagList
+                    .map(
+                      (e) => ArticleListView(tag: e),
+                    )
+                    .toList(),
+              ),
+            ),
+            currentMember?.isRemovedAds == true
+                ? const SizedBox.shrink()
+                : Container(
+                    color: ThemeColor.white,
+                    height: 50,
+                    width: double.infinity,
+                    child: AdWidget(ad: banner),
+                  ),
+          ],
         ),
       ),
     );

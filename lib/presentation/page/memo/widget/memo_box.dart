@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/memo.dart';
 
@@ -11,14 +12,21 @@ class MemoBox extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final firstLine = useState("");
+    final secondLine = useState("");
     var screenSize = MediaQuery.of(context).size;
     final convertedText = item.body.replaceAll("\\n", "\n");
 
-    final convertedSecondText = convertedText
-        .split('\n')
-        .skip(1)
-        .where((line) => line.isNotEmpty)
-        .join('\n');
+    List<String> lines =
+        convertedText.split('\n').where((line) => line.isNotEmpty).toList();
+
+    if (lines.length >= 2) {
+      firstLine.value = lines[0];
+      secondLine.value = lines[1];
+    } else {
+      firstLine.value = lines[0];
+      secondLine.value = "";
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -42,18 +50,18 @@ class MemoBox extends HookConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      convertedText.split('\n')[0],
+                      firstLine.value,
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    if (convertedSecondText != "")
+                    if (secondLine.value != "")
                       Column(
                         children: [
                           const SizedBox(height: 5),
                           Text(
-                            convertedSecondText,
+                            secondLine.value,
                             style: const TextStyle(
                               fontSize: 12,
                             ),
