@@ -11,7 +11,11 @@ class MetaProvider extends StateNotifier<Meta> {
   MetaProvider({
     required this.adminRepository,
   }) : super(
-          Meta(appVersion: "1.0.0", isForceUpdate: false, appUrl: ""),
+          Meta(
+            appVersion: "1.0.2",
+            isForceUpdate: false,
+            appUrl: "",
+          ),
         );
 
   final AdminRepository adminRepository;

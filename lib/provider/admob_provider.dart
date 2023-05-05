@@ -1,34 +1,83 @@
-import 'dart:async';
+import 'dart:io';
 
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/config.dart';
 
-class AdmobProvider extends StateNotifier<bool> {
-  AdmobProvider() : super(false);
+final homeBannerAdProvider = Provider.autoDispose<AdWithView>(
+  (ref) {
+    var bannerID = "";
 
-  static const int maxRetryCount = 3;
-  static const Duration retryDuration = Duration(seconds: 5);
-
-  int _retryCount = 0;
-
-  Future<void> runWithRetry(Function adRequestFunc) async {
-    try {
-      // 広告のリクエストを実行する
-      await adRequestFunc();
-      // 成功した場合は true を返す
-      state = true;
-    } catch (e) {
-      // 失敗した場合はリトライを試みる
-      if (_retryCount < maxRetryCount) {
-        await Future.delayed(retryDuration);
-        _retryCount++;
-        return await runWithRetry(adRequestFunc);
-      }
-      // リトライ回数が上限に達した場合は false を返す
-      state = false;
+    if (Platform.isAndroid) {
+      bannerID = Config.app.androidBannerID;
+    } else if (Platform.isIOS) {
+      bannerID = Config.app.iosBannerID;
     }
-  }
-}
 
-final admobProvider = StateNotifierProvider.autoDispose<AdmobProvider, bool>(
-  (ref) => AdmobProvider(),
+    final bannerAd = BannerAd(
+      adUnitId: bannerID,
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: const BannerAdListener(),
+    );
+    bannerAd.load();
+    ref.onDispose(
+      () {
+        bannerAd.dispose();
+      },
+    );
+    return bannerAd;
+  },
+);
+
+final memoBannerAdProvider = Provider.autoDispose<AdWithView>(
+  (ref) {
+    var bannerID = "";
+
+    if (Platform.isAndroid) {
+      bannerID = Config.app.androidBannerID;
+    } else if (Platform.isIOS) {
+      bannerID = Config.app.iosBannerID;
+    }
+
+    final bannerAd = BannerAd(
+      adUnitId: bannerID,
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: const BannerAdListener(),
+    );
+    bannerAd.load();
+    ref.onDispose(
+      () {
+        bannerAd.dispose();
+      },
+    );
+    return bannerAd;
+  },
+);
+
+final mypageBannerAdProvider = Provider.autoDispose<AdWithView>(
+  (ref) {
+    var bannerID = "";
+
+    if (Platform.isAndroid) {
+      bannerID = Config.app.androidBannerID;
+    } else if (Platform.isIOS) {
+      bannerID = Config.app.iosBannerID;
+    }
+
+    final bannerAd = BannerAd(
+      adUnitId: bannerID,
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: const BannerAdListener(),
+    );
+    bannerAd.load();
+    ref.onDispose(
+      () {
+        bannerAd.dispose();
+      },
+    );
+    return bannerAd;
+  },
 );

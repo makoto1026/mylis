@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-// import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
 import 'package:mylis/presentation/page/memo/register/controller/register_memo_controller.dart';
 import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
-import 'package:mylis/presentation/util/banner.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/presentation/widget/save_memo_notice_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
@@ -24,7 +21,6 @@ class RegisterMemoPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentMember = ref.watch(currentMemberProvider);
     final colorState = ref.watch(customizeController);
-    // final admobState = ref.watch(admobProvider);
     final controller = useTextEditingController();
     final focusNode = FocusNode();
     final setMemo = ref.watch(registerMemoController).body;
@@ -135,63 +131,41 @@ class RegisterMemoPage extends HookConsumerWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Center(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      focusNode: focusNode,
-                      controller: controller,
-                      initialValue: null,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        height: 1.5,
-                      ),
-                      inputFormatters: [LengthLimitingTextInputFormatter(2000)],
-                      maxLines: 15,
-                      minLines: 15,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: ThemeColor.white),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: ThemeColor.white),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: ThemeColor.white),
-                        ),
-                      ),
-                      onChanged: (value) =>
-                          ref.read(registerMemoController.notifier).setNewMemo(
-                                body: value.replaceAll('\n', '\\n'),
-                              ),
-                    ),
-                  ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              TextFormField(
+                focusNode: focusNode,
+                controller: controller,
+                initialValue: null,
+                style: const TextStyle(
+                  fontSize: 14,
+                  height: 1.5,
                 ),
+                inputFormatters: [LengthLimitingTextInputFormatter(2000)],
+                maxLines: 15,
+                minLines: 15,
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  disabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: ThemeColor.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: ThemeColor.white),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: ThemeColor.white),
+                  ),
+                ),
+                onChanged: (value) =>
+                    ref.read(registerMemoController.notifier).setNewMemo(
+                          body: value.replaceAll('\n', '\\n'),
+                        ),
               ),
-            ),
+            ],
           ),
-          currentMember?.isRemovedAds == true
-              ? const SizedBox.shrink()
-              : Container(
-                  color: ThemeColor.white,
-                  height: 50,
-                  width: double.infinity,
-                  child: AdWidget(ad: setBanner()),
-                )
-          // admobState
-          //     ? Container(
-          //         color: ThemeColor.white,
-          //         height: 50,
-          //         width: double.infinity,
-          //         child: AdWidget(ad: setBanner()),
-          //       )
-          //     : const SizedBox.shrink(),
-        ],
+        ),
       ),
     );
   }

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
-import 'package:mylis/presentation/util/banner.dart';
-// import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
@@ -19,7 +16,6 @@ class CustomizePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorState = ref.watch(customizeController);
     final currentMember = ref.watch(currentMemberProvider);
-    // final admobState = ref.watch(admobProvider);
     final newColor = useState(colorState.textColor);
 
     return Scaffold(
@@ -125,23 +121,6 @@ class CustomizePage extends HookConsumerWidget {
                 Radius.circular(5),
               ),
             ),
-            const Spacer(),
-            currentMember?.isRemovedAds == true
-                ? const SizedBox.shrink()
-                : Container(
-                    color: ThemeColor.white,
-                    height: 50,
-                    width: double.infinity,
-                    child: AdWidget(ad: setBanner()),
-                  )
-            // admobState
-            //     ? Container(
-            //         color: ThemeColor.white,
-            //         height: 50,
-            //         width: double.infinity,
-            //         child: AdWidget(ad: setBanner()),
-            //       )
-            //     : const SizedBox.shrink(),
           ],
         ),
       ),
