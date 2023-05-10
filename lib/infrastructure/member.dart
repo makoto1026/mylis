@@ -31,6 +31,7 @@ class IMemberRepository extends MemberRepository {
       "icon_color": member.iconColor,
       "is_removed_ads": member.isRemovedAds,
       "is_hidden_save_memo_notice_dialog": member.isHiddenSaveMemoNoticeDialog,
+      "is_readed_news": member.isReadedNews,
       "registered_article_count": member.registeredArticleCount,
       "created_at": member.createdAt,
       "updated_at": DateTime.now(),

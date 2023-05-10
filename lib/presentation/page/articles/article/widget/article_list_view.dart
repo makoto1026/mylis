@@ -137,6 +137,7 @@ class ArticleListView extends HookConsumerWidget {
                                 ),
                               },
                               onPressedWithOk: () async => {
+                                Navigator.pop(context),
                                 Navigator.pushNamed(
                                   context,
                                   RouteNames.editArticle.path,
