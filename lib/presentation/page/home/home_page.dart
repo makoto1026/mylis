@@ -14,6 +14,8 @@ import 'package:mylis/presentation/page/customize/controller/customize_controlle
 import 'package:mylis/presentation/page/home/controller/home_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
+import 'package:mylis/presentation/widget/news_dialog.dart';
+import 'package:mylis/presentation/widget/save_memo_notice_dialog.dart';
 import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/meta_provider/meta_provider.dart';
@@ -100,6 +102,9 @@ class HomePage extends HookConsumerWidget {
                   okButtonText: "ストアへ",
                   onPressedWithNo: () => Navigator.pop(context),
                   onPressedWithOk: () => {
+                    ref
+                        .read(currentMemberProvider.notifier)
+                        .updateIsReadedNews(false),
                     openUrl(
                       url: Platform.isAndroid
                           ? "https://play.google.com/store/apps/details?id=com.mylis.app"
@@ -109,6 +114,16 @@ class HomePage extends HookConsumerWidget {
                   },
                 );
               },
+            );
+          } else if (currentMember?.isReadedNews == false) {
+            // TODO: IOSユーザー向けに表示設定（v1.0.3）
+            if (Platform.isAndroid) {
+              return;
+            }
+            showDialog(
+              context: context,
+              barrierColor: colorState.textColor.withOpacity(0.25),
+              builder: (context) => const NewsDialog(),
             );
           }
         }
@@ -203,13 +218,20 @@ class HomePage extends HookConsumerWidget {
             ),
             unselectedLabelColor: ThemeColor.darkGray,
             splashFactory: NoSplash.splashFactory,
-            tabs: tagList
-                .map(
-                  (e) => Tab(
+            tabs: tagList.map(
+              (e) {
+                if (e.uuid == "") {
+                  return Text(
+                    e.name,
+                    style: const TextStyle(fontSize: 24),
+                  );
+                } else {
+                  return Tab(
                     text: e.name,
-                  ),
-                )
-                .toList(),
+                  );
+                }
+              },
+            ).toList(),
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

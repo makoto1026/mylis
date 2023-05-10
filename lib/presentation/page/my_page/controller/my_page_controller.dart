@@ -18,6 +18,7 @@ class UserController extends StateNotifier<MyPageState> {
               iconColor: 0,
               isRemovedAds: false,
               isHiddenSaveMemoNoticeDialog: false,
+              isReadedNews: null,
               registeredArticleCount: 0,
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
