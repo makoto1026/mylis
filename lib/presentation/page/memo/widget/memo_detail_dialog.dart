@@ -7,9 +7,11 @@ import 'package:mylis/presentation/page/customize/controller/customize_controlle
 import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controller.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class MemoDetailDialog extends HookConsumerWidget {
   const MemoDetailDialog({
@@ -25,6 +27,7 @@ class MemoDetailDialog extends HookConsumerWidget {
     final isBack = useState(false);
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final colorState = ref.watch(customizeController);
+    final isTablet = ref.watch(isTabletProvider);
 
     useEffect(() {
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -39,12 +42,22 @@ class MemoDetailDialog extends HookConsumerWidget {
         ref
             .read(editMemoController.notifier)
             .update(currentMemberId, memo.uuid ?? "");
-        showToast(message: "更新しました");
+        showToast(
+          message: "更新しました",
+          fontSize: isTablet
+              ? ThemeFontSize.tabletMediumFontSize
+              : ThemeFontSize.mediumFontSize,
+        );
         if (state.title == "" && state.body == "") {
           ref
               .read(editMemoController.notifier)
               .delete(currentMemberId, memo.uuid ?? "");
-          showToast(message: "削除しました");
+          showToast(
+            message: "削除しました",
+            fontSize: isTablet
+                ? ThemeFontSize.tabletMediumFontSize
+                : ThemeFontSize.mediumFontSize,
+          );
         }
         Navigator.of(context).pop(true);
         return Future.value(true);
@@ -58,14 +71,18 @@ class MemoDetailDialog extends HookConsumerWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
-          padding:
-              const EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
+          padding: EdgeInsets.symmetric(
+            vertical: isTablet ? 10 : 5,
+            horizontal: isTablet ? 40 : 20,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                style: const TextStyle(
-                  fontSize: 14,
+                style: TextStyle(
+                  fontSize: isTablet
+                      ? ThemeFontSize.tabletNormalFontSize
+                      : ThemeFontSize.normalFontSize,
                   color: ThemeColor.darkGray,
                   fontWeight: FontWeight.bold,
                 ),
@@ -80,8 +97,10 @@ class MemoDetailDialog extends HookConsumerWidget {
                 },
               ),
               TextFormField(
-                style: const TextStyle(
-                  fontSize: 14,
+                style: TextStyle(
+                  fontSize: isTablet
+                      ? ThemeFontSize.tabletNormalFontSize
+                      : ThemeFontSize.normalFontSize,
                   height: 1.5,
                 ),
                 controller: textEditingController,
@@ -123,7 +142,12 @@ class MemoDetailDialog extends HookConsumerWidget {
                                 .read(loadingStateProvider.notifier)
                                 .stopLoading(),
                             Navigator.pop(context),
-                            await showToast(message: "削除しました"),
+                            await showToast(
+                              message: "削除しました",
+                              fontSize: isTablet
+                                  ? ThemeFontSize.tabletMediumFontSize
+                                  : ThemeFontSize.mediumFontSize,
+                            ),
                           },
                         );
                       },
@@ -136,13 +160,22 @@ class MemoDetailDialog extends HookConsumerWidget {
                   style: TextButton.styleFrom(
                     primary: ThemeColor.darkGray,
                     alignment: Alignment.center,
-                    textStyle: const TextStyle(
+                    textStyle: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 16,
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletMediumFontSize
+                          : ThemeFontSize.mediumFontSize,
                     ),
                     splashFactory: NoSplash.splashFactory,
                   ),
-                  child: const Text('削除'),
+                  child: Text(
+                    '削除',
+                    style: TextStyle(
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletNormalFontSize
+                          : ThemeFontSize.normalFontSize,
+                    ),
+                  ),
                 ),
               ),
             ],

@@ -15,15 +15,16 @@ import 'package:mylis/presentation/page/home/controller/home_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/presentation/widget/news_dialog.dart';
-import 'package:mylis/presentation/widget/save_memo_notice_dialog.dart';
 import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/meta_provider/meta_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/url_launcher.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/presentation/page/main_page.dart' as main_page;
+import 'package:mylis/theme/font_size.dart';
 
 class _MyTickerProvider implements TickerProvider {
   @override
@@ -45,6 +46,7 @@ class HomePage extends HookConsumerWidget {
     final registerArticleCount = ref.watch(articleController).setCount;
     final currentMember = ref.watch(currentMemberProvider);
     final banner = ref.watch(homeBannerAdProvider);
+    final isTablet = ref.watch(isTabletProvider);
 
     var tabController = TabController(
       vsync: _MyTickerProvider(),
@@ -60,6 +62,12 @@ class HomePage extends HookConsumerWidget {
 
     useEffect(() {
       () async {
+        SchedulerBinding.instance.addPostFrameCallback(
+          (_) async => {
+            await ref.read(isTabletProvider.notifier).set(context),
+          },
+        );
+
         if (currentMemberId != "") {
           await ref
               .read(tagController.notifier)
@@ -201,6 +209,9 @@ class HomePage extends HookConsumerWidget {
             style: TextStyle(
               color: colorState.textColor,
               fontWeight: FontWeight.bold,
+              fontSize: isTablet
+                  ? ThemeFontSize.tabletNormalFontSize
+                  : ThemeFontSize.normalFontSize,
             ),
           ),
           backgroundColor: ThemeColor.white,
@@ -223,11 +234,20 @@ class HomePage extends HookConsumerWidget {
                 if (e.uuid == "") {
                   return Text(
                     e.name,
-                    style: const TextStyle(fontSize: 24),
+                    style: TextStyle(
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletHugeFontSize
+                          : ThemeFontSize.hugeFontSize,
+                    ),
                   );
                 } else {
-                  return Tab(
-                    text: e.name,
+                  return Text(
+                    e.name,
+                    style: TextStyle(
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletNormalFontSize
+                          : ThemeFontSize.normalFontSize,
+                    ),
                   );
                 }
               },
@@ -239,10 +259,12 @@ class HomePage extends HookConsumerWidget {
           builder: (context, ref, _) {
             return ref.watch(homeProvider) != tagList.length - 1
                 ? Padding(
-                    padding: const EdgeInsets.only(bottom: 60),
+                    padding: EdgeInsets.only(
+                      bottom: isTablet ? 120 : 60,
+                    ),
                     child: SizedBox(
-                      width: 70,
-                      height: 70,
+                      width: isTablet ? 105 : 70,
+                      height: isTablet ? 105 : 70,
                       child: FloatingActionButton(
                         onPressed: () async => {
                           await ref
@@ -257,9 +279,9 @@ class HomePage extends HookConsumerWidget {
                           ),
                         },
                         backgroundColor: colorState.textColor,
-                        child: const Icon(
+                        child: Icon(
                           Icons.add,
-                          size: 40,
+                          size: isTablet ? 60 : 40,
                           color: ThemeColor.white,
                         ),
                       ),

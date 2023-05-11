@@ -2,50 +2,65 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/auth/controller/auth_controller.dart';
 import 'package:mylis/presentation/page/auth/widget/auth_button.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class AuthPage extends HookConsumerWidget {
   const AuthPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isTablet = ref.watch(isTabletProvider);
+
     bool isIOS = Platform.isIOS;
 
     final isShowEmailAuthButtons = useState(false);
 
+    useEffect(() {
+      SchedulerBinding.instance.addPostFrameCallback(
+        (_) async => {
+          await ref.read(isTabletProvider.notifier).set(context),
+        },
+      );
+      return () {};
+    }, []);
+
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 30,
-          horizontal: 30,
-        ),
+        padding: EdgeInsets.all(isTablet ? 60 : 30),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+              Text(
                 'mylis',
                 style: TextStyle(
                   color: ThemeColor.orange,
-                  fontSize: 24,
+                  fontSize: isTablet
+                      ? ThemeFontSize.tabletHugeFontSize
+                      : ThemeFontSize.hugeFontSize,
                 ),
               ),
-              const SizedBox(height: 10),
-              const Text(
+              SizedBox(height: isTablet ? 20 : 10),
+              Text(
                 '最適なブックマーク体験を',
                 style: TextStyle(
                   color: ThemeColor.darkGray,
-                  fontSize: 12,
+                  fontSize: isTablet
+                      ? ThemeFontSize.tabletSmallFontSize
+                      : ThemeFontSize.smallFontSize,
                 ),
               ),
-              const SizedBox(height: 60),
+              SizedBox(height: isTablet ? 120 : 60),
               // Twitterログインは一旦保留
               // AuthButton(
               //   onPressed: () => {
@@ -55,7 +70,7 @@ class AuthPage extends HookConsumerWidget {
               //   text: "Twitterログイン・新規登録",
               //   backgroundColor: ThemeColor.blue,
               // ),
-              // const SizedBox(height: 20),
+              // SizedBox(height: isTablet ? 40 : 20),
               isIOS
                   ? AuthButton(
                       onPressed: () async => {
@@ -70,7 +85,12 @@ class AuthPage extends HookConsumerWidget {
                             await ref
                                 .read(loadingStateProvider.notifier)
                                 .stopLoading();
-                            await showToast(message: "Apple認証に失敗しました");
+                            await showToast(
+                              message: "Apple認証に失敗しました",
+                              fontSize: isTablet
+                                  ? ThemeFontSize.tabletMediumFontSize
+                                  : ThemeFontSize.mediumFontSize,
+                            );
                           },
                         ),
                       },
@@ -79,7 +99,7 @@ class AuthPage extends HookConsumerWidget {
                       backgroundColor: ThemeColor.black,
                     )
                   : const SizedBox.shrink(),
-              const SizedBox(height: 20),
+              SizedBox(height: isTablet ? 40 : 20),
               AuthButton(
                 onPressed: () async => {
                   await ref.read(loadingStateProvider.notifier).startLoading(),
@@ -91,7 +111,12 @@ class AuthPage extends HookConsumerWidget {
                       await ref
                           .read(loadingStateProvider.notifier)
                           .stopLoading();
-                      await showToast(message: "Google認証に失敗しました");
+                      await showToast(
+                        message: "Google認証に失敗しました",
+                        fontSize: isTablet
+                            ? ThemeFontSize.tabletMediumFontSize
+                            : ThemeFontSize.mediumFontSize,
+                      );
                     },
                   ),
                 },
@@ -101,7 +126,7 @@ class AuthPage extends HookConsumerWidget {
                 textColor: isIOS ? ThemeColor.darkGray : ThemeColor.white,
                 iconColor: isIOS ? ThemeColor.darkGray : ThemeColor.white,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: isTablet ? 40 : 20),
               isShowEmailAuthButtons.value
                   ? const SizedBox.shrink()
                   : Column(
@@ -115,7 +140,7 @@ class AuthPage extends HookConsumerWidget {
                           text: "メールログイン・新規登録",
                           backgroundColor: ThemeColor.orange,
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: isTablet ? 40 : 20),
                       ],
                     ),
               AnimatedSwitcher(
@@ -146,7 +171,7 @@ class AuthPage extends HookConsumerWidget {
                             textColor: ThemeColor.orange,
                             iconColor: ThemeColor.orange,
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: isTablet ? 40 : 20),
                           AuthButton(
                             onPressed: () => {
                               Navigator.pushNamed(
@@ -158,7 +183,7 @@ class AuthPage extends HookConsumerWidget {
                             textColor: ThemeColor.orange,
                             iconColor: ThemeColor.orange,
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: isTablet ? 40 : 20),
                         ],
                       )
                     : const SizedBox.shrink(),
@@ -166,18 +191,22 @@ class AuthPage extends HookConsumerWidget {
               RichText(
                 text: TextSpan(
                   children: [
-                    const TextSpan(
+                    TextSpan(
                       text: "ログインにより  ",
                       style: TextStyle(
                         color: ThemeColor.darkGray,
-                        fontSize: 10,
+                        fontSize: isTablet
+                            ? ThemeFontSize.tabletTinyFontSize
+                            : ThemeFontSize.tinyFontSize,
                       ),
                     ),
                     TextSpan(
                       text: "利用規約",
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: ThemeColor.orange,
-                        fontSize: 10,
+                        fontSize: isTablet
+                            ? ThemeFontSize.tabletTinyFontSize
+                            : ThemeFontSize.tinyFontSize,
                         decoration: TextDecoration.underline,
                       ),
                       recognizer: TapGestureRecognizer()
@@ -189,18 +218,22 @@ class AuthPage extends HookConsumerWidget {
                           );
                         },
                     ),
-                    const TextSpan(
+                    TextSpan(
                       text: "  と  ",
                       style: TextStyle(
                         color: ThemeColor.darkGray,
-                        fontSize: 10,
+                        fontSize: isTablet
+                            ? ThemeFontSize.tabletTinyFontSize
+                            : ThemeFontSize.tinyFontSize,
                       ),
                     ),
                     TextSpan(
                       text: "プライバシーポリシー",
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: ThemeColor.orange,
-                        fontSize: 10,
+                        fontSize: isTablet
+                            ? ThemeFontSize.tabletTinyFontSize
+                            : ThemeFontSize.tinyFontSize,
                         decoration: TextDecoration.underline,
                       ),
                       recognizer: TapGestureRecognizer()
@@ -212,11 +245,13 @@ class AuthPage extends HookConsumerWidget {
                           );
                         },
                     ),
-                    const TextSpan(
+                    TextSpan(
                       text: "  に同意したものとみなします。",
                       style: TextStyle(
                         color: ThemeColor.darkGray,
-                        fontSize: 10,
+                        fontSize: isTablet
+                            ? ThemeFontSize.tabletTinyFontSize
+                            : ThemeFontSize.tinyFontSize,
                       ),
                     ),
                   ],

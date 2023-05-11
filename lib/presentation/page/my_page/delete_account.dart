@@ -4,12 +4,14 @@ import 'package:mylis/presentation/page/customize/controller/customize_controlle
 import 'package:mylis/presentation/page/my_page/widget/mypage_text_button.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/session_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/presentation/page/main_page.dart' as main_page;
+import 'package:mylis/theme/font_size.dart';
 
 class DeleteAccountPage extends HookConsumerWidget {
   const DeleteAccountPage({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class DeleteAccountPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorState = ref.watch(customizeController);
+    final isTablet = ref.watch(isTabletProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -25,10 +28,17 @@ class DeleteAccountPage extends HookConsumerWidget {
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
           ),
         ),
+        leadingWidth: isTablet ? 80 : 40,
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: Icon(
+            Icons.close,
+            size: isTablet ? 36 : 24,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -59,7 +69,12 @@ class DeleteAccountPage extends HookConsumerWidget {
                         RouteNames.auth.path,
                         (_) => false,
                       ),
-                      showToast(message: "退会しました"),
+                      showToast(
+                        message: "退会しました",
+                        fontSize: isTablet
+                            ? ThemeFontSize.tabletMediumFontSize
+                            : ThemeFontSize.mediumFontSize,
+                      ),
                     },
                   );
                 },

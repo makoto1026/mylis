@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class MylisTextField extends HookConsumerWidget {
   const MylisTextField({
     required this.title,
     required this.onChanged,
+    required this.fontSize,
     this.textColor = Colors.white,
-    this.fontSize = 14,
     this.maxLines = 1,
     this.minLines = 1,
     this.isAFewLine = false,
@@ -29,7 +31,7 @@ class MylisTextField extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = useTextEditingController();
-
+    final isTablet = ref.watch(isTabletProvider);
     useEffect(() {
       controller.text = initialValue;
       return () {};
@@ -40,11 +42,14 @@ class MylisTextField extends HookConsumerWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
           ),
         ),
-        const SizedBox(height: 5),
+        SizedBox(height: isTablet ? 10 : 5),
         TextFormField(
           style: TextStyle(
             fontSize: fontSize,

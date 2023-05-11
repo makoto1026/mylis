@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/tag.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class EditTagListItem extends HookConsumerWidget {
   const EditTagListItem({
@@ -13,8 +15,12 @@ class EditTagListItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isTablet = ref.watch(isTabletProvider);
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
+      padding: EdgeInsets.symmetric(
+        vertical: isTablet ? 30 : 15,
+      ),
       child: GestureDetector(
         onTap: () {
           Navigator.pushNamed(
@@ -29,16 +35,19 @@ class EditTagListItem extends HookConsumerWidget {
             Expanded(
               child: Text(
                 item.name,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: ThemeColor.darkGray,
+                  fontSize: isTablet
+                      ? ThemeFontSize.tabletNormalFontSize
+                      : ThemeFontSize.normalFontSize,
                 ),
               ),
             ),
-            const Icon(
+            Icon(
               Icons.arrow_forward_ios_outlined,
               color: ThemeColor.darkGray,
-              size: 16,
+              size: isTablet ? 24 : 16,
             ),
           ],
         ),

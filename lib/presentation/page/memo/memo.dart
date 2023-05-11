@@ -8,8 +8,10 @@ import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controlle
 import 'package:mylis/presentation/page/memo/widget/memo_box.dart';
 import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class MemoPage extends HookConsumerWidget {
   const MemoPage({Key? key}) : super(key: key);
@@ -21,6 +23,7 @@ class MemoPage extends HookConsumerWidget {
     final currentMember = ref.watch(currentMemberProvider);
     final state = ref.watch(memoController);
     final banner = ref.watch(memoBannerAdProvider);
+    final isTablet = ref.watch(isTabletProvider);
 
     void _articleScrollListener() async {
       if (memosController.offset >= memosController.position.maxScrollExtent &&
@@ -56,16 +59,21 @@ class MemoPage extends HookConsumerWidget {
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
           ),
         ),
         backgroundColor: ThemeColor.white,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 60),
+        padding: EdgeInsets.only(
+          bottom: isTablet ? 120 : 60,
+        ),
         child: SizedBox(
-          width: 70,
-          height: 70,
+          width: isTablet ? 105 : 70,
+          height: isTablet ? 105 : 70,
           child: FloatingActionButton(
             onPressed: () => {
               Navigator.pushNamed(
@@ -74,9 +82,9 @@ class MemoPage extends HookConsumerWidget {
               ),
             },
             backgroundColor: colorState.textColor,
-            child: const Icon(
+            child: Icon(
               Icons.add,
-              size: 40,
+              size: isTablet ? 60 : 40,
               color: ThemeColor.white,
             ),
           ),
@@ -89,7 +97,9 @@ class MemoPage extends HookConsumerWidget {
               width: double.infinity,
               height: double.infinity,
               color: const Color.fromARGB(255, 236, 236, 236),
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(
+                isTablet ? 20 : 10,
+              ),
               child: state.memoList.isNotEmpty
                   ? ListView.builder(
                       controller: memosController,

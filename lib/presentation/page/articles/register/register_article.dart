@@ -15,9 +15,11 @@ import 'package:mylis/presentation/widget/drop_down_box.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/page/tags/register/widget/register_tag_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class RegisterArticlePage extends HookConsumerWidget {
   const RegisterArticlePage({Key? key}) : super(key: key);
@@ -30,6 +32,7 @@ class RegisterArticlePage extends HookConsumerWidget {
     final tagState = ref.watch(tagController);
     final isLoading = ref.watch(registerTagController).isLoading;
     final currentMember = ref.watch(currentMemberProvider);
+    final isTablet = ref.watch(isTabletProvider);
 
     useEffect(() {
       () async {
@@ -69,10 +72,17 @@ class RegisterArticlePage extends HookConsumerWidget {
                 style: TextStyle(
                   color: colorState.textColor,
                   fontWeight: FontWeight.bold,
+                  fontSize: isTablet
+                      ? ThemeFontSize.tabletNormalFontSize
+                      : ThemeFontSize.normalFontSize,
                 ),
               ),
+              leadingWidth: isTablet ? 80 : 40,
               leading: IconButton(
-                icon: const Icon(Icons.close),
+                icon: Icon(
+                  Icons.close,
+                  size: isTablet ? 36 : 24,
+                ),
                 onPressed: () {
                   if (registerArticleState.title == "" &&
                       registerArticleState.url == "" &&
@@ -145,7 +155,12 @@ class RegisterArticlePage extends HookConsumerWidget {
                             .read(loadingStateProvider.notifier)
                             .stopLoading(),
                         Navigator.pop(context),
-                        await showToast(message: "記事を登録しました"),
+                        await showToast(
+                          message: "記事を登録しました",
+                          fontSize: isTablet
+                              ? ThemeFontSize.tabletMediumFontSize
+                              : ThemeFontSize.mediumFontSize,
+                        ),
                         if ((currentMember?.registeredArticleCount ?? 0) % 5 ==
                             0)
                           {
@@ -165,17 +180,23 @@ class RegisterArticlePage extends HookConsumerWidget {
                     alignment: Alignment.center,
                     splashFactory: NoSplash.splashFactory,
                   ),
-                  child: const Text(
+                  child: Text(
                     '保存',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletNormalFontSize
+                          : ThemeFontSize.normalFontSize,
+                    ),
                   ),
                 ),
+                SizedBox(width: isTablet ? 20 : 0),
               ],
             ),
             body: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 30,
-                vertical: 20,
+              padding: EdgeInsets.symmetric(
+                horizontal: isTablet ? 60 : 30,
+                vertical: isTablet ? 40 : 20,
               ),
               child: Center(
                 child: Column(
@@ -183,14 +204,20 @@ class RegisterArticlePage extends HookConsumerWidget {
                   children: [
                     MylisTextField(
                       title: "タイトル",
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletNormalFontSize
+                          : ThemeFontSize.normalFontSize,
                       initialValue: registerArticleState.title,
                       onChanged: (value) async => await ref
                           .read(registerArticleController.notifier)
                           .setNewArticle(title: value),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: isTablet ? 40 : 20),
                     MylisTextField(
                       title: "URL",
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletNormalFontSize
+                          : ThemeFontSize.normalFontSize,
                       maxLines: 20,
                       isAFewLine: true,
                       initialValue: receiveSharingState.url == ""
@@ -200,18 +227,21 @@ class RegisterArticlePage extends HookConsumerWidget {
                           .read(registerArticleController.notifier)
                           .setNewArticle(url: value),
                     ),
-                    const SizedBox(height: 20),
-                    const Text(
+                    SizedBox(height: isTablet ? 40 : 20),
+                    Text(
                       "リスト",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: isTablet
+                            ? ThemeFontSize.tabletNormalFontSize
+                            : ThemeFontSize.normalFontSize,
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    SizedBox(height: isTablet ? 10 : 5),
                     Row(
                       children: [
                         const DropDownBox(),
-                        const SizedBox(width: 20),
+                        SizedBox(width: isTablet ? 40 : 20),
                         GestureDetector(
                           onTap: () => {
                             showDialog(
@@ -221,19 +251,24 @@ class RegisterArticlePage extends HookConsumerWidget {
                               builder: (context) => const RegisterTagDialog(),
                             ),
                           },
-                          child: const Text(
+                          child: Text(
                             "追加",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
+                              fontSize: isTablet
+                                  ? ThemeFontSize.tabletNormalFontSize
+                                  : ThemeFontSize.normalFontSize,
                             ),
                           ),
                         )
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: isTablet ? 40 : 20),
                     MylisTextField(
                       title: "メモ（任意）",
-                      fontSize: 12,
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletSmallFontSize
+                          : ThemeFontSize.smallFontSize,
                       maxLines: 20,
                       minLines: 3,
                       isAFewLine: true,

@@ -7,9 +7,11 @@ import 'package:mylis/presentation/page/tags/edit/controller/edit_tag_controller
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class EditTagPage extends HookConsumerWidget {
   const EditTagPage({Key? key}) : super(key: key);
@@ -20,6 +22,7 @@ class EditTagPage extends HookConsumerWidget {
     final isBack = useState(false);
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final colorState = ref.watch(customizeController);
+    final isTablet = ref.watch(isTabletProvider);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -35,10 +38,17 @@ class EditTagPage extends HookConsumerWidget {
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
           ),
         ),
+        leadingWidth: isTablet ? 80 : 40,
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: Icon(
+            Icons.close,
+            size: isTablet ? 36 : 24,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -48,7 +58,12 @@ class EditTagPage extends HookConsumerWidget {
           TextButton(
             onPressed: () async {
               ref.read(editTagController.notifier).update(currentMemberId);
-              showToast(message: "リストを更新しました");
+              showToast(
+                message: "リストを更新しました",
+                fontSize: isTablet
+                    ? ThemeFontSize.tabletMediumFontSize
+                    : ThemeFontSize.mediumFontSize,
+              );
               ref.read(tagController.notifier).initialized(currentMemberId);
               Navigator.pop(context);
             },
@@ -64,16 +79,22 @@ class EditTagPage extends HookConsumerWidget {
               alignment: Alignment.center,
               splashFactory: NoSplash.splashFactory,
             ),
-            child: const Text(
+            child: Text(
               '保存',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: isTablet
+                    ? ThemeFontSize.tabletNormalFontSize
+                    : ThemeFontSize.normalFontSize,
+              ),
             ),
           ),
+          SizedBox(width: isTablet ? 20 : 0),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 30,
+        padding: EdgeInsets.symmetric(
+          horizontal: isTablet ? 60 : 30,
         ),
         child: Center(
           child: Column(
@@ -88,7 +109,7 @@ class EditTagPage extends HookConsumerWidget {
                   border: const OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: isTablet ? 60 : 30),
               TextButton(
                 onPressed: () async => {
                   showDialog(
@@ -115,7 +136,12 @@ class EditTagPage extends HookConsumerWidget {
                               .read(loadingStateProvider.notifier)
                               .stopLoading(),
                           Navigator.pop(context),
-                          await showToast(message: "削除しました"),
+                          await showToast(
+                            message: "削除しました",
+                            fontSize: isTablet
+                                ? ThemeFontSize.tabletMediumFontSize
+                                : ThemeFontSize.mediumFontSize,
+                          ),
                         },
                       );
                     },
@@ -128,13 +154,22 @@ class EditTagPage extends HookConsumerWidget {
                 style: TextButton.styleFrom(
                   primary: ThemeColor.darkGray,
                   alignment: Alignment.center,
-                  textStyle: const TextStyle(
+                  textStyle: TextStyle(
                     decoration: TextDecoration.underline,
-                    fontSize: 16,
+                    fontSize: isTablet
+                        ? ThemeFontSize.tabletMediumFontSize
+                        : ThemeFontSize.mediumFontSize,
                   ),
                   splashFactory: NoSplash.splashFactory,
                 ),
-                child: const Text('削除'),
+                child: Text(
+                  '削除',
+                  style: TextStyle(
+                    fontSize: isTablet
+                        ? ThemeFontSize.tabletNormalFontSize
+                        : ThemeFontSize.normalFontSize,
+                  ),
+                ),
               ),
             ],
           ),
