@@ -69,7 +69,11 @@ class MemoPage extends HookConsumerWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Padding(
         padding: EdgeInsets.only(
-          bottom: isTablet ? 120 : 60,
+          bottom: currentMember?.isRemovedAds ?? false
+              ? 20
+              : isTablet
+                  ? 120
+                  : 60,
         ),
         child: SizedBox(
           width: isTablet ? 105 : 70,

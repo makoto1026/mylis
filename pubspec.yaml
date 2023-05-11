@@ -44,6 +44,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   carousel_slider: ^4.0.0-nullsafety.0
   app_review: ^2.1.1+1
+  firebase_storage: ^11.0.16
 
 dev_dependencies:
   flutter_test:

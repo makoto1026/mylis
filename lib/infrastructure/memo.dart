@@ -7,11 +7,11 @@ import 'package:mylis/infrastructure/mapper/memo_mapper.dart';
 class IMemoRepository extends MemoRepository {
   IMemoRepository();
 
-  final userssDB = Firestore.users;
+  final usersDB = Firestore.users;
 
   @override
   Future<Memo> get(String memberId, String memoId) async {
-    return await userssDB.doc("$memberId/memos/$memoId").get().then(
+    return await usersDB.doc("$memberId/memos/$memoId").get().then(
       (value) {
         final doc = value.data();
         return MemoMapper.fromJSON(doc!, memoId);
@@ -22,7 +22,7 @@ class IMemoRepository extends MemoRepository {
   @override
   Future<List<Memo>> getList(String memberId) async {
     final List<Memo> memoList = [];
-    await userssDB.doc(memberId).collection("memos").get().then(
+    await usersDB.doc(memberId).collection("memos").get().then(
       (querySnapshot) {
         for (var doc in querySnapshot.docs) {
           final memo = MemoMapper.fromJSON(doc.data(), doc.id);
@@ -42,7 +42,7 @@ class IMemoRepository extends MemoRepository {
       "created_at": memo.createdAt,
       "updated_at": memo.updatedAt,
     };
-    await userssDB.doc(memberId).collection("memos").add(postData);
+    await usersDB.doc(memberId).collection("memos").add(postData);
   }
 
   @override
@@ -53,7 +53,7 @@ class IMemoRepository extends MemoRepository {
       "created_at": memo.createdAt,
       "updated_at": memo.updatedAt,
     };
-    await userssDB
+    await usersDB
         .doc(memberId)
         .collection("memos")
         .doc(memoId)
@@ -62,7 +62,7 @@ class IMemoRepository extends MemoRepository {
 
   @override
   Future<void> delete(String memberId, String memoId) async {
-    await userssDB.doc(memberId).collection("memos").doc(memoId).delete();
+    await usersDB.doc(memberId).collection("memos").doc(memoId).delete();
   }
 }
 
