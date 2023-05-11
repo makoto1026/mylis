@@ -61,8 +61,8 @@ class UsagePage extends HookConsumerWidget {
         ),
       ),
       floatingActionButton: SizedBox(
-        width: isTablet ? 90 : 60,
-        height: isTablet ? 90 : 60,
+        width: isTablet ? 105 : 70,
+        height: isTablet ? 105 : 70,
         child: FloatingActionButton(
           onPressed: () => {
             usageScrollController.animateTo(
@@ -74,7 +74,7 @@ class UsagePage extends HookConsumerWidget {
           backgroundColor: colorState.textColor,
           child: Icon(
             Icons.arrow_upward,
-            size: isTablet ? 45 : 30,
+            size: isTablet ? 60 : 40,
             color: ThemeColor.white,
           ),
         ),

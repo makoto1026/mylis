@@ -19,6 +19,7 @@ import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/meta_provider/meta_provider.dart';
+import 'package:mylis/provider/news_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/url_launcher.dart';
@@ -69,6 +70,7 @@ class HomePage extends HookConsumerWidget {
         );
 
         if (currentMemberId != "") {
+          await ref.read(newsProvider.notifier).set();
           await ref
               .read(tagController.notifier)
               .initialized(ref.watch(currentMemberProvider)?.uuid)
@@ -236,8 +238,8 @@ class HomePage extends HookConsumerWidget {
                     e.name,
                     style: TextStyle(
                       fontSize: isTablet
-                          ? ThemeFontSize.tabletHugeFontSize
-                          : ThemeFontSize.hugeFontSize,
+                          ? ThemeFontSize.tabletExtraLargeFontSize
+                          : ThemeFontSize.extraLargeFontSize,
                     ),
                   );
                 } else {
@@ -260,7 +262,11 @@ class HomePage extends HookConsumerWidget {
             return ref.watch(homeProvider) != tagList.length - 1
                 ? Padding(
                     padding: EdgeInsets.only(
-                      bottom: isTablet ? 120 : 60,
+                      bottom: currentMember?.isRemovedAds ?? false
+                          ? 20
+                          : isTablet
+                              ? 120
+                              : 65,
                     ),
                     child: SizedBox(
                       width: isTablet ? 105 : 70,
