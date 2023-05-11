@@ -7,8 +7,10 @@ import 'package:mylis/presentation/page/tags/register/controller/register_tag_co
 import 'package:mylis/presentation/widget/base_dialog.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class CustomizeTextColorDialog extends HookConsumerWidget {
   const CustomizeTextColorDialog({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class CustomizeTextColorDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textColor = useState(ThemeColor.darkGray);
     final currentMember = ref.watch(currentMemberProvider)!;
+    final isTablet = ref.watch(isTabletProvider);
 
     return MylisBaseDialog(
       widget: Column(
@@ -27,6 +30,9 @@ class CustomizeTextColorDialog extends HookConsumerWidget {
             style: TextStyle(
               color: textColor.value,
               fontWeight: FontWeight.bold,
+              fontSize: isTablet
+                  ? ThemeFontSize.tabletNormalFontSize
+                  : ThemeFontSize.normalFontSize,
             ),
           ),
           const Spacer(),
@@ -97,7 +103,7 @@ class CustomizeTextColorDialog extends HookConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: isTablet ? 30 : 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -165,11 +171,11 @@ class CustomizeTextColorDialog extends HookConsumerWidget {
               )
             ],
           ),
-          const SizedBox(height: 60),
+          SizedBox(height: isTablet ? 120 : 60),
           Center(
             child: SizedBox(
               height: 52,
-              width: 160,
+              width: isTablet ? 240 : 160,
               child: RoundRectButton(
                 onPressed: () async => {
                   FocusScope.of(context).unfocus(),
@@ -183,7 +189,12 @@ class CustomizeTextColorDialog extends HookConsumerWidget {
                       .read(registerTagController.notifier)
                       .setIsLoading(false),
                   Navigator.pop(context),
-                  await showToast(message: "テーマカラーを変更しました"),
+                  await showToast(
+                    message: "テーマカラーを変更しました",
+                    fontSize: isTablet
+                        ? ThemeFontSize.tabletMediumFontSize
+                        : ThemeFontSize.mediumFontSize,
+                  ),
                 },
                 text: "変更",
               ),

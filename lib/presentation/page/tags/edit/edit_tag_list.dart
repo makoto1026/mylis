@@ -7,9 +7,11 @@ import 'package:mylis/presentation/page/tags/edit/edit_tag_list_item.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class EditTagListPage extends HookConsumerWidget {
   const EditTagListPage({Key? key}) : super(key: key);
@@ -19,6 +21,7 @@ class EditTagListPage extends HookConsumerWidget {
     final state = ref.watch(tagController);
     final colorState = ref.watch(customizeController);
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? "";
+    final isTablet = ref.watch(isTabletProvider);
 
     final editTagViewController = useScrollController();
 
@@ -48,10 +51,17 @@ class EditTagListPage extends HookConsumerWidget {
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
           ),
         ),
+        leadingWidth: isTablet ? 80 : 40,
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: Icon(
+            Icons.close,
+            size: isTablet ? 36 : 24,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -59,7 +69,10 @@ class EditTagListPage extends HookConsumerWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: EdgeInsets.symmetric(
+          vertical: isTablet ? 20 : 10,
+          horizontal: isTablet ? 40 : 20,
+        ),
         child: Column(
           children: [
             Expanded(
@@ -69,11 +82,14 @@ class EditTagListPage extends HookConsumerWidget {
                   key: Key('$index'),
                   background: Container(
                     alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.only(right: 20.0),
+                    padding: EdgeInsets.only(
+                      right: isTablet ? 40 : 20,
+                    ),
                     color: Colors.red,
-                    child: const Icon(
+                    child: Icon(
                       Icons.delete,
                       color: Colors.white,
+                      size: isTablet ? 36 : 24,
                     ),
                   ),
                   direction: DismissDirection.endToStart,
@@ -103,7 +119,12 @@ class EditTagListPage extends HookConsumerWidget {
                                 .read(loadingStateProvider.notifier)
                                 .stopLoading(),
                             Navigator.pop(context),
-                            await showToast(message: "削除しました"),
+                            await showToast(
+                              message: "削除しました",
+                              fontSize: isTablet
+                                  ? ThemeFontSize.tabletMediumFontSize
+                                  : ThemeFontSize.mediumFontSize,
+                            ),
                           },
                         );
                       },
@@ -126,11 +147,15 @@ class EditTagListPage extends HookConsumerWidget {
                 },
               ),
             ),
-            const Text(
+            Text(
               "リストの並び替えは長押し&スライドで行えます",
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(
+                fontSize: isTablet
+                    ? ThemeFontSize.tabletSmallFontSize
+                    : ThemeFontSize.smallFontSize,
+              ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: isTablet ? 20 : 10),
           ],
         ),
       ),

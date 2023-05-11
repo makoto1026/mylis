@@ -6,8 +6,10 @@ import 'package:mylis/presentation/page/customize/controller/customize_controlle
 import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class CustomizePage extends HookConsumerWidget {
   const CustomizePage({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class CustomizePage extends HookConsumerWidget {
     final colorState = ref.watch(customizeController);
     final currentMember = ref.watch(currentMemberProvider);
     final newColor = useState(colorState.textColor);
+    final isTablet = ref.watch(isTabletProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -25,10 +28,17 @@ class CustomizePage extends HookConsumerWidget {
           style: TextStyle(
             color: newColor.value,
             fontWeight: FontWeight.bold,
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
           ),
         ),
+        leadingWidth: isTablet ? 80 : 40,
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: Icon(
+            Icons.close,
+            size: isTablet ? 36 : 24,
+          ),
           onPressed: () async => {
             if (newColor.value == colorState.textColor)
               {
@@ -73,7 +83,12 @@ class CustomizePage extends HookConsumerWidget {
                   .read(registerTagController.notifier)
                   .setIsLoading(false),
               Navigator.pop(context),
-              await showToast(message: "テーマカラーを変更しました"),
+              await showToast(
+                message: "テーマカラーを変更しました",
+                fontSize: isTablet
+                    ? ThemeFontSize.tabletMediumFontSize
+                    : ThemeFontSize.mediumFontSize,
+              ),
             },
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -87,15 +102,25 @@ class CustomizePage extends HookConsumerWidget {
               alignment: Alignment.center,
               splashFactory: NoSplash.splashFactory,
             ),
-            child: const Text(
+            child: Text(
               '保存',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: isTablet
+                    ? ThemeFontSize.tabletNormalFontSize
+                    : ThemeFontSize.normalFontSize,
+              ),
             ),
           ),
+          SizedBox(width: isTablet ? 20 : 0),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 30),
+        padding: EdgeInsets.only(
+          top: isTablet ? 60 : 30,
+          left: isTablet ? 60 : 0,
+          right: isTablet ? 60 : 0,
+        ),
         child: Column(
           children: [
             Text(
@@ -103,15 +128,18 @@ class CustomizePage extends HookConsumerWidget {
               style: TextStyle(
                 color: newColor.value,
                 fontWeight: FontWeight.bold,
+                fontSize: isTablet
+                    ? ThemeFontSize.tabletNormalFontSize
+                    : ThemeFontSize.normalFontSize,
               ),
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: isTablet ? 80 : 40),
             ColorPicker(
               pickerColor: newColor.value,
               onColorChanged: (value) async => {
                 newColor.value = value,
               },
-              colorPickerWidth: 300,
+              colorPickerWidth: isTablet ? 600 : 300,
               pickerAreaHeightPercent: 0.7,
               enableAlpha: true,
               displayThumbColor: true,

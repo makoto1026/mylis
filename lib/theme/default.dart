@@ -18,7 +18,6 @@ final themeProvider = Provider.family<ThemeData, BuildContext>(
       backgroundColor: Colors.white,
       titleTextStyle: TextStyle(
         color: ThemeColor.black,
-        fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
     ),

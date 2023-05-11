@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class UsageItem extends HookConsumerWidget {
   const UsageItem({
@@ -20,20 +22,24 @@ class UsageItem extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorState = ref.watch(customizeController);
+    final isTablet = ref.watch(isTabletProvider);
+
     return Center(
       child: Column(
         children: [
           Text(
             title,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: isTablet
+                  ? ThemeFontSize.tabletMediumFontSize
+                  : ThemeFontSize.mediumFontSize,
               fontWeight: FontWeight.bold,
               color: colorState.textColor,
               height: 1.3,
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: isTablet ? 20 : 10),
           Container(
             decoration: BoxDecoration(
               border: Border.all(
@@ -46,16 +52,18 @@ class UsageItem extends HookConsumerWidget {
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(
                 imagePath,
-                width: 300,
-                height: 300,
+                width: isTablet ? 600 : 300,
+                height: isTablet ? 600 : 300,
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: isTablet ? 40 : 20),
           Text(
             body,
-            style: const TextStyle(
-              fontSize: 12,
+            style: TextStyle(
+              fontSize: isTablet
+                  ? ThemeFontSize.tabletSmallFontSize
+                  : ThemeFontSize.smallFontSize,
               fontWeight: FontWeight.bold,
               color: ThemeColor.darkGray,
               height: 1.3,

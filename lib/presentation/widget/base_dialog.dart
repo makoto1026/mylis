@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 
 class MylisBaseDialog extends HookConsumerWidget {
   const MylisBaseDialog({
@@ -11,12 +12,16 @@ class MylisBaseDialog extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isTablet = ref.watch(isTabletProvider);
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(
+          isTablet ? 48 : 24,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

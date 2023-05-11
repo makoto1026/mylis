@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
+import 'package:mylis/theme/font_size.dart';
 
-class AuthButton extends StatelessWidget {
+class AuthButton extends HookConsumerWidget {
   const AuthButton({
     required this.onPressed,
     required this.iconPath,
@@ -19,12 +22,16 @@ class AuthButton extends StatelessWidget {
   final Color textColor;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isTablet = ref.watch(isTabletProvider);
+
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
         padding: MaterialStateProperty.all<EdgeInsets>(
-          const EdgeInsets.symmetric(vertical: 10),
+          EdgeInsets.symmetric(
+            vertical: isTablet ? 20 : 10,
+          ),
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -40,15 +47,18 @@ class AuthButton extends StatelessWidget {
         children: [
           SvgPicture.asset(
             iconPath,
-            width: 26,
-            height: 26,
+            width: isTablet ? 52 : 26,
+            height: isTablet ? 52 : 26,
             color: iconColor,
           ),
-          const SizedBox(width: 15),
+          SizedBox(width: isTablet ? 30 : 15),
           Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
+              fontSize: isTablet
+                  ? ThemeFontSize.tabletNormalFontSize
+                  : ThemeFontSize.normalFontSize,
             ),
           ),
         ],

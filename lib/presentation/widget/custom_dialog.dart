@@ -3,6 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/widget/base_dialog.dart';
 import 'package:mylis/presentation/widget/outline_round_rect_button.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class CustomDialog extends HookConsumerWidget {
   const CustomDialog({
@@ -25,13 +27,17 @@ class CustomDialog extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isTablet = ref.watch(isTabletProvider);
+
     return MylisBaseDialog(
       widget: Column(
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 16,
+            style: TextStyle(
+              fontSize: isTablet
+                  ? ThemeFontSize.tabletMediumFontSize
+                  : ThemeFontSize.mediumFontSize,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -41,11 +47,13 @@ class CustomDialog extends HookConsumerWidget {
               children: [
                 Text(
                   message,
-                  style: const TextStyle(
-                    fontSize: 14,
+                  style: TextStyle(
+                    fontSize: isTablet
+                        ? ThemeFontSize.tabletNormalFontSize
+                        : ThemeFontSize.normalFontSize,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: isTablet ? 40 : 20),
               ],
             ),
           isDoubleButton
@@ -53,16 +61,16 @@ class CustomDialog extends HookConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SizedBox(
-                      width: 100,
+                      width: isTablet ? 150 : 100,
                       height: 50,
                       child: OutlinedRoundRectButton(
                         onPressed: onPressedWithNo,
                         text: noButtonText,
                       ),
                     ),
-                    const SizedBox(width: 20),
+                    SizedBox(width: isTablet ? 40 : 20),
                     SizedBox(
-                      width: 100,
+                      width: isTablet ? 150 : 100,
                       height: 50,
                       child: RoundRectButton(
                         onPressed: onPressedWithOk,
@@ -72,7 +80,7 @@ class CustomDialog extends HookConsumerWidget {
                   ],
                 )
               : SizedBox(
-                  width: 100,
+                  width: isTablet ? 150 : 100,
                   height: 50,
                   child: RoundRectButton(
                     onPressed: onPressedWithOk,

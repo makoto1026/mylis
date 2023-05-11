@@ -10,9 +10,11 @@ import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/presentation/widget/save_memo_notice_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class RegisterMemoPage extends HookConsumerWidget {
   const RegisterMemoPage({Key? key}) : super(key: key);
@@ -24,6 +26,7 @@ class RegisterMemoPage extends HookConsumerWidget {
     final controller = useTextEditingController();
     final focusNode = FocusNode();
     final setMemo = ref.watch(registerMemoController).body;
+    final isTablet = ref.watch(isTabletProvider);
 
     useEffect(() {
       ref.refresh(registerMemoController);
@@ -53,10 +56,17 @@ class RegisterMemoPage extends HookConsumerWidget {
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
           ),
         ),
+        leadingWidth: isTablet ? 80 : 40,
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: Icon(
+            Icons.close,
+            size: isTablet ? 36 : 24,
+          ),
           onPressed: () {
             if (setMemo == "") {
               focusNode.unfocus();
@@ -108,7 +118,12 @@ class RegisterMemoPage extends HookConsumerWidget {
                       .read(memoController.notifier)
                       .refresh(currentMember?.uuid ?? ""),
                   await ref.read(loadingStateProvider.notifier).stopLoading(),
-                  await showToast(message: "メモを追加しました"),
+                  await showToast(
+                    message: "メモを追加しました",
+                    fontSize: isTablet
+                        ? ThemeFontSize.tabletMediumFontSize
+                        : ThemeFontSize.mediumFontSize,
+                  ),
                   Navigator.pop(context),
                 },
             },
@@ -124,46 +139,60 @@ class RegisterMemoPage extends HookConsumerWidget {
               alignment: Alignment.center,
               splashFactory: NoSplash.splashFactory,
             ),
-            child: const Text(
+            child: Text(
               '保存',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: isTablet
+                    ? ThemeFontSize.tabletNormalFontSize
+                    : ThemeFontSize.normalFontSize,
+              ),
             ),
           ),
+          SizedBox(width: isTablet ? 20 : 0),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              TextFormField(
-                focusNode: focusNode,
-                controller: controller,
-                initialValue: null,
-                style: const TextStyle(
-                  fontSize: 14,
-                  height: 1.5,
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: isTablet ? 20 : 10,
+          horizontal: isTablet ? 10 : 0,
+        ),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                TextFormField(
+                  focusNode: focusNode,
+                  controller: controller,
+                  initialValue: null,
+                  style: TextStyle(
+                    fontSize: isTablet
+                        ? ThemeFontSize.tabletNormalFontSize
+                        : ThemeFontSize.normalFontSize,
+                    height: 1.5,
+                  ),
+                  inputFormatters: [LengthLimitingTextInputFormatter(2000)],
+                  maxLines: 15,
+                  minLines: 15,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    disabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: ThemeColor.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: ThemeColor.white),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: ThemeColor.white),
+                    ),
+                  ),
+                  onChanged: (value) =>
+                      ref.read(registerMemoController.notifier).setNewMemo(
+                            body: value.replaceAll('\n', '\\n'),
+                          ),
                 ),
-                inputFormatters: [LengthLimitingTextInputFormatter(2000)],
-                maxLines: 15,
-                minLines: 15,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: ThemeColor.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: ThemeColor.white),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: ThemeColor.white),
-                  ),
-                ),
-                onChanged: (value) =>
-                    ref.read(registerMemoController.notifier).setNewMemo(
-                          body: value.replaceAll('\n', '\\n'),
-                        ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

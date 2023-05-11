@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 Future<void> showToast({
   required String message,
+  required double fontSize,
   ToastGravity gravity = ToastGravity.CENTER,
   Color color = Colors.black,
   double opacity = 0.8,
@@ -16,7 +17,7 @@ Future<void> showToast({
     timeInSecForIosWeb: 20,
     backgroundColor: color.withOpacity(opacity),
     textColor: Colors.white,
-    fontSize: 16,
+    fontSize: fontSize,
   );
   if (Platform.isIOS) {
     Future.delayed(const Duration(seconds: 1), () {

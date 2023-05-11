@@ -4,7 +4,9 @@ import 'package:mylis/presentation/page/customize/controller/customize_controlle
 import 'package:mylis/presentation/widget/base_dialog.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class SaveMemoNoticeDialog extends HookConsumerWidget {
   const SaveMemoNoticeDialog({Key? key}) : super(key: key);
@@ -12,20 +14,22 @@ class SaveMemoNoticeDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorState = ref.watch(customizeController);
-    final isHidden =
-        ref.watch(currentMemberProvider)?.isHiddenSaveMemoNoticeDialog ?? false;
+    final isTablet = ref.watch(isTabletProvider);
+
     return MylisBaseDialog(
       widget: Column(
         children: [
           Text(
             "作成後は「保存」を忘れずに！",
             style: TextStyle(
-              fontSize: 16,
+              fontSize: isTablet
+                  ? ThemeFontSize.tabletMediumFontSize
+                  : ThemeFontSize.mediumFontSize,
               fontWeight: FontWeight.bold,
               color: colorState.textColor,
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: isTablet ? 40 : 20),
           Container(
             decoration: BoxDecoration(
               border: Border.all(
@@ -38,36 +42,23 @@ class SaveMemoNoticeDialog extends HookConsumerWidget {
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(
                 "assets/images/save_memo.jpg",
-                width: 300,
-                height: 100,
+                width: isTablet ? 600 : 300,
+                height: isTablet ? 200 : 100,
               ),
             ),
           ),
-          const SizedBox(height: 20),
-          CheckboxListTile(
-            title: const Text(
-              "今後は表示しない",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: ThemeColor.darkGray,
-              ),
-            ),
-            value: isHidden,
-            onChanged: (bool? value) {
-              ref
-                  .read(currentMemberProvider.notifier)
-                  .updateIsHiddenSaveMemoNoticeDialog(value ?? false);
-            },
-          ),
-          const SizedBox(height: 30),
+          SizedBox(height: isTablet ? 60 : 30),
           SizedBox(
             height: 50,
-            width: 130,
+            width: isTablet ? 260 : 160,
             child: RoundRectButton(
               onPressed: () => {
+                ref
+                    .read(currentMemberProvider.notifier)
+                    .updateIsHiddenSaveMemoNoticeDialog(true),
                 Navigator.pop(context),
               },
-              text: "閉じる",
+              text: "今後は表示しない",
             ),
           ),
         ],
