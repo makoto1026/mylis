@@ -216,6 +216,7 @@ class HomePage extends HookConsumerWidget {
                   : ThemeFontSize.normalFontSize,
             ),
           ),
+          toolbarHeight: isTablet ? 80 : 40,
           backgroundColor: ThemeColor.white,
           bottom: TabBar(
             controller: tabController,
