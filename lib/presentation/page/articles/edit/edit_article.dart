@@ -14,9 +14,11 @@ import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart'
 import 'package:mylis/presentation/widget/drop_down_box.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 import 'package:tuple/tuple.dart';
 
 class EditArticlePage extends HookConsumerWidget {
@@ -33,6 +35,7 @@ class EditArticlePage extends HookConsumerWidget {
     final tagState = ref.watch(tagController);
     final isLoading = ref.watch(registerTagController).isLoading;
     final editArticleState = ref.watch(editArticleController);
+    final isTablet = ref.watch(isTabletProvider);
 
     final oldTag = useState(tag);
 
@@ -68,10 +71,17 @@ class EditArticlePage extends HookConsumerWidget {
                 style: TextStyle(
                   color: colorState.textColor,
                   fontWeight: FontWeight.bold,
+                  fontSize: isTablet
+                      ? ThemeFontSize.tabletNormalFontSize
+                      : ThemeFontSize.normalFontSize,
                 ),
               ),
+              leadingWidth: isTablet ? 80 : 40,
               leading: IconButton(
-                icon: const Icon(Icons.close),
+                icon: Icon(
+                  Icons.close,
+                  size: isTablet ? 36 : 24,
+                ),
                 onPressed: () {
                   final isSameTitle = article.title == editArticleState.title;
                   final isSameUrl = article.url == editArticleState.url;
@@ -128,7 +138,12 @@ class EditArticlePage extends HookConsumerWidget {
                         )
                         .stopLoading(),
                     Navigator.pop(context),
-                    await showToast(message: "記事を更新しました"),
+                    await showToast(
+                      message: "記事を更新しました",
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletMediumFontSize
+                          : ThemeFontSize.mediumFontSize,
+                    ),
                     await ref
                         .read(articleController.notifier)
                         .initialized(currentMemberId, tagState.tagList),
@@ -145,49 +160,62 @@ class EditArticlePage extends HookConsumerWidget {
                     alignment: Alignment.center,
                     splashFactory: NoSplash.splashFactory,
                   ),
-                  child: const Text(
+                  child: Text(
                     '保存',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletNormalFontSize
+                          : ThemeFontSize.normalFontSize,
+                    ),
                   ),
                 ),
+                SizedBox(width: isTablet ? 20 : 0),
               ],
             ),
             body: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 30,
-                ),
+                padding: EdgeInsets.all(isTablet ? 60 : 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MylisTextField(
                       title: "タイトル",
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletNormalFontSize
+                          : ThemeFontSize.normalFontSize,
                       initialValue: article.title,
                       onChanged: (value) async => await ref
                           .read(editArticleController.notifier)
                           .setUpdateValue(title: value),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: isTablet ? 40 : 20),
                     MylisTextField(
                       title: "URL",
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletNormalFontSize
+                          : ThemeFontSize.normalFontSize,
                       initialValue: article.url,
                       onChanged: (value) async => await ref
                           .read(editArticleController.notifier)
                           .setUpdateValue(url: value),
                     ),
-                    const SizedBox(height: 20),
-                    const Text(
+                    SizedBox(height: isTablet ? 40 : 20),
+                    Text(
                       "リスト",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: isTablet
+                            ? ThemeFontSize.tabletNormalFontSize
+                            : ThemeFontSize.normalFontSize,
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    SizedBox(height: isTablet ? 10 : 5),
                     Row(
                       children: [
                         const DropDownBox(),
-                        const SizedBox(width: 20),
+                        SizedBox(width: isTablet ? 40 : 20),
                         GestureDetector(
                           onTap: () => {
                             showDialog(
@@ -197,21 +225,26 @@ class EditArticlePage extends HookConsumerWidget {
                               builder: (context) => const RegisterTagDialog(),
                             ),
                           },
-                          child: const Text(
+                          child: Text(
                             "追加",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
+                              fontSize: isTablet
+                                  ? ThemeFontSize.tabletNormalFontSize
+                                  : ThemeFontSize.normalFontSize,
                             ),
                           ),
                         )
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: isTablet ? 40 : 20),
                     MylisTextField(
                       title: "メモ",
                       minLines: 5,
                       maxLines: 10,
-                      fontSize: 14,
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletNormalFontSize
+                          : ThemeFontSize.normalFontSize,
                       isAFewLine: true,
                       initialValue: article.memo,
                       onChanged: (value) async => await ref

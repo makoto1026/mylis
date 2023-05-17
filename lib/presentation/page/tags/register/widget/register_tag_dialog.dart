@@ -7,7 +7,9 @@ import 'package:mylis/presentation/widget/base_dialog.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/snippets/toast.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class RegisterTagDialog extends HookConsumerWidget {
   const RegisterTagDialog({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class RegisterTagDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final tagList = ref.watch(tagController).tagList;
+    final isTablet = ref.watch(isTabletProvider);
 
     return MylisBaseDialog(
       widget: Column(
@@ -23,14 +26,17 @@ class RegisterTagDialog extends HookConsumerWidget {
         children: [
           MylisTextField(
             title: "リスト",
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
             onChanged: (value) async =>
                 await ref.read(registerTagController.notifier).setName(value),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: isTablet ? 60 : 30),
           Center(
             child: SizedBox(
               height: 52,
-              width: 160,
+              width: isTablet ? 240 : 160,
               child: RoundRectButton(
                 disable: ref.watch(registerTagController).name.isEmpty,
                 onPressed: () async => {
@@ -58,7 +64,12 @@ class RegisterTagDialog extends HookConsumerWidget {
                       .read(registerTagController.notifier)
                       .setIsLoading(false),
                   Navigator.pop(context),
-                  await showToast(message: "リストを追加しました"),
+                  await showToast(
+                    message: "リストを追加しました",
+                    fontSize: isTablet
+                        ? ThemeFontSize.tabletMediumFontSize
+                        : ThemeFontSize.mediumFontSize,
+                  ),
                 },
                 text: "登録",
               ),

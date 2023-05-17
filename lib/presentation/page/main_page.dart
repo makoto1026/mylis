@@ -22,6 +22,8 @@ class MainPage extends HookConsumerWidget {
     final currentTab = ref.watch(currentTabProvider);
     final tabController = useMemoized(() => CupertinoTabController(), []);
     final colorState = ref.watch(customizeController);
+    var screenWidthSize = MediaQuery.of(context).size.width;
+    final isTablet = screenWidthSize > 600;
 
     useEffect(() {
       tabController.addListener(() {
@@ -42,6 +44,7 @@ class MainPage extends HookConsumerWidget {
     return CupertinoTabScaffold(
       controller: tabController,
       tabBar: CupertinoTabBar(
+          height: isTablet ? 75 : 50,
           onTap: (index) async {
             ref
                 .read(tabNavigationStateProvider)[currentTab.tab.index]
@@ -50,7 +53,6 @@ class MainPage extends HookConsumerWidget {
                   (route) => route.isFirst,
                 );
           },
-          iconSize: 100,
           activeColor: colorState.textColor,
           inactiveColor: ThemeColor.darkGray,
           backgroundColor: ThemeColor.white,
@@ -62,7 +64,7 @@ class MainPage extends HookConsumerWidget {
                       case Tab.home:
                         return Icon(
                           Icons.home,
-                          size: 28,
+                          size: isTablet ? 42 : 28,
                           color: e == currentTab.tab
                               ? colorState.textColor
                               : ThemeColor.darkGray,
@@ -70,8 +72,8 @@ class MainPage extends HookConsumerWidget {
                       case Tab.memo:
                         return SvgPicture.asset(
                           "assets/icons/memo.svg",
-                          width: 26,
-                          height: 26,
+                          width: isTablet ? 42 : 26,
+                          height: isTablet ? 42 : 26,
                           color: e == currentTab.tab
                               ? colorState.textColor
                               : ThemeColor.darkGray,
@@ -80,7 +82,7 @@ class MainPage extends HookConsumerWidget {
                       case Tab.myPage:
                         return Icon(
                           Icons.manage_accounts_rounded,
-                          size: 28,
+                          size: isTablet ? 42 : 28,
                           color: e == currentTab.tab
                               ? colorState.textColor
                               : ThemeColor.darkGray,

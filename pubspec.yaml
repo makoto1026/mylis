@@ -4,13 +4,15 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.2+9
+version: 1.0.3+10
 
 environment:
   sdk: ">=2.17.5 <3.0.0"
 
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
   hooks_riverpod: ^1.0.3
   flutter_hooks: ^0.18.3
@@ -42,6 +44,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   carousel_slider: ^4.0.0-nullsafety.0
   app_review: ^2.1.1+1
+  firebase_storage: ^11.0.16
 
 dev_dependencies:
   flutter_test:

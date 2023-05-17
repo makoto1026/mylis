@@ -8,9 +8,11 @@ import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controlle
 import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class EditMemoPage extends HookConsumerWidget {
   const EditMemoPage({
@@ -25,6 +27,7 @@ class EditMemoPage extends HookConsumerWidget {
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final colorState = ref.watch(customizeController);
     final oldMemo = useState(state.body);
+    final isTablet = ref.watch(isTabletProvider);
 
     useEffect(() {
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -40,10 +43,17 @@ class EditMemoPage extends HookConsumerWidget {
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
           ),
         ),
+        leadingWidth: isTablet ? 80 : 40,
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: Icon(
+            Icons.close,
+            size: isTablet ? 36 : 24,
+          ),
           onPressed: () {
             if (oldMemo.value == state.body) {
               Navigator.pop(context);
@@ -70,7 +80,12 @@ class EditMemoPage extends HookConsumerWidget {
               await ref
                   .read(editMemoController.notifier)
                   .update(currentMemberId, state.uuid ?? ""),
-              await showToast(message: "メモを更新しました"),
+              await showToast(
+                message: "メモを更新しました",
+                fontSize: isTablet
+                    ? ThemeFontSize.tabletMediumFontSize
+                    : ThemeFontSize.mediumFontSize,
+              ),
               await ref.read(editMemoController.notifier).refresh(),
               await ref.read(memoController.notifier).refresh(currentMemberId),
               Navigator.pop(context),
@@ -87,22 +102,33 @@ class EditMemoPage extends HookConsumerWidget {
               alignment: Alignment.center,
               splashFactory: NoSplash.splashFactory,
             ),
-            child: const Text(
+            child: Text(
               '保存',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: isTablet
+                    ? ThemeFontSize.tabletNormalFontSize
+                    : ThemeFontSize.normalFontSize,
+              ),
             ),
           ),
+          SizedBox(width: isTablet ? 20 : 0),
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
+        padding: EdgeInsets.symmetric(
+          vertical: isTablet ? 10 : 0,
+          horizontal: isTablet ? 40 : 20,
+        ),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                style: const TextStyle(
-                  fontSize: 14,
+                style: TextStyle(
+                  fontSize: isTablet
+                      ? ThemeFontSize.tabletNormalFontSize
+                      : ThemeFontSize.normalFontSize,
                   height: 1.5,
                 ),
                 controller: textEditingController,
@@ -117,7 +143,7 @@ class EditMemoPage extends HookConsumerWidget {
                       .setUpdateValue(body: value.replaceAll('\n', '\\n'));
                 },
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: isTablet ? 40 : 20),
               Center(
                 child: TextButton(
                   onPressed: () async => {
@@ -147,7 +173,12 @@ class EditMemoPage extends HookConsumerWidget {
                                 .read(loadingStateProvider.notifier)
                                 .stopLoading(),
                             Navigator.pop(context),
-                            await showToast(message: "削除しました"),
+                            await showToast(
+                              message: "削除しました",
+                              fontSize: isTablet
+                                  ? ThemeFontSize.tabletMediumFontSize
+                                  : ThemeFontSize.mediumFontSize,
+                            ),
                           },
                         );
                       },
@@ -160,13 +191,22 @@ class EditMemoPage extends HookConsumerWidget {
                   style: TextButton.styleFrom(
                     primary: ThemeColor.darkGray,
                     alignment: Alignment.center,
-                    textStyle: const TextStyle(
+                    textStyle: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 16,
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletMediumFontSize
+                          : ThemeFontSize.mediumFontSize,
                     ),
                     splashFactory: NoSplash.splashFactory,
                   ),
-                  child: const Text('削除'),
+                  child: Text(
+                    '削除',
+                    style: TextStyle(
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletNormalFontSize
+                          : ThemeFontSize.normalFontSize,
+                    ),
+                  ),
                 ),
               ),
             ],

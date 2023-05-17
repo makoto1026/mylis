@@ -18,6 +18,7 @@ class MemberMapper {
       isRemovedAds: json["is_removed_ads"] as bool,
       isHiddenSaveMemoNoticeDialog:
           json["is_hidden_save_memo_notice_dialog"] as bool,
+      isReadedNews: json["is_readed_news"] as bool? ?? false,
       registeredArticleCount: json["registered_article_count"] as int,
       createdAt: createdAt.toDate(),
       updatedAt: updatedAt.toDate(),

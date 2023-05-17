@@ -10,10 +10,12 @@ import 'package:mylis/presentation/page/tags/register/register_tag.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/snippets/url_launcher.dart';
+import 'package:mylis/theme/font_size.dart';
 import 'package:tuple/tuple.dart';
 
 class ArticleListView extends HookConsumerWidget {
@@ -28,6 +30,7 @@ class ArticleListView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final colorState = ref.watch(customizeController);
+    final isTablet = ref.watch(isTabletProvider);
 
     final articlesController = useScrollController();
     final isBack = useState(false);
@@ -41,7 +44,7 @@ class ArticleListView extends HookConsumerWidget {
               color: const Color.fromARGB(255, 236, 236, 236),
               height: double.infinity,
               width: double.infinity,
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(isTablet ? 20 : 10),
               child: ref
                       .watch(articleController.notifier)
                       .setArticlesWithTagUUID(tag.uuid ?? "")
@@ -120,7 +123,13 @@ class ArticleListView extends HookConsumerWidget {
                                             )
                                             .stopLoading(),
                                         Navigator.pop(context),
-                                        await showToast(message: "削除しました"),
+                                        await showToast(
+                                          message: "削除しました",
+                                          fontSize: isTablet
+                                              ? ThemeFontSize
+                                                  .tabletMediumFontSize
+                                              : ThemeFontSize.mediumFontSize,
+                                        ),
                                         await ref
                                             .read(articleController.notifier)
                                             .initialized(currentMemberId,
@@ -137,6 +146,7 @@ class ArticleListView extends HookConsumerWidget {
                                 ),
                               },
                               onPressedWithOk: () async => {
+                                Navigator.pop(context),
                                 Navigator.pushNamed(
                                   context,
                                   RouteNames.editArticle.path,
