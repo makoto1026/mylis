@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
-class MypageTextButton extends StatelessWidget {
+class MypageTextButton extends HookConsumerWidget {
   const MypageTextButton({
     required this.onTap,
     required this.text,
@@ -13,9 +16,14 @@ class MypageTextButton extends StatelessWidget {
   final bool isLogout;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isTablet = ref.watch(isTabletProvider);
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      padding: EdgeInsets.symmetric(
+        vertical: isTablet ? 30 : 15,
+        horizontal: isTablet ? 40 : 20,
+      ),
       child: GestureDetector(
         onTap: onTap,
         child: Row(
@@ -24,18 +32,21 @@ class MypageTextButton extends StatelessWidget {
             Expanded(
               child: Text(
                 text,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: ThemeColor.darkGray,
+                  fontSize: isTablet
+                      ? ThemeFontSize.tabletNormalFontSize
+                      : ThemeFontSize.normalFontSize,
                 ),
               ),
             ),
             isLogout
                 ? const SizedBox.shrink()
-                : const Icon(
+                : Icon(
                     Icons.arrow_forward_ios_outlined,
                     color: ThemeColor.darkGray,
-                    size: 16,
+                    size: isTablet ? 24 : 16,
                   ),
           ],
         ),

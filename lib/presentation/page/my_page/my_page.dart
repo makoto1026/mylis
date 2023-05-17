@@ -6,6 +6,7 @@ import 'package:mylis/presentation/page/my_page/widget/mypage_text_button.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/session_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
@@ -13,6 +14,7 @@ import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/snippets/url_launcher.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/presentation/page/main_page.dart' as main_page;
+import 'package:mylis/theme/font_size.dart';
 
 class MyPage extends HookConsumerWidget {
   const MyPage({Key? key}) : super(key: key);
@@ -22,6 +24,7 @@ class MyPage extends HookConsumerWidget {
     final colorState = ref.watch(customizeController);
     final currentMember = ref.watch(currentMemberProvider);
     final banner = ref.watch(mypageBannerAdProvider);
+    final isTablet = ref.watch(isTabletProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,6 +33,9 @@ class MyPage extends HookConsumerWidget {
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
           ),
         ),
       ),
@@ -104,7 +110,7 @@ class MyPage extends HookConsumerWidget {
                   },
                   text: "プライバシーポリシー",
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: isTablet ? 40 : 20),
                 MypageTextButton(
                   onTap: () => {
                     showDialog(
@@ -124,7 +130,12 @@ class MyPage extends HookConsumerWidget {
                               RouteNames.auth.path,
                               (route) => false,
                             ),
-                            showToast(message: "ログアウトしました"),
+                            showToast(
+                              message: "ログアウトしました",
+                              fontSize: isTablet
+                                  ? ThemeFontSize.tabletMediumFontSize
+                                  : ThemeFontSize.mediumFontSize,
+                            ),
                           },
                         );
                       },
@@ -133,9 +144,11 @@ class MyPage extends HookConsumerWidget {
                   text: "ログアウト",
                   isLogout: true,
                 ),
-                const SizedBox(height: 40),
+                SizedBox(height: isTablet ? 80 : 40),
                 Padding(
-                    padding: const EdgeInsets.only(left: 15),
+                    padding: EdgeInsets.only(
+                      left: isTablet ? 30 : 15,
+                    ),
                     child: TextButton(
                       onPressed: () => {
                         Navigator.pushNamed(
@@ -143,11 +156,13 @@ class MyPage extends HookConsumerWidget {
                           RouteNames.deleteAccount.path,
                         )
                       },
-                      child: const Text(
+                      child: Text(
                         "退会はこちら",
                         style: TextStyle(
                           color: ThemeColor.darkGray,
-                          fontSize: 12,
+                          fontSize: isTablet
+                              ? ThemeFontSize.tabletSmallFontSize
+                              : ThemeFontSize.smallFontSize,
                         ),
                       ),
                     )),

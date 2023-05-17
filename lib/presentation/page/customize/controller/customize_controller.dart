@@ -49,6 +49,7 @@ class CustomizeController extends StateNotifier<CustomizeState> {
       iconColor: state.iconColor.value,
       isRemovedAds: member.isRemovedAds,
       isHiddenSaveMemoNoticeDialog: member.isHiddenSaveMemoNoticeDialog,
+      isReadedNews: member.isReadedNews,
       registeredArticleCount: member.registeredArticleCount,
       createdAt: member.createdAt,
       updatedAt: member.updatedAt,

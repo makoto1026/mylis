@@ -11,4 +11,7 @@ class Firestore {
 
   static DocumentReference<Map<String, dynamic>> get config =>
       version.collection("config").doc("info");
+
+  static CollectionReference<Map<String, dynamic>> get news =>
+      version.collection("news");
 }

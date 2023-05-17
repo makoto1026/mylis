@@ -8,6 +8,7 @@ class Member {
     required this.iconColor,
     required this.isRemovedAds,
     required this.isHiddenSaveMemoNoticeDialog,
+    required this.isReadedNews,
     required this.registeredArticleCount,
     required this.createdAt,
     required this.updatedAt,
@@ -21,6 +22,7 @@ class Member {
   final int iconColor;
   final bool isRemovedAds;
   final bool isHiddenSaveMemoNoticeDialog;
+  final bool? isReadedNews;
   final int registeredArticleCount;
   final DateTime createdAt;
   final DateTime updatedAt;

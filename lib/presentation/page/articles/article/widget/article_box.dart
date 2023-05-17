@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/entities/article.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class ArticleBox extends HookConsumerWidget {
   const ArticleBox({
@@ -12,10 +14,12 @@ class ArticleBox extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var screenSize = MediaQuery.of(context).size;
+    final isTablet = ref.watch(isTabletProvider);
+
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 5,
-        vertical: 7.5,
+      padding: EdgeInsets.symmetric(
+        horizontal: isTablet ? 10 : 5,
+        vertical: isTablet ? 15 : 7.5,
       ),
       child: Container(
         decoration: BoxDecoration(
@@ -23,11 +27,16 @@ class ArticleBox extends HookConsumerWidget {
           color: Colors.white,
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+          padding: EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: isTablet ? 30 : 15,
+          ),
           child: Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(right: screenSize.width * 0.02),
+                padding: EdgeInsets.only(
+                  right: screenSize.width * 0.02,
+                ),
               ),
               Flexible(
                 child: Column(
@@ -39,8 +48,10 @@ class ArticleBox extends HookConsumerWidget {
                           const BoxConstraints(maxWidth: double.infinity),
                       child: Text(
                         item.title,
-                        style: const TextStyle(
-                          fontSize: 14,
+                        style: TextStyle(
+                          fontSize: isTablet
+                              ? ThemeFontSize.tabletNormalFontSize
+                              : ThemeFontSize.normalFontSize,
                           fontWeight: FontWeight.bold,
                         ),
                         maxLines: 10,
@@ -50,14 +61,16 @@ class ArticleBox extends HookConsumerWidget {
                     if (item.memo != "")
                       Column(
                         children: [
-                          const SizedBox(height: 5),
+                          SizedBox(height: isTablet ? 10 : 5),
                           ConstrainedBox(
                             constraints:
                                 const BoxConstraints(maxWidth: double.infinity),
                             child: Text(
                               item.memo,
-                              style: const TextStyle(
-                                fontSize: 12,
+                              style: TextStyle(
+                                fontSize: isTablet
+                                    ? ThemeFontSize.tabletSmallFontSize
+                                    : ThemeFontSize.smallFontSize,
                               ),
                               maxLines: 10,
                               overflow: TextOverflow.ellipsis,

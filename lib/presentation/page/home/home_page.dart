@@ -14,14 +14,18 @@ import 'package:mylis/presentation/page/customize/controller/customize_controlle
 import 'package:mylis/presentation/page/home/controller/home_controller.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
+import 'package:mylis/presentation/widget/news_dialog.dart';
 import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/meta_provider/meta_provider.dart';
+import 'package:mylis/provider/news_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
 import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/url_launcher.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/presentation/page/main_page.dart' as main_page;
+import 'package:mylis/theme/font_size.dart';
 
 class _MyTickerProvider implements TickerProvider {
   @override
@@ -43,6 +47,7 @@ class HomePage extends HookConsumerWidget {
     final registerArticleCount = ref.watch(articleController).setCount;
     final currentMember = ref.watch(currentMemberProvider);
     final banner = ref.watch(homeBannerAdProvider);
+    final isTablet = ref.watch(isTabletProvider);
 
     var tabController = TabController(
       vsync: _MyTickerProvider(),
@@ -58,7 +63,14 @@ class HomePage extends HookConsumerWidget {
 
     useEffect(() {
       () async {
+        SchedulerBinding.instance.addPostFrameCallback(
+          (_) async => {
+            await ref.read(isTabletProvider.notifier).set(context),
+          },
+        );
+
         if (currentMemberId != "") {
+          await ref.read(newsProvider.notifier).set();
           await ref
               .read(tagController.notifier)
               .initialized(ref.watch(currentMemberProvider)?.uuid)
@@ -100,6 +112,9 @@ class HomePage extends HookConsumerWidget {
                   okButtonText: "ストアへ",
                   onPressedWithNo: () => Navigator.pop(context),
                   onPressedWithOk: () => {
+                    ref
+                        .read(currentMemberProvider.notifier)
+                        .updateIsReadedNews(false),
                     openUrl(
                       url: Platform.isAndroid
                           ? "https://play.google.com/store/apps/details?id=com.mylis.app"
@@ -109,6 +124,16 @@ class HomePage extends HookConsumerWidget {
                   },
                 );
               },
+            );
+          } else if (currentMember?.isReadedNews == false) {
+            // TODO: IOSユーザー向けに表示設定（v1.0.3）
+            if (Platform.isAndroid) {
+              return;
+            }
+            showDialog(
+              context: context,
+              barrierColor: colorState.textColor.withOpacity(0.25),
+              builder: (context) => const NewsDialog(),
             );
           }
         }
@@ -186,8 +211,12 @@ class HomePage extends HookConsumerWidget {
             style: TextStyle(
               color: colorState.textColor,
               fontWeight: FontWeight.bold,
+              fontSize: isTablet
+                  ? ThemeFontSize.tabletNormalFontSize
+                  : ThemeFontSize.normalFontSize,
             ),
           ),
+          toolbarHeight: isTablet ? 80 : 40,
           backgroundColor: ThemeColor.white,
           bottom: TabBar(
             controller: tabController,
@@ -203,13 +232,29 @@ class HomePage extends HookConsumerWidget {
             ),
             unselectedLabelColor: ThemeColor.darkGray,
             splashFactory: NoSplash.splashFactory,
-            tabs: tagList
-                .map(
-                  (e) => Tab(
-                    text: e.name,
-                  ),
-                )
-                .toList(),
+            tabs: tagList.map(
+              (e) {
+                if (e.uuid == "") {
+                  return Text(
+                    e.name,
+                    style: TextStyle(
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletExtraLargeFontSize
+                          : ThemeFontSize.extraLargeFontSize,
+                    ),
+                  );
+                } else {
+                  return Text(
+                    e.name,
+                    style: TextStyle(
+                      fontSize: isTablet
+                          ? ThemeFontSize.tabletNormalFontSize
+                          : ThemeFontSize.normalFontSize,
+                    ),
+                  );
+                }
+              },
+            ).toList(),
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -217,10 +262,16 @@ class HomePage extends HookConsumerWidget {
           builder: (context, ref, _) {
             return ref.watch(homeProvider) != tagList.length - 1
                 ? Padding(
-                    padding: const EdgeInsets.only(bottom: 60),
+                    padding: EdgeInsets.only(
+                      bottom: currentMember?.isRemovedAds ?? false
+                          ? 20
+                          : isTablet
+                              ? 120
+                              : 65,
+                    ),
                     child: SizedBox(
-                      width: 70,
-                      height: 70,
+                      width: isTablet ? 105 : 70,
+                      height: isTablet ? 105 : 70,
                       child: FloatingActionButton(
                         onPressed: () async => {
                           await ref
@@ -235,9 +286,9 @@ class HomePage extends HookConsumerWidget {
                           ),
                         },
                         backgroundColor: colorState.textColor,
-                        child: const Icon(
+                        child: Icon(
                           Icons.add,
-                          size: 40,
+                          size: isTablet ? 60 : 40,
                           color: ThemeColor.white,
                         ),
                       ),

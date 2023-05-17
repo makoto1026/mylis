@@ -3,7 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/my_page/widget/usage_item.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class UsagePage extends HookConsumerWidget {
   const UsagePage({Key? key}) : super(key: key);
@@ -12,6 +14,7 @@ class UsagePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorState = ref.watch(customizeController);
     final usageScrollController = useScrollController();
+    final isTablet = ref.watch(isTabletProvider);
 
     final GlobalKey firstKey = GlobalKey();
     final GlobalKey secondKey = GlobalKey();
@@ -40,10 +43,17 @@ class UsagePage extends HookConsumerWidget {
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
           ),
         ),
+        leadingWidth: isTablet ? 80 : 40,
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: Icon(
+            Icons.close,
+            size: isTablet ? 36 : 24,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -51,8 +61,8 @@ class UsagePage extends HookConsumerWidget {
         ),
       ),
       floatingActionButton: SizedBox(
-        width: 60,
-        height: 60,
+        width: isTablet ? 105 : 70,
+        height: isTablet ? 105 : 70,
         child: FloatingActionButton(
           onPressed: () => {
             usageScrollController.animateTo(
@@ -62,9 +72,9 @@ class UsagePage extends HookConsumerWidget {
             ),
           },
           backgroundColor: colorState.textColor,
-          child: const Icon(
+          child: Icon(
             Icons.arrow_upward,
-            size: 30,
+            size: isTablet ? 60 : 40,
             color: ThemeColor.white,
           ),
         ),
@@ -72,8 +82,12 @@ class UsagePage extends HookConsumerWidget {
       body: SingleChildScrollView(
         controller: usageScrollController,
         child: Container(
-          padding:
-              const EdgeInsets.only(top: 30, left: 30, right: 30, bottom: 60),
+          padding: EdgeInsets.only(
+            top: isTablet ? 60 : 30,
+            left: isTablet ? 60 : 30,
+            right: isTablet ? 60 : 30,
+            bottom: isTablet ? 120 : 60,
+          ),
           alignment: Alignment.center,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,32 +95,39 @@ class UsagePage extends HookConsumerWidget {
               _UsageTextButton(
                 text: "新規リスト登録",
                 onPressed: () => scrollToTarget(firstKey),
+                isTablet: isTablet,
               ),
               _UsageTextButton(
                 text: "リスト編集、並び替え、削除",
                 onPressed: () => scrollToTarget(secondKey),
+                isTablet: isTablet,
               ),
               _UsageTextButton(
                 text: "記事登録、URLを開く方法",
                 onPressed: () => scrollToTarget(thirdKey),
+                isTablet: isTablet,
               ),
               _UsageTextButton(
                 text: "記事編集、削除",
                 onPressed: () => scrollToTarget(fourthKey),
+                isTablet: isTablet,
               ),
               _UsageTextButton(
                 text: "メモ登録",
                 onPressed: () => scrollToTarget(fifthKey),
+                isTablet: isTablet,
               ),
               _UsageTextButton(
                 text: "メモ編集、削除",
                 onPressed: () => scrollToTarget(sixthKey),
+                isTablet: isTablet,
               ),
               _UsageTextButton(
                 text: "テーマカラー変更",
                 onPressed: () => scrollToTarget(seventhKey),
+                isTablet: isTablet,
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: isTablet ? 60 : 30),
               UsageItem(
                 key: firstKey,
                 title: "新規リスト登録",
@@ -167,11 +188,13 @@ class _UsageTextButton extends StatelessWidget {
   const _UsageTextButton({
     required this.text,
     required this.onPressed,
+    required this.isTablet,
     Key? key,
   }) : super(key: key);
 
   final String text;
   final Function() onPressed;
+  final bool isTablet;
 
   @override
   Widget build(BuildContext context) {
@@ -182,14 +205,16 @@ class _UsageTextButton extends StatelessWidget {
             onTap: onPressed,
             child: Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 decoration: TextDecoration.underline,
-                fontSize: 14,
+                fontSize: isTablet
+                    ? ThemeFontSize.tabletNormalFontSize
+                    : ThemeFontSize.normalFontSize,
               ),
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: isTablet ? 20 : 10),
       ],
     );
   }

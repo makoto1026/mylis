@@ -6,10 +6,15 @@ import 'package:mylis/presentation/page/customize/controller/customize_controlle
 import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
 import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controller.dart';
 import 'package:mylis/presentation/page/memo/widget/memo_box.dart';
+import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/is_tablet_provider.dart';
+import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/router/router.dart';
+import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
+import 'package:mylis/theme/font_size.dart';
 
 class MemoPage extends HookConsumerWidget {
   const MemoPage({Key? key}) : super(key: key);
@@ -21,6 +26,7 @@ class MemoPage extends HookConsumerWidget {
     final currentMember = ref.watch(currentMemberProvider);
     final state = ref.watch(memoController);
     final banner = ref.watch(memoBannerAdProvider);
+    final isTablet = ref.watch(isTabletProvider);
 
     void _articleScrollListener() async {
       if (memosController.offset >= memosController.position.maxScrollExtent &&
@@ -56,16 +62,25 @@ class MemoPage extends HookConsumerWidget {
           style: TextStyle(
             color: colorState.textColor,
             fontWeight: FontWeight.bold,
+            fontSize: isTablet
+                ? ThemeFontSize.tabletNormalFontSize
+                : ThemeFontSize.normalFontSize,
           ),
         ),
         backgroundColor: ThemeColor.white,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 60),
+        padding: EdgeInsets.only(
+          bottom: currentMember?.isRemovedAds ?? false
+              ? 20
+              : isTablet
+                  ? 120
+                  : 60,
+        ),
         child: SizedBox(
-          width: 70,
-          height: 70,
+          width: isTablet ? 105 : 70,
+          height: isTablet ? 105 : 70,
           child: FloatingActionButton(
             onPressed: () => {
               Navigator.pushNamed(
@@ -74,9 +89,9 @@ class MemoPage extends HookConsumerWidget {
               ),
             },
             backgroundColor: colorState.textColor,
-            child: const Icon(
+            child: Icon(
               Icons.add,
-              size: 40,
+              size: isTablet ? 60 : 40,
               color: ThemeColor.white,
             ),
           ),
@@ -89,14 +104,68 @@ class MemoPage extends HookConsumerWidget {
               width: double.infinity,
               height: double.infinity,
               color: const Color.fromARGB(255, 236, 236, 236),
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(
+                isTablet ? 20 : 10,
+              ),
               child: state.memoList.isNotEmpty
-                  ? ListView.builder(
-                      controller: memosController,
+                  ? ReorderableListView.builder(
                       physics: const ClampingScrollPhysics(),
                       itemCount: state.memoList.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
+                      itemBuilder: (context, index) => Dismissible(
+                        key: Key('$index'),
+                        background: Container(
+                          alignment: Alignment.centerRight,
+                          padding: EdgeInsets.only(
+                            right: isTablet ? 40 : 20,
+                          ),
+                          color: Colors.red,
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                            size: isTablet ? 36 : 24,
+                          ),
+                        ),
+                        direction: DismissDirection.endToStart,
+                        confirmDismiss: (direction) async {
+                          return await showDialog(
+                            context: context,
+                            barrierColor:
+                                colorState.textColor.withOpacity(0.25),
+                            builder: (BuildContext context) {
+                              return CustomDialog(
+                                title: "本当に削除しますか？",
+                                message: "データは完全に削除されます",
+                                onPressedWithNo: () => Navigator.pop(context),
+                                onPressedWithOk: () async => {
+                                  await ref
+                                      .read(loadingStateProvider.notifier)
+                                      .startLoading(),
+                                  await ref
+                                      .read(editMemoController.notifier)
+                                      .delete(currentMember?.uuid ?? "",
+                                          state.memoList[index].uuid ?? ""),
+                                  await ref
+                                      .read(editMemoController.notifier)
+                                      .refresh(),
+                                  await ref
+                                      .read(memoController.notifier)
+                                      .refresh(currentMember?.uuid ?? ""),
+                                  await ref
+                                      .read(loadingStateProvider.notifier)
+                                      .stopLoading(),
+                                  Navigator.pop(context),
+                                  await showToast(
+                                    message: "削除しました",
+                                    fontSize: isTablet
+                                        ? ThemeFontSize.tabletMediumFontSize
+                                        : ThemeFontSize.mediumFontSize,
+                                  ),
+                                },
+                              );
+                            },
+                          );
+                        },
+                        child: GestureDetector(
                           onTap: () => {
                             // 一旦ダイアログではなくページ遷移で実装
                             ref
@@ -110,7 +179,11 @@ class MemoPage extends HookConsumerWidget {
                           child: MemoBox(
                             item: state.memoList[index],
                           ),
-                        );
+                        ),
+                      ),
+                      onReorder: (int oldIndex, int newIndex) {},
+                      proxyDecorator: (widget, _, __) {
+                        return Opacity(opacity: 0.5, child: widget);
                       },
                     )
                   : const SizedBox.shrink(),
