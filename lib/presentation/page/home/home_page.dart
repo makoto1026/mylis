@@ -216,6 +216,19 @@ class HomePage extends HookConsumerWidget {
                   : ThemeFontSize.normalFontSize,
             ),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: ThemeColor.darkGray,
+              ),
+              onPressed: () => Navigator.pushNamed(
+                context,
+                RouteNames.search.path,
+              ),
+            ),
+            SizedBox(width: isTablet ? 20 : 0),
+          ],
           toolbarHeight: isTablet ? 80 : 40,
           backgroundColor: ThemeColor.white,
           bottom: TabBar(

@@ -24,7 +24,7 @@ class IArticleRepository extends ArticleRepository {
         .then(
       (value) {
         final doc = value.data();
-        return ArticleMapper.fromJSON(doc!, articleUuid);
+        return ArticleMapper.fromJSON(doc!, articleUuid, null);
       },
     );
   }
@@ -39,7 +39,7 @@ class IArticleRepository extends ArticleRepository {
         .then(
       (querySnapshot) {
         for (var doc in querySnapshot.docs) {
-          final article = ArticleMapper.fromJSON(doc.data(), doc.id);
+          final article = ArticleMapper.fromJSON(doc.data(), doc.id, null);
           articleList.add(article);
         }
       },
