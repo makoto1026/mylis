@@ -8,6 +8,7 @@ import 'package:mylis/presentation/page/articles/edit/controller/edit_article_co
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
+import 'package:mylis/presentation/page/search/controller/search_controller.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/page/tags/register/widget/register_tag_dialog.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
@@ -137,7 +138,7 @@ class EditArticlePage extends HookConsumerWidget {
                           loadingStateProvider.notifier,
                         )
                         .stopLoading(),
-                    Navigator.pop(context),
+                    Navigator.pop(context, true),
                     await showToast(
                       message: "記事を更新しました",
                       fontSize: isTablet

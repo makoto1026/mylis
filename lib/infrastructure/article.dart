@@ -5,11 +5,6 @@ import 'package:mylis/domain/repository/article.dart';
 import 'package:mylis/infrastructure/firestore/firestore.dart';
 import 'package:mylis/infrastructure/mapper/article_mapper.dart';
 
-// TODO: 各APIのエラーハンドリング
-// TODO: 各メソッドに渡しているidが必要かどうか
-// TODO: articleにtagを含ませるかどうか
-// TODO: 各stateにuuidを含められないのか？articleやtag、memoのuuidが空になっているので、今は個別で渡さないといけない
-
 class IArticleRepository extends ArticleRepository {
   IArticleRepository();
 
@@ -24,7 +19,7 @@ class IArticleRepository extends ArticleRepository {
         .then(
       (value) {
         final doc = value.data();
-        return ArticleMapper.fromJSON(doc!, articleUuid);
+        return ArticleMapper.fromJSON(doc!, articleUuid, null);
       },
     );
   }
@@ -39,7 +34,7 @@ class IArticleRepository extends ArticleRepository {
         .then(
       (querySnapshot) {
         for (var doc in querySnapshot.docs) {
-          final article = ArticleMapper.fromJSON(doc.data(), doc.id);
+          final article = ArticleMapper.fromJSON(doc.data(), doc.id, null);
           articleList.add(article);
         }
       },
