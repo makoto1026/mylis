@@ -5,11 +5,6 @@ import 'package:mylis/domain/repository/article.dart';
 import 'package:mylis/infrastructure/firestore/firestore.dart';
 import 'package:mylis/infrastructure/mapper/article_mapper.dart';
 
-// TODO: 各APIのエラーハンドリング
-// TODO: 各メソッドに渡しているidが必要かどうか
-// TODO: articleにtagを含ませるかどうか
-// TODO: 各stateにuuidを含められないのか？articleやtag、memoのuuidが空になっているので、今は個別で渡さないといけない
-
 class IArticleRepository extends ArticleRepository {
   IArticleRepository();
 

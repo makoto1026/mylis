@@ -284,14 +284,14 @@ class SearchPage extends HookConsumerWidget {
                     ),
             ),
           ),
-          // currentMember?.isRemovedAds == true
-          //     ? const SizedBox.shrink()
-          //     : Container(
-          //         color: ThemeColor.white,
-          //         height: 50,
-          //         width: double.infinity,
-          //         child: AdWidget(ad: banner),
-          //       ),
+          currentMember?.isRemovedAds == true
+              ? const SizedBox.shrink()
+              : Container(
+                  color: ThemeColor.white,
+                  height: 50,
+                  width: double.infinity,
+                  child: AdWidget(ad: banner),
+                ),
         ],
       ),
     );

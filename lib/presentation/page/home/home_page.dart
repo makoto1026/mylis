@@ -126,10 +126,6 @@ class HomePage extends HookConsumerWidget {
               },
             );
           } else if (currentMember?.isReadedNews == false) {
-            // TODO: IOSユーザー向けに表示設定（v1.0.3）
-            if (Platform.isAndroid) {
-              return;
-            }
             showDialog(
               context: context,
               barrierColor: colorState.textColor.withOpacity(0.25),
