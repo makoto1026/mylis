@@ -81,3 +81,29 @@ final mypageBannerAdProvider = Provider.autoDispose<AdWithView>(
     return bannerAd;
   },
 );
+
+final searchPageBannerAdProvider = Provider.autoDispose<AdWithView>(
+  (ref) {
+    var bannerID = "";
+
+    if (Platform.isAndroid) {
+      bannerID = Config.app.androidBannerID;
+    } else if (Platform.isIOS) {
+      bannerID = Config.app.iosBannerID;
+    }
+
+    final bannerAd = BannerAd(
+      adUnitId: bannerID,
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: const BannerAdListener(),
+    );
+    bannerAd.load();
+    ref.onDispose(
+      () {
+        bannerAd.dispose();
+      },
+    );
+    return bannerAd;
+  },
+);

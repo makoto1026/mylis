@@ -15,43 +15,46 @@ import 'package:mylis/presentation/page/home/home_page.dart';
 import 'package:mylis/presentation/page/main_page.dart';
 import 'package:mylis/presentation/page/my_page/usage.dart';
 import 'package:mylis/presentation/page/privacy_policy/privacy_policy.dart';
+import 'package:mylis/presentation/page/search/search.dart';
 import 'package:mylis/presentation/page/tags/edit/edit_tag.dart';
 import 'package:mylis/presentation/page/tags/edit/edit_tag_list.dart';
 import 'package:mylis/presentation/page/terms_of_use/terms_of_use.dart';
 import 'package:mylis/presentation/page/walk_through.dart';
 
-final routerProvider = Provider((ref) => <String, WidgetBuilder>{
-      RouteNames.walkThrough.path: (BuildContext context) =>
-          const WalkThroughPage(),
-      RouteNames.main.path: (BuildContext context) => const MainPage(),
-      RouteNames.auth.path: (BuildContext context) => const AuthPage(),
-      RouteNames.emailSignUp.path: (BuildContext context) =>
-          const EmailSignUpPage(),
-      RouteNames.emailSignIn.path: (BuildContext context) =>
-          const EmailSignInPage(),
-      RouteNames.home.path: (BuildContext context) => const HomePage(),
-      RouteNames.memo.path: (BuildContext context) => const MemoPage(),
-      RouteNames.registerArticle.path: (BuildContext context) =>
-          const RegisterArticlePage(),
-      RouteNames.registerMemo.path: (BuildContext context) =>
-          const RegisterMemoPage(),
-      RouteNames.myPage.path: (BuildContext context) => const MyPage(),
-      RouteNames.editArticle.path: (BuildContext context) =>
-          const EditArticlePage(),
-      RouteNames.editMemo.path: (BuildContext context) => const EditMemoPage(),
-      RouteNames.editTagList.path: (BuildContext context) =>
-          const EditTagListPage(),
-      RouteNames.editTag.path: (BuildContext context) => const EditTagPage(),
-      RouteNames.customize.path: (BuildContext context) =>
-          const CustomizePage(),
-      RouteNames.usage.path: (BuildContext context) => const UsagePage(),
-      RouteNames.deleteAccount.path: (BuildContext context) =>
-          const DeleteAccountPage(),
-      RouteNames.privacyPolicy.path: (BuildContext context) =>
-          const PrivacyPolicyPage(),
-      RouteNames.termsOfUse.path: (BuildContext context) =>
-          const TermsOfUsePage(),
-    });
+final routerProvider = Provider(
+  (ref) => <String, WidgetBuilder>{
+    RouteNames.walkThrough.path: (BuildContext context) =>
+        const WalkThroughPage(),
+    RouteNames.main.path: (BuildContext context) => const MainPage(),
+    RouteNames.auth.path: (BuildContext context) => const AuthPage(),
+    RouteNames.emailSignUp.path: (BuildContext context) =>
+        const EmailSignUpPage(),
+    RouteNames.emailSignIn.path: (BuildContext context) =>
+        const EmailSignInPage(),
+    RouteNames.home.path: (BuildContext context) => const HomePage(),
+    RouteNames.memo.path: (BuildContext context) => const MemoPage(),
+    RouteNames.registerArticle.path: (BuildContext context) =>
+        const RegisterArticlePage(),
+    RouteNames.registerMemo.path: (BuildContext context) =>
+        const RegisterMemoPage(),
+    RouteNames.myPage.path: (BuildContext context) => const MyPage(),
+    RouteNames.editArticle.path: (BuildContext context) =>
+        const EditArticlePage(),
+    RouteNames.editMemo.path: (BuildContext context) => const EditMemoPage(),
+    RouteNames.editTagList.path: (BuildContext context) =>
+        const EditTagListPage(),
+    RouteNames.editTag.path: (BuildContext context) => const EditTagPage(),
+    RouteNames.customize.path: (BuildContext context) => const CustomizePage(),
+    RouteNames.usage.path: (BuildContext context) => const UsagePage(),
+    RouteNames.deleteAccount.path: (BuildContext context) =>
+        const DeleteAccountPage(),
+    RouteNames.privacyPolicy.path: (BuildContext context) =>
+        const PrivacyPolicyPage(),
+    RouteNames.termsOfUse.path: (BuildContext context) =>
+        const TermsOfUsePage(),
+    RouteNames.search.path: (BuildContext context) => const SearchPage(),
+  },
+);
 
 enum RouteNames {
   splash,
@@ -74,6 +77,7 @@ enum RouteNames {
   deleteAccount,
   privacyPolicy,
   termsOfUse,
+  search,
 }
 
 extension RouteNamesExtension on RouteNames {

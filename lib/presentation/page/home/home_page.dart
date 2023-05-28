@@ -126,10 +126,6 @@ class HomePage extends HookConsumerWidget {
               },
             );
           } else if (currentMember?.isReadedNews == false) {
-            // TODO: IOSユーザー向けに表示設定（v1.0.3）
-            if (Platform.isAndroid) {
-              return;
-            }
             showDialog(
               context: context,
               barrierColor: colorState.textColor.withOpacity(0.25),
@@ -216,6 +212,19 @@ class HomePage extends HookConsumerWidget {
                   : ThemeFontSize.normalFontSize,
             ),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: ThemeColor.darkGray,
+              ),
+              onPressed: () => Navigator.pushNamed(
+                context,
+                RouteNames.search.path,
+              ),
+            ),
+            SizedBox(width: isTablet ? 20 : 0),
+          ],
           toolbarHeight: isTablet ? 80 : 40,
           backgroundColor: ThemeColor.white,
           bottom: TabBar(
