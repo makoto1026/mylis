@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/infrastructure/secure_storage_service.dart';
+import 'package:mylis/presentation/page/main_page.dart';
 import 'package:mylis/presentation/widget/round_rect_button.dart';
 import 'package:mylis/provider/is_tablet_provider.dart';
-import 'package:mylis/router/router.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/font_size.dart';
+import 'package:page_transition/page_transition.dart';
 
 class WalkThroughPage extends HookConsumerWidget {
   const WalkThroughPage({Key? key}) : super(key: key);
@@ -107,10 +108,12 @@ class WalkThroughPage extends HookConsumerWidget {
                       ref
                           .read(secureStorageServiceProvider)
                           .write(key: "isFirstOpen", value: "false");
-
-                      Navigator.pushNamedAndRemoveUntil(
+                      Navigator.pushAndRemoveUntil(
                         context,
-                        RouteNames.main.path,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          child: const MainPage(),
+                        ),
                         (route) => false,
                       );
                     },

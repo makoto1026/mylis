@@ -8,7 +8,6 @@ import 'package:mylis/presentation/page/articles/edit/controller/edit_article_co
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/widget/back_notice_dialog.dart';
-import 'package:mylis/presentation/page/search/controller/search_controller.dart';
 import 'package:mylis/presentation/page/tags/register/controller/register_tag_controller.dart';
 import 'package:mylis/presentation/page/tags/register/widget/register_tag_dialog.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
@@ -20,17 +19,19 @@ import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/font_size.dart';
-import 'package:tuple/tuple.dart';
 
 class EditArticlePage extends HookConsumerWidget {
-  const EditArticlePage({Key? key}) : super(key: key);
+  const EditArticlePage({
+    required this.article,
+    required this.tag,
+    Key? key,
+  }) : super(key: key);
+
+  final Article article;
+  final Tag tag;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final arguments =
-        ModalRoute.of(context)!.settings.arguments as Tuple2<Article, Tag>;
-    final article = arguments.item1;
-    final tag = arguments.item2;
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final colorState = ref.watch(customizeController);
     final tagState = ref.watch(tagController);
