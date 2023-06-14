@@ -5,16 +5,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/memo/controller/memo_controller.dart';
 import 'package:mylis/presentation/page/memo/edit/controller/edit_memo_controller.dart';
+import 'package:mylis/presentation/page/memo/edit/edit_memo.dart';
+import 'package:mylis/presentation/page/memo/register/register_memo.dart';
 import 'package:mylis/presentation/page/memo/widget/memo_box.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
-import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/font_size.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MemoPage extends HookConsumerWidget {
   const MemoPage({Key? key}) : super(key: key);
@@ -75,17 +77,20 @@ class MemoPage extends HookConsumerWidget {
           bottom: currentMember?.isRemovedAds ?? false
               ? 20
               : isTablet
-                  ? 120
-                  : 60,
+                  ? 160
+                  : 80,
         ),
         child: SizedBox(
           width: isTablet ? 105 : 70,
           height: isTablet ? 105 : 70,
           child: FloatingActionButton(
             onPressed: () => {
-              Navigator.pushNamed(
+              Navigator.push(
                 context,
-                RouteNames.registerMemo.path,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: const RegisterMemoPage(),
+                ),
               ),
             },
             backgroundColor: colorState.textColor,
@@ -171,10 +176,14 @@ class MemoPage extends HookConsumerWidget {
                             ref
                                 .read(editMemoController.notifier)
                                 .setMemo(state.memoList[index]),
-                            Navigator.pushNamed(
+
+                            Navigator.push(
                               context,
-                              RouteNames.editMemo.path,
-                            )
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                child: const EditMemoPage(),
+                              ),
+                            ),
                           },
                           child: MemoBox(
                             item: state.memoList[index],
@@ -193,7 +202,7 @@ class MemoPage extends HookConsumerWidget {
               ? const SizedBox.shrink()
               : Container(
                   color: ThemeColor.white,
-                  height: 50,
+                  height: 60,
                   width: double.infinity,
                   child: AdWidget(ad: banner),
                 ),
