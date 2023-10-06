@@ -6,12 +6,16 @@ import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/font_size.dart';
 
 class TermsOfUsePage extends HookConsumerWidget {
-  const TermsOfUsePage({Key? key}) : super(key: key);
+  const TermsOfUsePage({
+    required this.isFromAuthPage,
+    Key? key,
+  }) : super(key: key);
+
+  final bool isFromAuthPage;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorState = ref.watch(customizeController);
-    final isFromAuthPage = ModalRoute.of(context)?.settings.arguments as bool;
     final isTablet = ref.watch(isTabletProvider);
 
     return Scaffold(

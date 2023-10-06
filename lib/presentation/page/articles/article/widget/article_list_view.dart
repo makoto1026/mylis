@@ -5,6 +5,7 @@ import 'package:mylis/domain/entities/tag.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_box.dart';
 import 'package:mylis/presentation/page/articles/edit/controller/edit_article_controller.dart';
+import 'package:mylis/presentation/page/articles/edit/edit_article.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/tags/register/register_tag.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
@@ -12,10 +13,10 @@ import 'package:mylis/presentation/widget/custom_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
-import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/snippets/url_launcher.dart';
 import 'package:mylis/theme/font_size.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tuple/tuple.dart';
 
 class ArticleListView extends HookConsumerWidget {
@@ -73,7 +74,7 @@ class ArticleListView extends HookConsumerWidget {
                             context: context,
                             barrierColor:
                                 colorState.textColor.withOpacity(0.25),
-                            builder: (context) => CustomDialog(
+                            builder: (buildContext) => CustomDialog(
                               title:
                                   "「${ref.watch(articleController.notifier).setArticlesWithTagUUID(tag.uuid ?? "").articles[index].title}」",
                               noButtonText: "削除",
@@ -146,16 +147,29 @@ class ArticleListView extends HookConsumerWidget {
                                 ),
                               },
                               onPressedWithOk: () async => {
-                                Navigator.pop(context),
-                                Navigator.pushNamed(
+                                Navigator.pop(buildContext),
+                                Navigator.push(
                                   context,
-                                  RouteNames.editArticle.path,
-                                  arguments: Tuple2(
-                                    ref
-                                        .watch(articleController.notifier)
-                                        .setArticlesWithTagUUID(tag.uuid ?? "")
-                                        .articles[index],
-                                    tag,
+                                  PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: EditArticlePage(
+                                      article: ref
+                                          .watch(articleController.notifier)
+                                          .setArticlesWithTagUUID(
+                                              tag.uuid ?? "")
+                                          .articles[index],
+                                      tag: tag,
+                                    ),
+                                    settings: RouteSettings(
+                                      arguments: Tuple2(
+                                        ref
+                                            .watch(articleController.notifier)
+                                            .setArticlesWithTagUUID(
+                                                tag.uuid ?? "")
+                                            .articles[index],
+                                        tag,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               },
