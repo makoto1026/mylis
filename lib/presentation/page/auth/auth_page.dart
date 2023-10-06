@@ -6,13 +6,17 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/presentation/page/auth/controller/auth_controller.dart';
+import 'package:mylis/presentation/page/auth/email_sign_in/email_sign_in.dart';
+import 'package:mylis/presentation/page/auth/email_sign_up/email_sign_up.dart';
 import 'package:mylis/presentation/page/auth/widget/auth_button.dart';
+import 'package:mylis/presentation/page/privacy_policy/privacy_policy.dart';
+import 'package:mylis/presentation/page/terms_of_use/terms_of_use.dart';
 import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
-import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/font_size.dart';
+import 'package:page_transition/page_transition.dart';
 
 class AuthPage extends HookConsumerWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -162,8 +166,13 @@ class AuthPage extends HookConsumerWidget {
                         children: [
                           AuthButton(
                             onPressed: () => {
-                              Navigator.pushNamed(
-                                  context, RouteNames.emailSignIn.path),
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child: const EmailSignInPage(),
+                                ),
+                              ),
                             },
                             iconPath: "assets/icons/mail.svg",
                             text: "メールログイン",
@@ -174,8 +183,13 @@ class AuthPage extends HookConsumerWidget {
                           SizedBox(height: isTablet ? 40 : 20),
                           AuthButton(
                             onPressed: () => {
-                              Navigator.pushNamed(
-                                  context, RouteNames.emailSignUp.path),
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child: const EmailSignUpPage(),
+                                ),
+                              ),
                             },
                             iconPath: "assets/icons/mail.svg",
                             text: "メール新規登録",
@@ -211,10 +225,12 @@ class AuthPage extends HookConsumerWidget {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.pushNamed(
+                          Navigator.push(
                             context,
-                            RouteNames.termsOfUse.path,
-                            arguments: true,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              child: const TermsOfUsePage(isFromAuthPage: true),
+                            ),
                           );
                         },
                     ),
@@ -238,10 +254,13 @@ class AuthPage extends HookConsumerWidget {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.pushNamed(
+                          Navigator.push(
                             context,
-                            RouteNames.privacyPolicy.path,
-                            arguments: true,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              child:
+                                  const PrivacyPolicyPage(isFromAuthPage: true),
+                            ),
                           );
                         },
                     ),

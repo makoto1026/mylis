@@ -14,11 +14,15 @@ import 'package:mylis/theme/color.dart';
 import 'package:mylis/theme/font_size.dart';
 
 class EditTagPage extends HookConsumerWidget {
-  const EditTagPage({Key? key}) : super(key: key);
+  const EditTagPage({
+    required this.tag,
+    Key? key,
+  }) : super(key: key);
+
+  final Tag tag;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tag = ModalRoute.of(context)!.settings.arguments as Tag;
     final isBack = useState(false);
     final currentMemberId = ref.watch(currentMemberProvider)?.uuid ?? '';
     final colorState = ref.watch(customizeController);

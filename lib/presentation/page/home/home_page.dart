@@ -10,22 +10,23 @@ import 'package:mylis/infrastructure/secure_storage_service.dart';
 import 'package:mylis/presentation/page/articles/article/controller/article_controller.dart';
 import 'package:mylis/presentation/page/articles/article/widget/article_list_view.dart';
 import 'package:mylis/presentation/page/articles/register/controller/register_article_controller.dart';
+import 'package:mylis/presentation/page/articles/register/register_article.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/home/controller/home_controller.dart';
+import 'package:mylis/presentation/page/search/search.dart';
 import 'package:mylis/presentation/page/tags/tag/controller/tag_controller.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
-import 'package:mylis/presentation/widget/news_dialog.dart';
 import 'package:mylis/provider/admob_provider.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/meta_provider/meta_provider.dart';
 import 'package:mylis/provider/news_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
-import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/url_launcher.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/presentation/page/main_page.dart' as main_page;
 import 'package:mylis/theme/font_size.dart';
+import 'package:page_transition/page_transition.dart';
 
 class _MyTickerProvider implements TickerProvider {
   @override
@@ -90,9 +91,12 @@ class HomePage extends HookConsumerWidget {
                   if (shareUrl.value != "")
                     {
                       shareUrl.value = "",
-                      Navigator.pushNamed(
+                      Navigator.push(
                         context,
-                        RouteNames.registerArticle.path,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          child: const RegisterArticlePage(),
+                        ),
                       ),
                     }
                 },
@@ -102,7 +106,7 @@ class HomePage extends HookConsumerWidget {
           if (await ref.read(metaProvider.notifier).getIsForceUpdate()) {
             showDialog(
               context: context,
-              barrierColor: colorState.textColor.withOpacity(0.25),
+              barrierColor: Colors.transparent,
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return CustomDialog(
@@ -125,12 +129,12 @@ class HomePage extends HookConsumerWidget {
                 );
               },
             );
-          } else if (currentMember?.isReadedNews == false) {
-            showDialog(
-              context: context,
-              barrierColor: colorState.textColor.withOpacity(0.25),
-              builder: (context) => const NewsDialog(),
-            );
+          } else if (currentMember?.isReadedNews == true) {
+            // showDialog(
+            //   context: context,
+            //   barrierColor: colorState.textColor.withOpacity(0.25),
+            //   builder: (context) => const NewsDialog(),
+            // );
           }
         }
       }();
@@ -146,7 +150,13 @@ class HomePage extends HookConsumerWidget {
         WidgetsBinding.instance.addPostFrameCallback(
           (_) async {
             ref.read(currentTabProvider.notifier).changeTab(main_page.Tab.home);
-            await Navigator.pushNamed(context, RouteNames.registerArticle.path);
+            await Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.fade,
+                child: const RegisterArticlePage(),
+              ),
+            );
           },
         );
       },
@@ -218,10 +228,15 @@ class HomePage extends HookConsumerWidget {
                 Icons.search,
                 color: ThemeColor.darkGray,
               ),
-              onPressed: () => Navigator.pushNamed(
-                context,
-                RouteNames.search.path,
-              ),
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.fade,
+                    child: const SearchPage(),
+                  ),
+                ),
+              },
             ),
             SizedBox(width: isTablet ? 20 : 0),
           ],
@@ -275,8 +290,8 @@ class HomePage extends HookConsumerWidget {
                       bottom: currentMember?.isRemovedAds ?? false
                           ? 20
                           : isTablet
-                              ? 120
-                              : 65,
+                              ? 160
+                              : 80,
                     ),
                     child: SizedBox(
                       width: isTablet ? 105 : 70,
@@ -289,9 +304,12 @@ class HomePage extends HookConsumerWidget {
                           await ref
                               .watch(registerArticleController.notifier)
                               .refresh(),
-                          Navigator.pushNamed(
+                          Navigator.push(
                             context,
-                            RouteNames.registerArticle.path,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              child: const RegisterArticlePage(),
+                            ),
                           ),
                         },
                         backgroundColor: colorState.textColor,
@@ -322,7 +340,7 @@ class HomePage extends HookConsumerWidget {
                 ? const SizedBox.shrink()
                 : Container(
                     color: ThemeColor.white,
-                    height: 50,
+                    height: 60,
                     width: double.infinity,
                     child: AdWidget(ad: banner),
                   ),

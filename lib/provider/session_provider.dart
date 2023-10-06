@@ -4,10 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylis/domain/service/secure_storage_service.dart';
 import 'package:mylis/infrastructure/secure_storage_service.dart';
 import 'package:mylis/main.dart';
+import 'package:mylis/presentation/page/auth/auth_page.dart';
+import 'package:mylis/presentation/page/main_page.dart';
+import 'package:mylis/presentation/page/walk_through.dart';
 import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
-import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/show_auth_error_dialog.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SessionProvider extends StateNotifier<void> {
   SessionProvider({
@@ -61,18 +64,24 @@ class SessionProvider extends StateNotifier<void> {
     }
 
     if (currentMember?.uuid == "" || currentMember?.uuid == null) {
-      Navigator.of(_read(navKeyProvider).currentContext!, rootNavigator: true)
-          .pushNamedAndRemoveUntil(
-        RouteNames.auth.path,
-        (_) => false,
+      Navigator.pushAndRemoveUntil(
+        _read(navKeyProvider).currentContext!,
+        PageTransition(
+          type: PageTransitionType.fade,
+          child: const AuthPage(),
+        ),
+        (route) => false,
       );
     } else {
-      Navigator.of(_read(navKeyProvider).currentContext!, rootNavigator: true)
-          .pushNamedAndRemoveUntil(
-        isFirstOpen == "true"
-            ? RouteNames.walkThrough.path
-            : RouteNames.main.path,
-        (_) => false,
+      Navigator.pushAndRemoveUntil(
+        _read(navKeyProvider).currentContext!,
+        PageTransition(
+          type: PageTransitionType.fade,
+          child: isFirstOpen == "true"
+              ? const WalkThroughPage()
+              : const MainPage(),
+        ),
+        (route) => false,
       );
     }
   }

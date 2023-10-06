@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mylis/presentation/page/auth/auth_page.dart';
 import 'package:mylis/presentation/page/customize/controller/customize_controller.dart';
 import 'package:mylis/presentation/page/my_page/widget/mypage_text_button.dart';
 import 'package:mylis/presentation/widget/custom_dialog.dart';
@@ -7,11 +8,11 @@ import 'package:mylis/provider/current_member_provider.dart';
 import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/session_provider.dart';
 import 'package:mylis/provider/tab/current_tab_provider.dart';
-import 'package:mylis/router/router.dart';
 import 'package:mylis/snippets/toast.dart';
 import 'package:mylis/theme/color.dart';
 import 'package:mylis/presentation/page/main_page.dart' as main_page;
 import 'package:mylis/theme/font_size.dart';
+import 'package:page_transition/page_transition.dart';
 
 class DeleteAccountPage extends HookConsumerWidget {
   const DeleteAccountPage({Key? key}) : super(key: key);
@@ -64,10 +65,13 @@ class DeleteAccountPage extends HookConsumerWidget {
                       ref.read(currentTabProvider.notifier).changeTab(
                             main_page.Tab.home,
                           ),
-                      Navigator.of(context, rootNavigator: false)
-                          .pushNamedAndRemoveUntil(
-                        RouteNames.auth.path,
-                        (_) => false,
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          child: const AuthPage(),
+                        ),
+                        (route) => false,
                       ),
                       showToast(
                         message: "退会しました",
