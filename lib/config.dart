@@ -8,8 +8,12 @@ class Config {
     final data = await rootBundle.loadString('env/$env.yaml');
     final doc = loadYaml(data) as YamlMap;
     _config = ConfigInfo(
-      androidBannerID: doc["androidBannerID"],
-      iosBannerID: doc["iosBannerID"],
+      androidBannerAdID: doc["androidBannerAdID"],
+      iosBannerAdID: doc["iosBannerAdID"],
+      androidInterStitialAdID: doc["androidInterStitialAdID"],
+      iosInterStitialAdID: doc["iosInterStitialAdID"],
+      androidRewardAdID: doc["androidRewardAdID"],
+      iosRewardAdID: doc["iosRewardAdID"],
     );
   }
 
@@ -25,9 +29,17 @@ class Config {
 
 class ConfigInfo {
   ConfigInfo({
-    required this.androidBannerID,
-    required this.iosBannerID,
+    required this.androidBannerAdID,
+    required this.iosBannerAdID,
+    required this.androidInterStitialAdID,
+    required this.iosInterStitialAdID,
+    required this.androidRewardAdID,
+    required this.iosRewardAdID,
   });
-  final String androidBannerID;
-  final String iosBannerID;
+  final String androidBannerAdID;
+  final String iosBannerAdID;
+  final String androidInterStitialAdID;
+  final String iosInterStitialAdID;
+  final String androidRewardAdID;
+  final String iosRewardAdID;
 }

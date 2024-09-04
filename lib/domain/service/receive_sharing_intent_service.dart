@@ -27,18 +27,21 @@ class ReceiveSharingIntentProvider
     _intentDataStreamSubscription =
         ReceiveSharingIntent.getMediaStream().listen(
       (event) {
+        print("getMediaStream data: $event");
         state = state.copyWith(images: event);
       },
     );
 
     ReceiveSharingIntent.getInitialMedia().then(
       (event) {
+        print("getInitialMedia data: $event");
         state = state.copyWith(images: event);
       },
     );
 
     _intentDataStreamSubscription = ReceiveSharingIntent.getTextStream().listen(
       (event) {
+        print("getTextStream data: $event");
         state = state.copyWith(url: event);
         _secureStorageService.saveShareData(
           key: "share_url",
@@ -49,6 +52,7 @@ class ReceiveSharingIntentProvider
 
     ReceiveSharingIntent.getInitialText().then(
       (event) {
+        print("getInitialText data: $event");
         state = state.copyWith(url: event ?? "");
         _secureStorageService.saveShareData(
           key: "share_url",

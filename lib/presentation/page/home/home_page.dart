@@ -144,6 +144,7 @@ class HomePage extends HookConsumerWidget {
     useValueChanged(
       receiveSharingState,
       (a, b) async {
+        print("url: ${receiveSharingState.url}");
         if (receiveSharingState.url == "") {
           return;
         }

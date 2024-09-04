@@ -15,6 +15,7 @@ import 'package:mylis/presentation/widget/drop_down_box.dart';
 import 'package:mylis/presentation/widget/mylis_text_field.dart';
 import 'package:mylis/presentation/page/tags/register/widget/register_tag_dialog.dart';
 import 'package:mylis/provider/current_member_provider.dart';
+import 'package:mylis/provider/inter_stitial_provider.dart';
 import 'package:mylis/provider/is_tablet_provider.dart';
 import 'package:mylis/provider/loading_state_provider.dart';
 import 'package:mylis/snippets/toast.dart';
@@ -33,11 +34,14 @@ class RegisterArticlePage extends HookConsumerWidget {
     final isLoading = ref.watch(registerTagController).isLoading;
     final currentMember = ref.watch(currentMemberProvider);
     final isTablet = ref.watch(isTabletProvider);
+    final interStitialAdStateNotifier =
+        ref.watch(interStitialAdProvider.notifier);
 
     useEffect(() {
       () async {
         WidgetsBinding.instance.addPostFrameCallback(
           (_) async {
+            await interStitialAdStateNotifier.loadAd();
             if (tagState.tagList.isNotEmpty) {
               ref.read(tagController.notifier).setTag(tagState.tagList[0]);
               ref.read(registerArticleController.notifier).setNewArticle(
@@ -161,11 +165,11 @@ class RegisterArticlePage extends HookConsumerWidget {
                               ? ThemeFontSize.tabletMediumFontSize
                               : ThemeFontSize.mediumFontSize,
                         ),
-                        if ((currentMember?.registeredArticleCount ?? 0) % 5 ==
+                        if ((currentMember?.registeredArticleCount ?? 0) % 3 ==
                             0)
                           {
-                            AppReview.requestReview,
-                          }
+                            await interStitialAdStateNotifier.showAd(),
+                          },
                       },
                   },
                   style: ButtonStyle(
