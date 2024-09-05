@@ -79,11 +79,12 @@ class ArticleListView extends HookConsumerWidget {
                                   "「${ref.watch(articleController.notifier).setArticlesWithTagUUID(tag.uuid ?? "").articles[index].title}」",
                               noButtonText: "削除",
                               okButtonText: "編集",
-                              onPressedWithNo: () => {
-                                showDialog(
+                              onPressedWithNo: () async => {
+                                Navigator.pop(buildContext),
+                                await showDialog(
                                   context: context,
                                   barrierColor:
-                                      colorState.textColor.withOpacity(0),
+                                      colorState.textColor.withOpacity(0.25),
                                   builder: (BuildContext context) {
                                     return CustomDialog(
                                       title: "本当に削除しますか？",
@@ -91,7 +92,7 @@ class ArticleListView extends HookConsumerWidget {
                                       onPressedWithNo: () =>
                                           Navigator.pop(context),
                                       onPressedWithOk: () async => {
-                                        isBack.value = true,
+                                        Navigator.pop(context),
                                         await ref
                                             .read(
                                               loadingStateProvider.notifier,
@@ -123,7 +124,6 @@ class ArticleListView extends HookConsumerWidget {
                                               loadingStateProvider.notifier,
                                             )
                                             .stopLoading(),
-                                        Navigator.pop(context),
                                         await showToast(
                                           message: "削除しました",
                                           fontSize: isTablet
@@ -137,12 +137,6 @@ class ArticleListView extends HookConsumerWidget {
                                                 tagState.tagList),
                                       },
                                     );
-                                  },
-                                ).whenComplete(
-                                  () => {
-                                    isBack.value
-                                        ? Navigator.pop(context)
-                                        : null,
                                   },
                                 ),
                               },
